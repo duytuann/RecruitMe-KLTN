@@ -1,0 +1,8 @@
+dotnet ef migrations add InitialCreate --project src/RecruitMe.Infrastructure --startup-project src/RecruitMe.WebApi --output-dir Data/Migrations
+
+dotnet ef database update --project src/RecruitMe.Infrastructure --startup-project src/RecruitMe.WebApi
+
+//infrastructure by default
+Add-Migration InitialCreate -Project RecruitMe.Infrastructure -StartupProject RecruitMe.WebApi -OutputDir Data/Migrations
+
+Update-Database -Project RecruitMe.Infrastructure -StartupProject RecruitMe.WebApi
