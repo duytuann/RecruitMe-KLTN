@@ -24,4 +24,8 @@
     <ProjectReference Include="..\RecruitMe.Presentation\RecruitMe.Presentation.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoints\" />
+  </ItemGroup>
+
 </Project>

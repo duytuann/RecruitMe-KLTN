@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecruitMe.Domain.Entities;
 using System.Reflection;
+using RecruitMe.Application.Common.Interfaces;
 
 namespace RecruitMe.Infrastructure.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 

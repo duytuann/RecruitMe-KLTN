@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -7,11 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="FluentValidation" Version="11.9.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
     <PackageReference Include="MediatR" Version="12.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.15" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,7 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Common\" />
+    <Folder Include="JobSeekers\Commands\NewFolder\" />
     <Folder Include="JobSeekers\Queries\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 
 </Project>
