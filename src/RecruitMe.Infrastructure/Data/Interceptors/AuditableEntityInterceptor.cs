@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using RecruitMe.Application.Common.Interfaces;
 using RecruitMe.Domain.Common;
-using RecruitMe.Domain.Interfaces;
 
 namespace RecruitMe.Infrastructure.Data.Interceptors;
 
@@ -12,10 +12,10 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
     private readonly IDateTime _dateTime;
 
     public AuditableEntityInterceptor(
-        IUser currentUserService,
+        IUser user,
         IDateTime dateTime)
     {
-        _user = currentUserService;
+        _user = user;
         _dateTime = dateTime;
     }
 

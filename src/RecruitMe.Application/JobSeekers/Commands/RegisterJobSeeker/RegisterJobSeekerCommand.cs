@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using RecruitMe.Application.Common.Interfaces;
 using RecruitMe.Domain.Entities;
-using RecruitMe.Domain.Enums;
 
 namespace RecruitMe.Application.JobSeekers.Commands.RegisterJobSeeker;
 
@@ -16,6 +15,11 @@ public record RegisterJobSeekerCommand : IRequest<Guid>
 public class RegisterJobSeekerCommandHandler : IRequestHandler<RegisterJobSeekerCommand, Guid>
 {
     public readonly IApplicationDbContext _context;
+
+    public RegisterJobSeekerCommandHandler(IApplicationDbContext context)
+    {
+        _context = context;
+    }
 
     public async Task<Guid> Handle(RegisterJobSeekerCommand request, CancellationToken cancellationToken)
     {

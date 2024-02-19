@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RecruitMe.Application;
 using RecruitMe.Infrastructure;
 using RecruitMe.Presentation;
+using RecruitMe.WebApi.Infrastructure;
+using RecruitMe.WebApi.Services;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +19,13 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
-    .AddPresentation();
+    .AddPresentation()
+    .AddWebServices();
+
+// JWT
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+builder.Services.ConfigureOptions<JwtOptionsSetup>();
+builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
 
 // Serilog
 builder.Host.UseSerilog((context, configuration) =>
@@ -35,8 +44,10 @@ app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapEndpoints();
 
 app.Run();

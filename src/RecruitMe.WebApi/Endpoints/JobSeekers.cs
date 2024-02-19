@@ -8,7 +8,7 @@ public class JobSeekers : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
-        app.MapGroup("/jobseekers")
+        app.MapGroup("/api/jobseekers")
             .MapPost("/register", RegisterJobSeeker);
     }
 

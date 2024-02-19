@@ -1,4 +1,4 @@
-﻿namespace RecruitMe.Domain.Interfaces;
+﻿namespace RecruitMe.Application.Common.Interfaces;
 public interface IDateTime
 {
     DateTime Now { get; }
