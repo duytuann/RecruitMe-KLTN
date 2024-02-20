@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "app-employer/*":["src/app-employer/*"],
+      "app-jobseeker/*":["src/app-jobseeker/*"],
+    }
+  },
+  "exclude": ["node_modules"]
+}
