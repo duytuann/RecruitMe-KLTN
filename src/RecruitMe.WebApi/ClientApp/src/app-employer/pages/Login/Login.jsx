@@ -57,7 +57,7 @@ const Login = () => {
             </Button>
           </Form.Item>
         </Form>
-        <div className="text-sm text-center">
+        <div className="text-sm text-center cursor-pointer">
           <div
             onClick={() => {
               navigate("/register");
@@ -66,7 +66,6 @@ const Login = () => {
           >
             Không có tài khoản? Đăng ký
           </div>
-          ;
         </div>
       </div>
     </div>

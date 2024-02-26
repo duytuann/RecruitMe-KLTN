@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
+      "app-admin/*":["src/app-employer/*"],
       "app-employer/*":["src/app-employer/*"],
       "app-jobseeker/*":["src/app-jobseeker/*"],
     }

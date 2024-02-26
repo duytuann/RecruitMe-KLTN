@@ -4,12 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev-jobseeker": "vite --port 5001 --mode jobseeker",
+    "dev-admin": "vite --port 5001 --mode admin",
     "dev-employer": "vite --port 5002 --mode employer",
-    "build-jobseeker": "vite build --mode jobseeker",
+    "dev-jobseeker": "vite --port 5003 --mode jobseeker",
+    "build-admin": "vite build --mode admin",
     "build-employer": "vite build --mode employer",
-    "dev": "concurrently  \"npm run dev-jobseeker\" \"npm run dev-employer\"",
-    "build": "concurrently  \"npm run build-jobseeker\" \"npm run build-employer\"",
+    "build-jobseeker": "vite build --mode jobseeker",
+    "dev": "concurrently \"npm run dev-admin\"  \"npm run dev-jobseeker\" \"npm run dev-employer\"",
+    "build": "concurrently \"npm run dev-admin\"  \"npm run build-jobseeker\" \"npm run build-employer\"",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },

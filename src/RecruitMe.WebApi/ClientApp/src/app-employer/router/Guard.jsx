@@ -2,7 +2,7 @@ import {useEffect} from "react";
 import {useRouterGuard} from "@/common/router/useRouterGuard";
 import {Modal} from "antd";
 
-const whiteList = ["/login", "/nopermission", "/404", "/login", "/logout"];
+const whiteList = ["/login", "/nopermission", "/404", "/register", "/logout"];
 
 const Guard = () => {
   const {afterEach, beforeEach} = useRouterGuard();
