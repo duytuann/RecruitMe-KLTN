@@ -1,10 +1,14 @@
-﻿namespace RecruitMe.Domain.Common;
+﻿using RecruitMe.Domain.Enums;
+
+namespace RecruitMe.Domain.Common;
 
 public abstract class BaseAuditableEntity : BaseEntity
 {
     public string? Title { get; set; }
 
     public bool? IsDelete { get; set; }
+
+    public StateCode StateCode { get; set; }
 
     public DateTimeOffset Created { get; set; }
 
