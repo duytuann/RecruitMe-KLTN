@@ -1,11 +1,41 @@
 import {Form, Input, Button} from "antd";
 import {useNavigate} from "react-router-dom";
 import Logo from "@/common/assets/svg/Logo";
+import service from "../../../common/service";
+import {EUserType} from "../../../common/service/enum/EUserType";
+import {useLoading} from "../../../common/context/useLoading";
+import {notification} from "antd";
 
 const Login = () => {
+  const {showLoading, closeLoading} = useLoading();
   const navigate = useNavigate();
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const onFinish = async (values) => {
+    try {
+      showLoading();
+      const result = await service.user.login({
+        email: values.email,
+        password: values.password,
+        userType: EUserType.Employer,
+      });
+
+      if (result) {
+        localStorage.setItem(
+          "auth",
+          JSON.stringify({email: values.email, userType: EUserType.Employer})
+        );
+
+        localStorage.setItem("accessToken", result);
+        navigate("/");
+      }
+
+      closeLoading();
+    } catch (error) {
+      notification.error({
+        message: "Đăng nhập thất bại, sai email hoặc mật khẩu!",
+      });
+    } finally {
+      closeLoading();
+    }
   };
 
   const onFinishFailed = (errorInfo) => {

@@ -1,7 +1,9 @@
 import axios from "axios";
 
-const baseURL = import.meta.env.VITE_API_BASE_URL;
+//const baseURL = import.meta.env.VITE_API_BASE_URL;
+const baseURL = "https://localhost:7013/api";
 
+console.log(baseURL);
 const axiosInstance = axios.create({
   baseURL: baseURL,
   headers: {
@@ -11,16 +13,13 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    // Thực hiện hành động trước khi request được gửi
-    // Ví dụ: thêm token xác thực vào headers
-    // const token = authService.getToken();
-    // if (token) {
-    //   config.headers['Authorization'] = `Bearer ${token}`;
-    // }
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
-    // Xử lý lỗi request
     return Promise.reject(error);
   }
 );

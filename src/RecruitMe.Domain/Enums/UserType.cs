@@ -2,6 +2,7 @@
 
 public enum UserType
 {
-    Employer = 0,
-    Jobseeker = 1
+    Admin = 0,
+    Employer = 1,
+    Jobseeker = 2
 }

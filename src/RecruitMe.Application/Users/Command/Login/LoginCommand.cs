@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RecruitMe.Application.Common.Interfaces;
+using RecruitMe.Domain.Enums;
 
 namespace RecruitMe.Application.Users.Command.Login;
 
@@ -8,6 +9,7 @@ public record LoginCommand : IRequest<string>
 {
     public string? Email { get; init; }
     public string? Password { get; init; }
+    public UserType UserType { get; init; }
 }
 
 public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
@@ -28,7 +30,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
             throw new ArgumentException("UserName and Password is required");
         }
 
-        var user = await _context.Users.Where(u => u.Email == request.Email).FirstOrDefaultAsync();
+        var user = await _context.Users.Where(u => u.Email == request.Email && u.UserType == request.UserType).FirstOrDefaultAsync();
 
         if (user == null)
         {

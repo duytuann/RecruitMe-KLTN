@@ -1,5 +1,8 @@
-import companyService from "../apis/Company";
+import companyService from "./apis/Company";
+import userService from "./apis/User";
+
 const service = {
+  user: userService,
   company: companyService,
 };
 
