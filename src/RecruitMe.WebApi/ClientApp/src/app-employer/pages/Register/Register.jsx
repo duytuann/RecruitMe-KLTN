@@ -1,16 +1,54 @@
-import {Form, Input, Button} from "antd";
+import {Form, Input, Button, Select, notification} from "antd";
 import {useNavigate} from "react-router-dom";
 import Logo from "@/common/assets/svg/Logo";
+import {useLoading} from "../../../common/context/useLoading";
+import service from "../../../common/service";
+import {EUserType} from "../../../common/service/enum/EUserType";
 
 const Register = () => {
+  const {showLoading, closeLoading} = useLoading();
   const navigate = useNavigate();
+  const {Option} = Select;
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const onFinish = async (values) => {
+    try {
+      showLoading();
+      const result = await service.company.register({
+        userName: values.userName,
+        email: values.email,
+        password: values.password,
+        title: values.companyName,
+        address: values.address,
+        companySize: values.companySize,
+        country: values.country,
+        userType: EUserType.Employer,
+        companyType: values.type,
+      });
+
+      console.log("Success:", values);
+
+      if (result) {
+        notification.success({
+          message: "Đăng ký tài khoản thành công!",
+        });
+
+        navigate("/login");
+      }
+
+      closeLoading();
+    } catch (error) {
+      notification.error({
+        message: "Đăng nhập thất bại, có lỗi xảy ra!",
+      });
+    } finally {
+      closeLoading();
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    notification.error({
+      message: `Đăng nhập thất bại, có lỗi xảy ra! ${errorInfo}`,
+    });
   };
 
   return (
@@ -30,15 +68,6 @@ const Register = () => {
           className="mt-8 space-y-6"
         >
           <Form.Item
-            name="companyName"
-            rules={[
-              {required: true, message: "Vui lòng nhập tên công ty của bạn!"},
-            ]}
-          >
-            <Input placeholder="Tên công ty" />
-          </Form.Item>
-
-          <Form.Item
             name="email"
             rules={[
               {type: "email", message: "Email không hợp lệ!"},
@@ -55,6 +84,50 @@ const Register = () => {
             ]}
           >
             <Input.Password placeholder="Mật khẩu" />
+          </Form.Item>
+
+          <Form.Item
+            name="companyName"
+            rules={[
+              {required: true, message: "Vui lòng nhập tên công ty của bạn!"},
+            ]}
+          >
+            <Input placeholder="Tên công ty" />
+          </Form.Item>
+
+          <Form.Item
+            name="type"
+            rules={[
+              {required: true, message: "Vui lòng chọn loại hình công ty!"},
+            ]}
+          >
+            <Select placeholder="Chọn loại hình công ty">
+              <Option value="0">Outsource</Option>
+              <Option value="1">Product</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="address"
+            rules={[
+              {required: true, message: "Vui lòng nhập địa chỉ công ty!"},
+            ]}
+          >
+            <Input placeholder="Địa chỉ" />
+          </Form.Item>
+
+          <Form.Item
+            name="companySize"
+            rules={[{required: true, message: "Vui lòng nhập quy mô công ty!"}]}
+          >
+            <Input placeholder="Quy mô công ty" />
+          </Form.Item>
+
+          <Form.Item
+            name="country"
+            rules={[{required: true, message: "Vui lòng nhập quốc gia!"}]}
+          >
+            <Input placeholder="Quốc gia" />
           </Form.Item>
 
           <Form.Item>
