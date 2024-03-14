@@ -27,7 +27,6 @@ public class RegisterJobSeekerCommandHandler : IRequestHandler<RegisterJobSeeker
         var user = new User
         {
             Id = Guid.NewGuid(),
-            UserName = request.Username,
             Email = request.Email,
             Password = BCrypt.Net.BCrypt.HashPassword(request.Password)
         };
