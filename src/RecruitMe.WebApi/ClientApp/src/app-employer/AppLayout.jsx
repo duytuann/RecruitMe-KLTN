@@ -1,21 +1,30 @@
 import {Outlet} from "react-router-dom";
+import Header from "./components/Header/Header";
+import SideBar from "./components/LeftNav/SideBar";
+import {Layout} from "antd";
+const {Content} = Layout;
 
-const AppLayout = ({children}) => {
+const AppLayout = () => {
   return (
-    <div className="app-layout">
-      <Outlet></Outlet>
-      {/* Header */}
-      <header className="app-header">
-        <div className="logo">Header</div>
-      </header>
-      {/* Content */}
-      <main className="app-content">{children}</main>
-
-      {/* Footer */}
-      <footer className="app-footer">
-        Bản quyền © 2023. Tất cả các quyền đã được bảo lưu.
-      </footer>
-    </div>
+    <Layout>
+      <Header />
+      <Layout>
+        <SideBar />
+        <Layout>
+          <Content
+            style={{
+              padding: 24,
+              margin: 0,
+              minHeight: 280,
+              background: "gray",
+              borderRadius: "red",
+            }}
+          >
+            <Outlet />
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
   );
 };
 

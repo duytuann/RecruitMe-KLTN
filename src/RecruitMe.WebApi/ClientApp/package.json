@@ -16,6 +16,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.18",
+    "@heroicons/react": "^2.1.1",
     "antd": "^5.10.3",
     "axios": "^1.6.7",
     "prop-types": "^15.8.1",
