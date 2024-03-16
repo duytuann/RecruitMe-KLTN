@@ -4,8 +4,14 @@ import {Transition} from "@headlessui/react";
 import {Header} from "antd/es/layout/layout";
 
 const AppHeader = () => {
-  const email = JSON.parse(localStorage.getItem("auth")).email;
+  const email = JSON.parse(localStorage.getItem("auth"))?.email;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleLogOut = () => {
+    localStorage.removeItem("auth");
+    localStorage.removeItem("accessToken");
+    window.location.href = "/login";
+  };
 
   return (
     <Header className="bg-white shadow h-16 flex items-center justify-between px-6">
@@ -52,6 +58,7 @@ const AppHeader = () => {
                   Settings
                 </a>
                 <a
+                  onClick={handleLogOut}
                   href="#"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
@@ -61,7 +68,7 @@ const AppHeader = () => {
             </div>
           </Transition>
         </div>
-        <div>{email}</div>
+        {email ?? <div>{email}</div>}
       </div>
     </Header>
   );

@@ -11,9 +11,11 @@ import {
   ToolOutlined,
   MessageOutlined,
 } from "@ant-design/icons";
+import {useNavigate} from "react-router";
+import {useState} from "react";
 
 const items = [
-  {label: "Dashboard", icon: <DashboardOutlined />, key: "dashboard"},
+  {label: "Dashboard", icon: <DashboardOutlined />, key: "/"},
   {label: "Profile", icon: <UserOutlined />, key: "profile"},
   {label: "Jobs", icon: <FileAddOutlined />, key: "jobs"},
   {label: "Candidates", icon: <ProfileOutlined />, key: "candidates"},
@@ -25,6 +27,14 @@ const items = [
 ];
 
 const SideBar = () => {
+  const navigate = useNavigate();
+  const [selectedKey, setSelectedKey] = useState([]);
+
+  const menuClick = (info) => {
+    setSelectedKey([info.key]);
+    navigate(`/${info.key}`);
+  };
+
   return (
     <Sider
       width={200}
@@ -35,12 +45,14 @@ const SideBar = () => {
       <Menu
         mode="inline"
         defaultSelectedKeys={["1"]}
+        selectedKeys={selectedKey}
         defaultOpenKeys={["sub1"]}
         style={{
           height: "100%",
           borderRight: 0,
         }}
         items={items}
+        onClick={menuClick}
       />
     </Sider>
   );

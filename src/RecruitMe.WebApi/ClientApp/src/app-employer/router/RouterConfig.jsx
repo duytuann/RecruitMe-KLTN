@@ -1,6 +1,7 @@
 import {lazy} from "react";
-import Layout from "../AppLayout";
+import AppLayout from "../AppLayout";
 import Dashboard from "@/app-employer/router/routes/Dashboard";
+import Profile from "@/app-employer/router/routes/Profile";
 
 const Login = lazy(() => import("app-employer/pages/Login/Login"));
 const Register = lazy(() => import("app-employer/pages/Register/Register"));
@@ -18,8 +19,8 @@ export const routers = [
   },
   {
     path: "/",
-    element: Layout,
+    element: AppLayout,
     name: "layout",
-    children: [...Dashboard],
+    children: [...Dashboard, ...Profile],
   },
 ];

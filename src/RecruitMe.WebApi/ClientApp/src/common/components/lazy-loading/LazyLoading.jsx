@@ -1,6 +1,6 @@
 import {Spin} from "antd";
 import styles from "./LazyLoading.module.less";
-const lazyLoading = () => {
+const LazyLoading = () => {
   return (
     <div className={styles.loadingWapper} data-auto-id="LazyLoading">
       <Spin size="large" />
@@ -8,4 +8,4 @@ const lazyLoading = () => {
   );
 };
 
-export default lazyLoading;
+export default LazyLoading;
