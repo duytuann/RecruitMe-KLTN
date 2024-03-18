@@ -14,7 +14,7 @@ public record RegisterCompanyCommand : IRequest<Guid>
     public string? Title { get; init; }
     public string? Address { get; init; }
     public CompanyType Type { get; init; }
-    public int? CompanySize { get; init; }
+    public string? CompanySize { get; init; }
     public string? Country { get; init; }
     public string? WorkingDays { get; init; }
     //public string? CompanyOverview { get; init; }
@@ -47,10 +47,8 @@ public class RegisterCompanyCommandHandler : IRequestHandler<RegisterCompanyComm
             UserId = user.Id,
             Title = request.Title, // company name
             Address = request.Address,
-            Type = request.Type,
             CompanySize = request.CompanySize,
             Country = request.Country,
-            WorkingDays = request.WorkingDays,
             // Other fields
         };
 

@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Companies\Queries\**" />
     <Compile Remove="NewFolder\**" />
-    <EmbeddedResource Remove="Companies\Queries\**" />
     <EmbeddedResource Remove="NewFolder\**" />
-    <None Remove="Companies\Queries\**" />
     <None Remove="NewFolder\**" />
   </ItemGroup>
 

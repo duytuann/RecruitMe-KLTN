@@ -5,14 +5,20 @@ using RecruitMe.Domain.Enums;
 
 namespace RecruitMe.Application.Users.Command.Login;
 
-public record LoginCommand : IRequest<string>
+public class LoginResult
+{
+    public string AccessToken { get; set; }
+    public Guid UserId { get; set; }
+}
+
+public record LoginCommand : IRequest<LoginResult>
 {
     public string? Email { get; init; }
     public string? Password { get; init; }
     public UserType UserType { get; init; }
 }
 
-public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
+public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResult>
 {
     public readonly IApplicationDbContext _context;
     public readonly IJwtProvider _jwtProvider;
@@ -23,7 +29,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
         _jwtProvider = jwtProvider;
     }
 
-    public async Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<LoginResult> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         if (request.Email == null || request.Password == null)
         {
@@ -46,6 +52,10 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
 
         string token = _jwtProvider.Generate(user);
 
-        return token;
+        return new LoginResult()
+        {
+            AccessToken = token,
+            UserId = user.Id,
+        };
     }
 }

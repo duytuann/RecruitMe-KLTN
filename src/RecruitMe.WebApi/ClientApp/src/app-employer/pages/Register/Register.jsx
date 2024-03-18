@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import Logo from "@/common/assets/svg/Logo";
 import {useLoading} from "../../../common/context/useLoading";
 import service from "../../../common/service";
-import {EUserType} from "../../../common/service/enum/EUserType";
+import {EUserType} from "../../../common/service/enums/EUserType";
 import LazyLoading from "../../../common/components/lazy-loading/LazyLoading";
 
 const Register = () => {
