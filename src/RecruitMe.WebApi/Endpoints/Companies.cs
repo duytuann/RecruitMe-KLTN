@@ -16,7 +16,7 @@ public class Companies : EndpointGroupBase
             .WithTags("Companies");
 
         app.MapGroup("/api/companies")
-           .MapGet("/{companyId:guid}", GetDetailCompanyById)
+           .MapGet("/{userId:guid}", GetDetailCompanyById)
            .Produces<CompanyDetailVm>(StatusCodes.Status200OK)
            .WithTags("Companies");
     }
@@ -27,9 +27,9 @@ public class Companies : EndpointGroupBase
         return Results.Created($"/api/companies/{companyId}", companyId);
     }
 
-    public async Task<IResult> GetDetailCompanyById([FromRoute] Guid companyId, [FromServices] ISender sender)
+    public async Task<IResult> GetDetailCompanyById([FromRoute] Guid userId, [FromServices] ISender sender)
     {
-        var query = new GetCompanyDetailQuery { Id = companyId };
+        var query = new GetCompanyDetailQuery { Id = userId };
         var result = await sender.Send(query);
         return Results.Ok(result);
     }

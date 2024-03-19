@@ -1,0 +1,23 @@
+
+.hcis-custom-form-item {
+  .hcis-required {
+    &::before {
+      display: inline-block;
+      margin-inline-end: 4px;
+      color: #c91d1d;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: SimSun, sans-serif;
+      line-height: 1;
+      content: '*';
+    }
+  }
+  .hcis-custom-form-label {
+    font-weight: 600;
+    color: #222;
+  }
+  .hcis-error-message {
+    color: $error;
+    line-height: 1.1875rem;
+  }
+}

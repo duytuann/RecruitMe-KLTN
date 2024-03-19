@@ -1,0 +1,10 @@
+$svg-list: "react"; // svg name list
+$icon-dir: "../../svg/"; // svg files location
+@mixin svgPath($svgName) {
+  .hcis-svg-#{$svgName} {
+    background-image: url(#{$icon-dir}#{$svgName}.svg);
+  }
+}
+@each $svgName in $svg-list {
+  @include svgPath($svgName);
+}

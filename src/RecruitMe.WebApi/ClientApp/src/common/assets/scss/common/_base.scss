@@ -1,0 +1,215 @@
+@import "_color.scss";
+@import "_space.scss";
+
+//=== generate display style eg: .hcis-none .hcis-flex
+// [none, inline, inline-block, block, table, table-row, table-cell, flex, inline-flex];
+@include generate-display;
+//=== end
+
+//=== generate position style eg: .hcis-relative
+// [static, relative, absolute, fixed, sticky];
+@include generate-position;
+//=== end
+
+.hcis-ac {
+  align-items: center;
+}
+.hcis-al {
+  align-items: left;
+}
+
+//font
+.hcis-cap {
+  text-transform: capitalize;
+}
+.hcis-upp {
+  text-transform: uppercase;
+}
+.hcis-low {
+  text-transform: lowercase;
+}
+// display
+.hcis-d-flexcenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hcis-d-flexbetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hcis-d-flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.hcis-items-center {
+  align-items: center;
+}
+.hcis-items-start {
+  align-items: start;
+}
+
+.hcis-items-end {
+  align-items: flex-end;
+}
+
+.hcis-flex-1 {
+  flex: 1;
+}
+
+.hcis-flex-grow1 {
+  flex-grow: 1;
+}
+// width
+.hcis-w5 {
+  width: 5%;
+}
+.hcis-w10 {
+  width: 10%;
+}
+.hcis-w15 {
+  width: 15%;
+}
+.hcis-w20 {
+  width: 20%;
+}
+.hcis-w25 {
+  width: 25%;
+}
+.hcis-w30 {
+  width: 30%;
+}
+.hcis-w35 {
+  width: 35%;
+}
+.hcis-w40 {
+  width: 40%;
+}
+.hcis-w45 {
+  width: 45%;
+}
+.hcis-w50 {
+  width: 50%;
+}
+.hcis-w60 {
+  width: 60%;
+}
+.hcis-w70 {
+  width: 70%;
+}
+.hcis-w80 {
+  width: 80%;
+}
+.hcis-w90 {
+  width: 90%;
+}
+.hcis-w100 {
+  width: 100%;
+}
+// position
+.hcis-fr {
+  float: right;
+}
+.hcis-pr {
+  position: relative;
+}
+.hcis-pa {
+  position: absolute;
+}
+.hcis-tc {
+  text-align: center;
+}
+.hcis-tl {
+  text-align: left;
+}
+.hcis-tr {
+  text-align: right;
+}
+
+//pre
+.hcis-pre {
+  white-space: pre-wrap;
+}
+
+.hcis-pre-break {
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  -ms-word-break: break-word;
+  word-break: break-word;
+}
+
+.hcis-cp {
+  cursor: pointer;
+}
+
+.hcis-text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hcis-hidden-y {
+  overflow: hidden !important;
+}
+
+.hcis-pointer {
+  cursor: pointer;
+}
+
+//responsive
+.hcis-hide-md {
+  @include media-breakpoint-down(md) {
+    display: none;
+  }
+}
+
+//container
+.hcis-page-container {
+  width: 100%;
+  padding: $s24 $s32;
+  @include media-breakpoint-down(md) {
+    padding: $s16 $s16 0;
+  }
+}
+
+.hcis-details-container {
+  padding: 24px 0px;
+  width: 800px;
+  margin-inline: auto;
+  max-width: calc(100% - 32px);
+  @include media-breakpoint-down(md) {
+    padding: 16px;
+  }
+  @include media-breakpoint-up(xxl) {
+    width: 1304px;
+  }
+}
+
+.hcis-page-title {
+  color: #12161b;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.hcis-asterisk {
+  position: relative;
+  margin-left: 10px;
+  &::before {
+    content: "*";
+    position: absolute;
+    display: inline-block;
+    color: #c91d1d;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: SimSun, sans-serif;
+    line-height: 1;
+    left: -12px;
+    top: 3px;
+  }
+}

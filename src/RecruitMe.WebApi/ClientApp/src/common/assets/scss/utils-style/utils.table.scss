@@ -1,0 +1,49 @@
+
+.hcis-border-table.ant-table-wrapper {
+  .ant-table-content {
+    border: 1px solid #e6e7e8;
+    border-radius: 6px;
+  }
+
+  .ant-table-tbody > tr {
+    &:last-of-type {
+      > td {
+        border-bottom: 0px;
+      }
+    }
+  }
+}
+
+.hcis-one-rows,
+.hcis-two-rows,
+.hcis-three-rows,
+.hcis-four-rows {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+.hcis-one-rows {
+  -webkit-line-clamp: 1;
+}
+
+.hcis-two-rows {
+  -webkit-line-clamp: 2;
+}
+
+.hcis-three-rows {
+  -webkit-line-clamp: 3;
+}
+
+.hcis-four-rows {
+  -webkit-line-clamp: 4;
+}
+
+.singleLineText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

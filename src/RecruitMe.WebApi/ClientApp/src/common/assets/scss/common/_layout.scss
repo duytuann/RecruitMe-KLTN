@@ -1,0 +1,28 @@
+.hcis-layout-center {
+  width: 100%;
+  max-width: 81.5rem;
+  margin: 0 auto;
+}
+.hcis-layout-padding {
+  padding: 0 $s32;
+}
+@include media-breakpoint-down(lg) {
+  //less than 1133
+  .hcis-layout-padding {
+    padding: 0 $s16;
+  }
+}
+@include media-breakpoint-between(lg, xl) {
+  //1133-1279
+  .hcis-layout-padding {
+    padding: 0 $s24;
+  }
+}
+
+@include media-breakpoint-down(xxl) {
+  //less than 1680
+  .hcis-layout-center {
+    width: 100%;
+    max-width: 50rem;
+  }
+}

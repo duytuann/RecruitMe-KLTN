@@ -1,0 +1,54 @@
+.divButton {
+  display: block;
+  border: none;
+  background-color: inherit;
+  padding: 0px;
+  margin: 0px;
+  text-align: inherit;
+  font-size: $f14;
+}
+
+.hcis-cursor-style {
+  cursor: pointer;
+}
+
+button.hcis-link-btn {
+  transition: 0.3s ease-in-out;
+  border-radius: 2px;
+  &:hover {
+    background-color: rgba($color: #000000, $alpha: 0.04);
+  }
+  &:active {
+    background-color: rgba($color: #000000, $alpha: 0.06);
+  }
+}
+
+.hcis-btn-link-effect {
+  &.ant-btn-link {
+    color: #0c7d8f;
+    &:hover * {
+      color: #0c7d8f;
+      text-decoration: underline;
+    }
+    &:active * {
+      color: #006677;
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .hcisRangePickerFilterRangeDate {
+    .ant-picker-range-wrapper.ant-picker-date-range-wrapper {
+      .ant-picker-panel-container {
+        .ant-picker-panel-layout {
+          .ant-picker-panels {
+            display: block;
+            width: 20rem;
+            height: 25rem;
+            overflow: auto;
+          }
+        }
+      }
+    }
+  }
+}

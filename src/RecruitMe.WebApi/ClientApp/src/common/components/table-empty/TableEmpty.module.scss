@@ -1,0 +1,11 @@
+.tableEmpty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #4b5566;
+  :global {
+    .table-empty-text {
+      margin-left: $s8;
+    }
+  }
+}

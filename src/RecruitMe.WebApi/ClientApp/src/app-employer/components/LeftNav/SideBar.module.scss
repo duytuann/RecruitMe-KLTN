@@ -1,0 +1,94 @@
+.navItem {
+  width: 8.125rem;
+  white-space: normal;
+  line-height: 1.1;
+  word-break: break-word;
+}
+.leftNav {
+  height: 100%;
+  :global {
+    .ant-menu-item,
+    .ant-menu-submenu-title {
+      user-select: none;
+      display: flex;
+      height: unset;
+      min-height: 40px;
+      border-radius: 2px;
+      margin: 4px $s8;
+      font-weight: $fw600;
+      color: #fff;
+      width: unset;
+      .ant-menu-title-content {
+        white-space: normal;
+        display: inline-flex;
+        line-height: 19px;
+        padding-top: 13px;
+        padding-bottom: 13px;
+      }
+      &.ant-menu-item-disabled {
+        color: #fff !important;
+      }
+      &:not(.temp):not(.ant-menu-item-selected):active,
+      &:not(.temp):not(.ant-menu-item-selected):hover {
+        background: #0d4167 !important;
+      }
+      // &:not(.ant-menu-item-selected).ant-menu-item-active {
+      //   background: #0c7d8f;
+      // }
+    }
+    // .ant-menu-item {
+    //   padding-right: 12px;
+    // }
+    // .ant-menu-submenu-title {
+    //   padding-right: 30px;
+    // }
+    .ant-menu-submenu {
+      &.ant-menu-submenu-disabled {
+        color: #fff !important;
+      }
+      &.ant-menu-submenu-selected {
+        .ant-menu-submenu-title {
+          color: #fff;
+          background: #0c7d8f;
+        }
+      }
+      .ant-menu-item {
+        color: #b1b8bb;
+        &.ant-menu-item-disabled {
+          color: #b1b8bb !important;
+        }
+        &:not(.temp):not(.ant-menu-item-selected):active,
+        &:not(.temp):not(.ant-menu-item-selected):hover {
+          color: #fff;
+          background: transparent;
+        }
+        &.ant-menu-item-selected {
+          background: transparent;
+          color: #fff;
+          .anticon {
+            color: #0c7d8f;
+          }
+        }
+        .anticon.ant-menu-item-icon.arrow-right-svg {
+          font-size: 10px;
+          min-width: unset;
+        }
+      }
+    }
+
+    @include media-breakpoint-down(md) {
+      .userManagement {
+        display: none !important;
+      }
+      .roleManagement {
+        display: none !important;
+      }
+    }
+    .ant-menu-sub.ant-menu-inline {
+      .ant-menu-item {
+        padding-left: 12px !important;
+        font-weight: $fw400;
+      }
+    }
+  }
+}

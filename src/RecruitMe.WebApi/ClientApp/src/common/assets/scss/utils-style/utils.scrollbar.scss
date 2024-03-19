@@ -1,0 +1,25 @@
+
+.hcis-scrollbar {
+  // scrollbar-width: thin;
+  scrollbar-color: #a9bccc;
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background-color: #e6ecf1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #a9bccc;
+  }
+}
+.hcis-hidden-scrollbar {
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+  }
+}

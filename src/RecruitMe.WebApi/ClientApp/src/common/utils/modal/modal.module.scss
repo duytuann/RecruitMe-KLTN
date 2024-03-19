@@ -1,0 +1,66 @@
+.hcisFunctionModal {
+  min-height: 12.5rem;
+  :global {
+    .ant-modal-content {
+      .ant-modal-body {
+        .ant-modal-confirm-body-wrapper {
+          .ant-modal-confirm-content {
+            width: 100%;
+            border-top: 1px solid #ebeef5;
+            padding: 24px 0 0.75rem;
+            margin-inline-start: 0;
+            margin-block-start: 16px;
+            max-width: 100%;
+          }
+          .ant-modal-confirm-title {
+            font-size: 16px;
+            font-weight: 600;
+          }
+          .ant-modal-confirm-body {
+            .anticon {
+              color: #0072d0;
+            }
+          }
+          .ant-modal-confirm-btns {
+            text-align: start;
+            .ant-btn {
+              min-width: 5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.errorModal {
+  :global {
+    .ant-modal-content {
+      .ant-modal-body {
+        .ant-modal-confirm-body-wrapper {
+          .ant-modal-confirm-body {
+            .anticon {
+              color: #d01b1b;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.confirmModal {
+  :global {
+    .ant-modal-content {
+      .ant-modal-body {
+        .ant-modal-confirm-body-wrapper {
+          .ant-modal-confirm-body {
+            .anticon {
+              color: $information;
+              font-size: 1.25rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

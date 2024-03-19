@@ -13,6 +13,7 @@ import {
 } from "@ant-design/icons";
 import {useNavigate} from "react-router";
 import {useState} from "react";
+import styles from "./SideBar.module.scss";
 
 const items = [
   {label: "Dashboard", icon: <DashboardOutlined />, key: "/"},
@@ -47,10 +48,7 @@ const SideBar = () => {
         defaultSelectedKeys={["1"]}
         selectedKeys={selectedKey}
         defaultOpenKeys={["sub1"]}
-        style={{
-          height: "100%",
-          borderRight: 0,
-        }}
+        className={styles.leftNav}
         items={items}
         onClick={menuClick}
       />

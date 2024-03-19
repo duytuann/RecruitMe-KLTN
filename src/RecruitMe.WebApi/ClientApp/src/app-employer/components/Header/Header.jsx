@@ -24,7 +24,7 @@ const AppHeader = () => {
           <button
             onMouseEnter={() => setIsDropdownOpen(true)}
             onMouseLeave={() => setIsDropdownOpen(false)}
-            className="flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
+            className="flex items-center text-gray-500 hover:text-gray-700 cursor-pointer bg-transparent border-none"
           >
             <UserIcon className="h-6 w-6" aria-hidden="true" />
             <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />

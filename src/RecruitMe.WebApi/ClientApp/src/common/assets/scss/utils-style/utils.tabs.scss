@@ -1,0 +1,8 @@
+.hcis-top-tabs {
+  .ant-tabs-nav-wrap {
+    padding-inline: $s32;
+    @include media-breakpoint-down(md) {
+      padding-inline: $s16;
+    }
+  }
+}

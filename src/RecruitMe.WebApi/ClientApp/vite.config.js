@@ -17,6 +17,20 @@ export default defineConfig(({mode}) => {
       outDir: mode === "jobseeker" ? "dist/jobseeker" : "dist/employer",
     },
     plugins: [react()],
+    css: {
+      preprocessorOptions: {
+        less: {
+          math: "always",
+          globalVars: {},
+          javascriptEnabled: true,
+        },
+        scss: {
+          additionalData: `
+          @import "./src/common/assets/scss/variables/_variables.scss";
+          @import "./src/common/assets/scss/variables/_mixin.scss";`,
+        },
+      },
+    },
     resolve: {
       alias: {
         "@": path.resolve("src"),
@@ -24,5 +38,6 @@ export default defineConfig(({mode}) => {
         "app-jobseeker": path.resolve("src/app-jobseeker"),
       },
     },
+    assetsInclude: ["**/*.svgx"],
   };
 });

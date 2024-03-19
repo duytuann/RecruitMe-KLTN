@@ -1,0 +1,13 @@
+// custom form ant
+
+.ant-form-item-label {
+  label::before {
+    font-size: 13px !important;
+    margin-right: 4px;
+    font-weight: 600;
+    line-height: 18px !important;
+    width: 7px;
+    height: 18px;
+    color: #c91d1d !important;
+  }
+}

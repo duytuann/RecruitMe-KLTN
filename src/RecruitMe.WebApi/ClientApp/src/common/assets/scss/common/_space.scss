@@ -1,0 +1,18 @@
+@include generate-spacing(hcis-mt, margin-top);
+@include generate-spacing(hcis-mr, margin-right);
+@include generate-spacing(hcis-ml, margin-left);
+@include generate-spacing(hcis-mb, margin-bottom);
+@include generate-spacing(hcis-m, margin);
+@include generate-spacing(hcis-pt, padding-top);
+@include generate-spacing(hcis-pr, padding-right);
+@include generate-spacing(hcis-pl, padding-left);
+@include generate-spacing(hcis-pb, padding-bottom);
+@include generate-spacing(hcis-p, padding);
+@include generate-spacing(hcis-gap, gap);
+@include generate-spacing(hcis-gap-x, column-gap);
+@include generate-spacing(hcis-gap-y, row-gap);
+
+@include generate-spacing-plus(hcis-px, padding-left, padding-right);
+@include generate-spacing-plus(hcis-py, padding-bottom, padding-top);
+@include generate-spacing-plus(hcis-mx, margin-left, margin-right);
+@include generate-spacing-plus(hcis-my, margin-bottom, margin-top);
