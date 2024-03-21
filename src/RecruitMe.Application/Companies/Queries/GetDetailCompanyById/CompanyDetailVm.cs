@@ -29,5 +29,9 @@ namespace RecruitMe.Application.Companies.Queries.GetDetailCompanyById
         public string? ProfileUrl { get; set; }
 
         public string? About { get; set; }
+
+        public string? Title { get; set; }
+
+        public string? Email { get; set; }
     }
 }

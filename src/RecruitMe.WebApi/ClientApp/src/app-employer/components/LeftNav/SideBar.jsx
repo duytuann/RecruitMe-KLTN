@@ -16,7 +16,7 @@ import {useState} from "react";
 import styles from "./SideBar.module.scss";
 
 const items = [
-  {label: "Dashboard", icon: <DashboardOutlined />, key: "/"},
+  {label: "Dashboard", icon: <DashboardOutlined />, key: ""},
   {label: "Profile", icon: <UserOutlined />, key: "profile"},
   {label: "Jobs", icon: <FileAddOutlined />, key: "jobs"},
   {label: "Candidates", icon: <ProfileOutlined />, key: "candidates"},

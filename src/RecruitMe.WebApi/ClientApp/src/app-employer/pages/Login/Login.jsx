@@ -20,6 +20,7 @@ const Login = () => {
       });
 
       if (result) {
+        console.log(result);
         localStorage.setItem(
           "auth",
           JSON.stringify({

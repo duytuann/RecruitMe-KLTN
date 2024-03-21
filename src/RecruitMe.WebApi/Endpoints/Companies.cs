@@ -16,9 +16,14 @@ public class Companies : EndpointGroupBase
             .WithTags("Companies");
 
         app.MapGroup("/api/companies")
-           .MapGet("/{userId:guid}", GetDetailCompanyById)
+           .MapGet("/getcompanydetailbyuserid/{userId:guid}", GetDetailCompanyById)
            .Produces<CompanyDetailVm>(StatusCodes.Status200OK)
            .WithTags("Companies");
+
+        app.MapGroup("/api/companies")
+            .MapPost("/updatecompanyprofile", UpdateCompanyProfile)
+            .Produces<bool>(StatusCodes.Status200OK)
+            .WithTags("Companies");
     }
 
     public async Task<IResult> RegisterCompany([FromServices] ISender sender, RegisterCompanyCommand command)
@@ -32,5 +37,11 @@ public class Companies : EndpointGroupBase
         var query = new GetCompanyDetailQuery { Id = userId };
         var result = await sender.Send(query);
         return Results.Ok(result);
+    }
+
+    public async Task<IResult> UpdateCompanyProfile([FromServices] ISender sender, UpdateCompanyProfileCommand command)
+    {
+        bool isUpdated = await sender.Send(command);
+        return Results.Ok(isUpdated);
     }
 }

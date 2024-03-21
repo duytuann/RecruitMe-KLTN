@@ -1,22 +1,23 @@
 import axiosInstance from "../axios-instance";
 
 const register = async (data) => {
-  return await axiosInstance.post("/companies/register", data);
+  return (await axiosInstance.post("/companies/register", data)).data;
 };
 
-const getCompanyById = async (id) => {
-  return await axiosInstance.get(`/companies/${id}`);
+const getCompanyByUserId = async (id) => {
+  return (await axiosInstance.get(`/companies/getcompanydetailbyuserid/${id}`))
+    .data;
 };
 
 const getAllCompanies = async () => {
-  return await axiosInstance.get("/companies");
+  return (await axiosInstance.get("/companies")).data;
 };
 
 // other methods
 
 const companyService = {
   register,
-  getCompanyById,
+  getCompanyByUserId,
   getAllCompanies,
 };
 

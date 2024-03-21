@@ -1,17 +1,27 @@
-import {Form, Input, Button, Row, Col, Select, DatePicker, Switch} from "antd";
+import {Form, Input, Button, Row, Col, Select} from "antd";
 import FoldCard from "@/common/components/fold-card/FoldCard";
 import {EditOutlined} from "@ant-design/icons";
 import TextItem from "@/common/components/text-item/TextItem";
 import {useModal} from "@/common/utils/modal/useModal";
-import {useState} from "react";
+import {useEffect, useState, useRef} from "react";
+import {useLoading} from "../../../common/context/useLoading";
 import styles from "./Profile.module.scss";
+import service from "../../../common/service";
+import RichText from "@/common/components/rich-text-editor/RichTextEditor";
 
 const {Option} = Select;
 
 const Profile = () => {
+  const userId = JSON.parse(localStorage.getItem("auth"))?.userId;
+  const {showLoading, closeLoading} = useLoading();
   const {openConfirm} = useModal();
 
+  const [profile, setProfile] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
+
+  // rich-text about me
+  const richTextRef = useRef(null);
+  // const previewRef = useRef();
 
   const [form] = Form.useForm();
 
@@ -48,11 +58,64 @@ const Profile = () => {
     );
   };
 
+  const getCompanyProfile = async () => {
+    try {
+      showLoading();
+      const result = await service.company.getCompanyByUserId(userId);
+
+      if (result) {
+        setProfile(result);
+      }
+
+      closeLoading();
+    } catch (error) {
+      closeLoading();
+    } finally {
+      closeLoading();
+    }
+  };
+
+  useEffect(() => {
+    getCompanyProfile();
+  }, []);
+
+  useEffect(() => {
+    form.setFieldsValue({
+      employerName: profile?.title,
+      email: profile?.email,
+      address: profile?.address,
+      phoneNumber: profile?.phoneNumber,
+      website: profile?.website,
+      categories: profile?.categories,
+      foundedDate: profile?.foundedDate,
+      companySize: profile?.companySize,
+      aboutMe: profile?.about,
+    });
+  }, [profile]);
+
   return (
     <>
+      <FoldCard title="Logo Image">haha</FoldCard>
+      <FoldCard title="Cover Photo">haha</FoldCard>
+
       <FoldCard title="Profile" operate={isEditMode ? "" : editProfile()}>
         {isEditMode ? (
-          <Form layout="vertical" form={form} onFinish={onFinish}>
+          <Form
+            initialValues={{
+              employerName: profile?.title,
+              email: profile?.email,
+              phoneNumber: profile?.phoneNumber,
+              website: profile?.website,
+              categories: profile?.categories,
+              foundedDate: profile?.foundedDate,
+              companySize: profile?.companySize,
+              aboutMe: profile?.about,
+              address: profile?.address,
+            }}
+            layout="vertical"
+            form={form}
+            onFinish={onFinish}
+          >
             <Row gutter={16}>
               <Col span={12}>
                 <Form.Item
@@ -88,23 +151,28 @@ const Profile = () => {
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item label="Website" name="website">
+                <Form.Item label="Address" name="address">
                   <Input />
                 </Form.Item>
               </Col>
             </Row>
             <Row gutter={16}>
               <Col span={12}>
-                <Form.Item label="Categories" name="categories">
-                  <Select mode="tags" placeholder="Select categories">
-                    <Option value="accounting">Accounting</Option>
-                    {/* Add more options here */}
-                  </Select>
+                <Form.Item label="Website" name="website">
+                  <Input />
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item label="Founded Date" name="foundedDate">
-                  <DatePicker style={{width: "100%"}} />
+                <Form.Item label="Categories" name="Categories">
+                  <Select
+                    mode="tags"
+                    style={{width: "100%"}}
+                    placeholder="Tags"
+                  >
+                    <Option key="1">1</Option>
+                    <Option key="2">2</Option>
+                    <Option key="3">3</Option>
+                  </Select>
                 </Form.Item>
               </Col>
             </Row>
@@ -114,13 +182,11 @@ const Profile = () => {
                   <Input />
                 </Form.Item>
               </Col>
-              <Col span={12}>
-                <Form.Item
-                  label="Show my profile"
-                  name="showProfile"
-                  valuePropName="checked"
-                >
-                  <Switch />
+            </Row>
+            <Row gutter={16}>
+              <Col span={24}>
+                <Form.Item label="About Company" name="aboutMe">
+                  <RichText ref={richTextRef} />
                 </Form.Item>
               </Col>
             </Row>
@@ -135,23 +201,42 @@ const Profile = () => {
           <div className={styles.profileTable}>
             <Row gutter={[4, 4]}>
               <Col md={12} sm={24} xs={24}>
-                <TextItem label="YGM">{"123"}</TextItem>
+                <TextItem label="Employer name">
+                  {profile?.title ?? "N/A"}
+                </TextItem>
               </Col>
 
               <Col md={12} sm={24} xs={24}>
-                <TextItem label="TCU">{"123"} </TextItem>
+                <TextItem label="Email">{profile?.email ?? "N/A"}</TextItem>
               </Col>
 
               <Col md={12} sm={24} xs={24}>
-                <TextItem label="EU">{"123"} </TextItem>
+                <TextItem label="Phone Number">
+                  {profile?.phoneNumber ?? "N/A"}
+                </TextItem>
               </Col>
 
               <Col md={12} sm={24} xs={24}>
-                <TextItem label="CFPS">{"123"} </TextItem>
+                <TextItem label="Address">{profile?.address ?? "N/A"}</TextItem>
               </Col>
 
               <Col md={12} sm={24} xs={24}>
-                <TextItem label="Others">{"123"}</TextItem>
+                <TextItem label="Website">{profile?.website ?? "N/A"}</TextItem>
+              </Col>
+
+              <Col md={12} sm={24} xs={24}>
+                <TextItem label="Categories">{"pending..."}</TextItem>
+              </Col>
+              <Col md={12} sm={24} xs={24}>
+                <TextItem label="Company Size">
+                  {profile?.companySize ?? "N/A"}
+                </TextItem>
+              </Col>
+
+              <Col md={24} sm={24} xs={24}>
+                <TextItem label="About Company">
+                  {profile?.about ?? "N/A"}
+                </TextItem>
               </Col>
             </Row>
           </div>
