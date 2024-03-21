@@ -1,0 +1,127 @@
+.hcisRichText {
+  :global(.ant-form-item-has-error) &:not(:global(.is-view)) {
+    border: 1px solid #d01b1b !important;
+  }
+
+  &:not(:global(.is-view)) {
+    min-height: 240px;
+    max-height: 500px;
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid #97a2ab;
+    border-radius: 4px;
+    overflow: hidden;
+
+    :global(.rich-content) {
+      background-color: #fff;
+    }
+  }
+
+  &:global(.is-view) {
+    :global(.rich-content) {
+      padding: 0 2px 0 0;
+      min-height: unset !important;
+    }
+  }
+
+  :global {
+    .button-toolbar {
+      background-color: #fafafa;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      border-bottom: 1px solid #e4e6e7;
+
+      .ant-space {
+        gap: 4px 8px !important;
+      }
+
+      // prevent font size selector from turning red when form item has error
+      .ant-select-status-error:not(.ant-select-disabled):not(
+          .ant-select-customize-input
+        ):not(.ant-pagination-size-changer)
+        .ant-select-selector {
+        border-color: #97a2ab;
+      }
+
+      .button-group {
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        overflow: hidden;
+        display: flex;
+
+        .hcis-rich-btn {
+          border: 0px;
+          height: 40px;
+          width: 40px;
+          background: #f4f4f4;
+          border-right: 1px solid #ccc;
+          font-size: 18px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          box-shadow: none;
+          border-radius: none;
+          &:last-of-type {
+            border-right: 0px;
+          }
+          &.is-active {
+            background: #0f90a0;
+          }
+        }
+      }
+      .hcis-rich-select {
+        width: 165px;
+      }
+    }
+    .rich-content {
+      flex-grow: 1;
+      overflow-y: auto;
+      outline: none;
+      padding: 12px;
+      cursor: text;
+      line-height: 1.5;
+
+      [data-slate-editor] > * + * {
+        margin-top: 1em;
+      }
+      [data-slate-placeholder="true"] {
+        top: 12px !important;
+      }
+      s {
+        text-decoration: line-through;
+      }
+      u {
+        text-decoration: underline;
+      }
+      strong {
+        font-weight: 600;
+      }
+      em {
+        font-style: italic;
+      }
+      ol {
+        display: block;
+        list-style-type: decimal;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        padding-inline-start: 40px;
+      }
+      ul {
+        display: block;
+        list-style-type: disc;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        padding-inline-start: 40px;
+      }
+    }
+  }
+}
