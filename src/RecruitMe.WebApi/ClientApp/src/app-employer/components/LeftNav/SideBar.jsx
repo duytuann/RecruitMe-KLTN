@@ -6,7 +6,6 @@ import {
   FileAddOutlined,
   ProfileOutlined,
   CalendarOutlined,
-  BarChartOutlined,
 } from "@ant-design/icons";
 import {useNavigate} from "react-router";
 import {useState} from "react";
@@ -15,10 +14,9 @@ import styles from "./SideBar.module.scss";
 const items = [
   {label: "Dashboard", icon: <DashboardOutlined />, key: ""},
   {label: "Profile", icon: <UserOutlined />, key: "profile"},
-  {label: "Jobs", icon: <FileAddOutlined />, key: "jobs"},
+  {label: "My Jobs", icon: <CalendarOutlined />, key: "interviews"},
+  {label: "Job Applicants", icon: <FileAddOutlined />, key: "jobs"},
   {label: "Candidates", icon: <ProfileOutlined />, key: "candidates"},
-  {label: "Interviews", icon: <CalendarOutlined />, key: "interviews"},
-  {label: "Analytics", icon: <BarChartOutlined />, key: "analytics"},
 ];
 
 const SideBar = () => {
