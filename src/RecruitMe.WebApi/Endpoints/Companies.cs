@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using RecruitMe.Application.Companies.Commands.RegisterCompany;
+using RecruitMe.Application.Companies.Commands.UpdateCompanyProfileCommand;
 using RecruitMe.Application.Companies.Queries.GetDetailCompanyById;
+using RecruitMe.Domain.Entities;
 using RecruitMe.WebApi.Infrastructure;
 
 namespace RecruitMe.WebApi.Endpoints;
@@ -41,7 +43,7 @@ public class Companies : EndpointGroupBase
 
     public async Task<IResult> UpdateCompanyProfile([FromServices] ISender sender, UpdateCompanyProfileCommand command)
     {
-        bool isUpdated = await sender.Send(command);
-        return Results.Ok(isUpdated);
+        Company entityResult = await sender.Send(command);
+        return Results.Ok(entityResult);
     }
 }

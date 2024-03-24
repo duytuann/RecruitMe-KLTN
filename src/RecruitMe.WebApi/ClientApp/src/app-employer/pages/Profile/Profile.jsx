@@ -8,6 +8,7 @@ import {useLoading} from "../../../common/context/useLoading";
 import styles from "./Profile.module.scss";
 import service from "../../../common/service";
 import RichText from "@/common/components/rich-text-editor/RichTextEditor";
+import ImageUploadDragger from "../../../common/components/upload-image/ImageUploadDragger";
 
 const {Option} = Select;
 
@@ -25,9 +26,26 @@ const Profile = () => {
 
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    console.log("Received values of form:", values);
-    // Tại đây bạn sẽ gọi API để cập nhật thông tin
+  const onFinish = async (values) => {
+    try {
+      showLoading();
+      const result = await service.company.updateCompanyProfile({
+        Id: profile.id,
+        ...values,
+        about: richTextRef.current?.getValue(),
+      });
+
+      if (result) {
+        setProfile(result);
+      }
+      setIsEditMode(false);
+      getCompanyProfile();
+      closeLoading();
+    } catch (error) {
+      closeLoading();
+    } finally {
+      closeLoading();
+    }
   };
 
   const handleCancelClick = () => {
@@ -46,6 +64,7 @@ const Profile = () => {
 
   const handleEditClick = (e) => {
     e.stopPropagation();
+    richTextRef.current?.setValue(profile?.about?.toString() ?? "");
     setIsEditMode(true);
   };
 
@@ -75,41 +94,52 @@ const Profile = () => {
     }
   };
 
+  // upload image ...
+
   useEffect(() => {
     getCompanyProfile();
+    richTextRef?.current?.setValue(profile?.about);
   }, []);
 
   useEffect(() => {
     form.setFieldsValue({
       employerName: profile?.title,
-      email: profile?.email,
       address: profile?.address,
       phoneNumber: profile?.phoneNumber,
       website: profile?.website,
       categories: profile?.categories,
       foundedDate: profile?.foundedDate,
       companySize: profile?.companySize,
-      aboutMe: profile?.about,
+      title: profile?.title,
     });
-  }, [profile]);
+
+    if (profile?.about) {
+      richTextRef?.current?.setValue(profile?.about);
+    } else {
+      richTextRef?.current?.setEmpty();
+    }
+  }, [profile, isEditMode]);
 
   return (
     <>
-      <FoldCard title="Logo Image">haha</FoldCard>
-      <FoldCard title="Cover Photo">haha</FoldCard>
+      <FoldCard title="Logo Image">
+        <ImageUploadDragger />
+      </FoldCard>
+      <FoldCard title="Cover Photo">
+        <ImageUploadDragger />
+      </FoldCard>
 
       <FoldCard title="Profile" operate={isEditMode ? "" : editProfile()}>
         {isEditMode ? (
           <Form
             initialValues={{
               employerName: profile?.title,
-              email: profile?.email,
               phoneNumber: profile?.phoneNumber,
               website: profile?.website,
               categories: profile?.categories,
               foundedDate: profile?.foundedDate,
               companySize: profile?.companySize,
-              aboutMe: profile?.about,
+              about: profile?.about,
               address: profile?.address,
             }}
             layout="vertical"
@@ -120,7 +150,7 @@ const Profile = () => {
               <Col span={12}>
                 <Form.Item
                   label="Employer name"
-                  name="employerName"
+                  name="title"
                   rules={[
                     {required: true, message: "Please input employer name!"},
                   ]}
@@ -129,39 +159,24 @@ const Profile = () => {
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item
-                  label="Email"
-                  name="email"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input email!",
-                      type: "email",
-                    },
-                  ]}
-                >
+                <Form.Item label="Phone Number" name="phoneNumber">
                   <Input />
                 </Form.Item>
               </Col>
             </Row>
             <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item label="Phone Number" name="phoneNumber">
-                  <Input />
-                </Form.Item>
-              </Col>
               <Col span={12}>
                 <Form.Item label="Address" name="address">
                   <Input />
                 </Form.Item>
               </Col>
-            </Row>
-            <Row gutter={16}>
               <Col span={12}>
                 <Form.Item label="Website" name="website">
                   <Input />
                 </Form.Item>
               </Col>
+            </Row>
+            <Row gutter={16}>
               <Col span={12}>
                 <Form.Item label="Categories" name="Categories">
                   <Select
@@ -175,8 +190,6 @@ const Profile = () => {
                   </Select>
                 </Form.Item>
               </Col>
-            </Row>
-            <Row gutter={16}>
               <Col span={12}>
                 <Form.Item label="Company Size" name="companySize">
                   <Input />
@@ -185,7 +198,7 @@ const Profile = () => {
             </Row>
             <Row gutter={16}>
               <Col span={24}>
-                <Form.Item label="About Company" name="aboutMe">
+                <Form.Item label="About Company" name="about">
                   <RichText ref={richTextRef} />
                 </Form.Item>
               </Col>
@@ -204,10 +217,6 @@ const Profile = () => {
                 <TextItem label="Employer name">
                   {profile?.title ?? "N/A"}
                 </TextItem>
-              </Col>
-
-              <Col md={12} sm={24} xs={24}>
-                <TextItem label="Email">{profile?.email ?? "N/A"}</TextItem>
               </Col>
 
               <Col md={12} sm={24} xs={24}>
@@ -235,7 +244,7 @@ const Profile = () => {
 
               <Col md={24} sm={24} xs={24}>
                 <TextItem label="About Company">
-                  {profile?.about ?? "N/A"}
+                  <RichText isViewMode ref={richTextRef} />
                 </TextItem>
               </Col>
             </Row>

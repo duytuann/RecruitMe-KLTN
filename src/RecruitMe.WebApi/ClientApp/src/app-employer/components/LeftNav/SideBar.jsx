@@ -5,11 +5,8 @@ import {
   UserOutlined,
   FileAddOutlined,
   ProfileOutlined,
-  TeamOutlined,
   CalendarOutlined,
   BarChartOutlined,
-  ToolOutlined,
-  MessageOutlined,
 } from "@ant-design/icons";
 import {useNavigate} from "react-router";
 import {useState} from "react";
@@ -22,9 +19,6 @@ const items = [
   {label: "Candidates", icon: <ProfileOutlined />, key: "candidates"},
   {label: "Interviews", icon: <CalendarOutlined />, key: "interviews"},
   {label: "Analytics", icon: <BarChartOutlined />, key: "analytics"},
-  {label: "Tools", icon: <ToolOutlined />, key: "tools"},
-  {label: "Messages", icon: <MessageOutlined />, key: "messages"},
-  {label: "Settings", icon: <TeamOutlined />, key: "settings"},
 ];
 
 const SideBar = () => {

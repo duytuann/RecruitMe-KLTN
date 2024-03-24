@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using RecruitMe.Application.Common.Interfaces;
 using RecruitMe.Domain.Entities;
 using RecruitMe.Domain.Enums;
@@ -7,54 +8,43 @@ namespace RecruitMe.Application.Companies.Commands.UpdateCompanyProfileCommand;
 
 public record UpdateCompanyProfileCommand : IRequest<Company>
 {
-    public string UserName { get; init; }
-    public string Email { get; init; }
-    public string Password { get; init; }
-    public UserType? UserType { get; init; }
+    public Guid Id { get; init; }
     public string? Title { get; init; }
+    public string? PhoneNumber { get; init; }
+    public string? Website { get; init; }
     public string? Address { get; init; }
-    public CompanyType Type { get; init; }
     public string? CompanySize { get; init; }
-    public string? Country { get; init; }
-    public string? WorkingDays { get; init; }
+    public string? About { get; init; }
 }
 
-public class RegisterCompanyCommandHandler : IRequestHandler<RegisterCompanyCommand, Guid>
+public class UpdateCompanyProfileCommandHandler : IRequestHandler<UpdateCompanyProfileCommand, Company>
 {
     private readonly IApplicationDbContext _context;
 
-    public RegisterCompanyCommandHandler(IApplicationDbContext context)
+    public UpdateCompanyProfileCommandHandler(IApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task<Guid> Handle(RegisterCompanyCommand request, CancellationToken cancellationToken)
+    public async Task<Company> Handle(UpdateCompanyProfileCommand request, CancellationToken cancellationToken)
     {
-        // Tạo một User mới với thông tin từ request
-        var user = new User
+        var company = await _context.Companies
+            .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
+
+        if (company == null)
         {
-            Id = Guid.NewGuid(),
-            Email = request.Email,
-            Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
-            UserType = UserType.Employer
-        };
+            throw new ArgumentException("Can not file an entity of this Id!");
+        }
 
-        await _context.Users.AddAsync(user, cancellationToken);
-
-        var company = new Company
-        {
-            UserId = user.Id,
-            Title = request.Title, // company name
-            Address = request.Address,
-            CompanySize = request.CompanySize,
-            Country = request.Country,
-            // Other fields
-        };
-
-        await _context.Companies.AddAsync(company, cancellationToken);
+        company.Title = request.Title;
+        company.PhoneNumber = request.PhoneNumber;
+        company.Website = request.Website;
+        company.Address = request.Address;
+        company.CompanySize = request.CompanySize;
+        company.About = request.About;
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return company.Id;
+        return company;
     }
 }

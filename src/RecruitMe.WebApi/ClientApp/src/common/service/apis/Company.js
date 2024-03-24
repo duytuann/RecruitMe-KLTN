@@ -13,12 +13,16 @@ const getAllCompanies = async () => {
   return (await axiosInstance.get("/companies")).data;
 };
 
-// other methods
+const updateCompanyProfile = async (data) => {
+  return (await axiosInstance.post("/companies/updatecompanyprofile", data))
+    .data;
+};
 
 const companyService = {
   register,
   getCompanyByUserId,
   getAllCompanies,
+  updateCompanyProfile,
 };
 
 export default companyService;

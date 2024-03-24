@@ -29,6 +29,7 @@ public class GetCompanyDetailQueryHandler : IRequestHandler<GetCompanyDetailQuer
             .Where(item => item.company.UserId == request.Id)
             .Select(item => new CompanyDetailVm()
             {
+                Id = item.company.Id,
                 UserId = item.company.UserId,
                 Email = item.user.Email,
                 Address = item.company.Address,
