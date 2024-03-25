@@ -14,8 +14,8 @@ import styles from "./SideBar.module.scss";
 const items = [
   {label: "Dashboard", icon: <DashboardOutlined />, key: ""},
   {label: "Profile", icon: <UserOutlined />, key: "profile"},
-  {label: "My Jobs", icon: <CalendarOutlined />, key: "interviews"},
-  {label: "Job Applicants", icon: <FileAddOutlined />, key: "jobs"},
+  {label: "My Jobs", icon: <CalendarOutlined />, key: "jobs"},
+  {label: "Job Applicants", icon: <FileAddOutlined />, key: "applicants"},
   {label: "Candidates", icon: <ProfileOutlined />, key: "candidates"},
 ];
 

@@ -1,0 +1,21 @@
+.funcHead {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 17px;
+  height: 40px;
+}
+
+.createBtn {
+  display: none;
+  cursor: pointer;
+  padding: 0;
+  @include media-breakpoint-up(md) {
+    display: block;
+  }
+}
+
+.contentWrapper {
+  margin: 16px 32px;
+}

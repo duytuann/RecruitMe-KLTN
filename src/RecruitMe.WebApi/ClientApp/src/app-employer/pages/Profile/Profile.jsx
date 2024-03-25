@@ -125,9 +125,6 @@ const Profile = () => {
       <FoldCard title="Logo Image">
         <ImageUploadDragger />
       </FoldCard>
-      <FoldCard title="Cover Photo">
-        <ImageUploadDragger />
-      </FoldCard>
 
       <FoldCard title="Profile" operate={isEditMode ? "" : editProfile()}>
         {isEditMode ? (

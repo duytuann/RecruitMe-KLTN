@@ -1,21 +1,32 @@
-import {Space, Table, Tag} from "antd";
+import {Space, Table, Tag, Row, Col, Tooltip, Button} from "antd";
+import {PlusCircleOutlined} from "@ant-design/icons";
+import styles from "./Job.module.scss";
+import IconFilter from "@/common/assets/svg/IconFilter";
+import TabHeader from "@/common/components/tab-header/TabHeader";
+import {useRef, useState} from "react";
+import {useNavigate} from "react-router";
 
 const columns = [
   {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
+    title: "Title",
+    dataIndex: "title",
+    key: "title",
     render: (text) => <a>{text}</a>,
   },
   {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
+    title: "Applicants",
+    dataIndex: "applicants",
+    key: "applicants",
   },
   {
-    title: "Address",
+    title: "Created & Expired",
     dataIndex: "address",
     key: "address",
+  },
+  {
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
   },
   {
     title: "Tags",
@@ -38,7 +49,7 @@ const columns = [
     ),
   },
   {
-    title: "Action",
+    title: "ACTION",
     key: "action",
     render: (_, record) => (
       <Space size="middle">
@@ -72,10 +83,75 @@ const data = [
   },
 ];
 
+const list = [
+  {
+    title: "Active",
+    index: 0,
+    isActive: true,
+    identifying: 1,
+  },
+  {
+    title: "Inactive",
+    index: 1,
+    isActive: false,
+    identifying: 2,
+  },
+];
+
 const Job = () => {
+  const navigate = useNavigate();
+  const [tabList, setTabList] = useState(list);
+  const searchRef = useRef(null);
+
+  const tabClick = (val) => {
+    if (tabList[val].isActive) return;
+    searchRef.current?.clearSearch();
+
+    const arr = [...tabList];
+    setTabList(arr);
+  };
+
+  const onSearch = (val) => {
+    // call api
+    console.log(val);
+  };
+
   return (
     <>
-      <Table columns={columns} dataSource={data} />;
+      <div className="mt-2">
+        <TabHeader tabClick={tabClick} tabList={tabList} search={onSearch} />
+      </div>
+      <div className="contentWrapper">
+        <Row className={styles.funcHead}>
+          <Col className={styles.createBtn}>
+            <Button
+              type="link"
+              icon={<PlusCircleOutlined />}
+              onClick={() => {
+                navigate("/jobs/create-job");
+              }}
+            >
+              <span style={{marginLeft: "-4px", textDecoration: "none"}}>
+                Create a Job
+              </span>
+            </Button>
+          </Col>
+          <Col>
+            <Tooltip
+              title={<span style={{color: "#222"}}>Filter</span>}
+              color={"#fff"}
+              // open={filterTip}
+            >
+              <IconFilter />
+            </Tooltip>
+          </Col>
+        </Row>
+        <Table
+          columns={columns}
+          dataSource={data}
+          className="hcis-border-table"
+        />
+      </div>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import {Space, Table, Tag} from "antd";
+import {Row, Space, Table, Tag} from "antd";
 
 const columns = [
   {
@@ -75,7 +75,78 @@ const data = [
 const Interview = () => {
   return (
     <>
-      <Table columns={columns} dataSource={data} />;
+      <Row className={styles.funcHead}>
+        <Col className={styles.createIRBtn}>
+          <PermissionBlock
+            subModule={
+              InfringementReportListPermission
+                .InfringementReportListInProgessCompletedDraftInGeneral.Create
+            }
+          >
+            {activeNum !== EStateCode.Completed && (
+              <div>
+                <Button
+                  type="link"
+                  icon={<PlusCircleOutlined />}
+                  onClick={handleClickCreateIR}
+                >
+                  <span style={{marginLeft: "-4px", textDecoration: "none"}}>
+                    Create an Infringement Report
+                  </span>
+                </Button>
+              </div>
+            )}
+          </PermissionBlock>
+        </Col>
+        <Col>
+          <PermissionBlock
+            subModule={[
+              InfringementReportListPermission
+                .InfringementReportListInProgessCompletedDraftInGeneral.Read,
+              InfringementReportListPermission.ApproverADSAD.Read,
+              InfringementReportListPermission.ApproverAdjudicationPanel.Read,
+              InfringementReportListPermission.ApproverBlockManager.Read,
+              InfringementReportListPermission.ApproverDirectorHeadofHome.Read,
+              InfringementReportListPermission.ApproverProvost.Read,
+            ]}
+          >
+            <Tooltip
+              title={<span style={{color: "#222"}}>Filter</span>}
+              color={"#fff"}
+              open={filterTip}
+            >
+              <div
+                className={styles.filterDesktop}
+                onClick={openFilterPanel}
+                onMouseOver={() => {
+                  if (isMobile.type != EDeviceType.Tablet) {
+                    setFilterTip(true);
+                  }
+                }}
+                onTouchStart={() => {
+                  setFilterTip(true);
+                }}
+                onMouseOut={() => {
+                  if (isMobile.type != EDeviceType.Tablet) {
+                    setFilterTip(false);
+                  }
+                }}
+                onTouchEnd={() => {
+                  setFilterTip(false);
+                }}
+              >
+                <img src={filterIcon} alt="iconFilter" />
+              </div>
+            </Tooltip>
+          </PermissionBlock>
+        </Col>
+      </Row>
+      <Table
+        columns={columns}
+        dataSource={data}
+        rowKey={(record) => record.id}
+        className="hcis-border-table"
+      />
     </>
   );
 };
