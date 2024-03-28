@@ -13,13 +13,13 @@
 }
 
 button.hcis-link-btn {
-  transition: 0.3s ease-in-out;
+  transition: 1s ease-in-out;
   border-radius: 2px;
   &:hover {
-    background-color: rgba($color: #000000, $alpha: 0.04);
+    background-color: rgba(0, 0, 0, 0.04);
   }
   &:active {
-    background-color: rgba($color: #000000, $alpha: 0.06);
+    background-color: rgba(0, 0, 0, 0.06);
   }
 }
 

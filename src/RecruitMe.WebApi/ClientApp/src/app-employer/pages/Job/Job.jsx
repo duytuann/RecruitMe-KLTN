@@ -125,13 +125,17 @@ const Job = () => {
         <Row className={styles.funcHead}>
           <Col className={styles.createBtn}>
             <Button
+              className="hcis-link-btn p-0"
               type="link"
               icon={<PlusCircleOutlined />}
               onClick={() => {
                 navigate("/jobs/create-job");
               }}
             >
-              <span style={{marginLeft: "-4px", textDecoration: "none"}}>
+              <span
+                className="text-sm"
+                style={{marginLeft: "-4px", textDecoration: "none"}}
+              >
                 Create a Job
               </span>
             </Button>
