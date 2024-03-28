@@ -5,7 +5,7 @@ namespace RecruitMe.Domain.Entities;
 
 public class JobSeeker : BaseAuditableEntity
 {
-    public Gender? Gender { get; set; }
+    public EGender? Gender { get; set; }
 
     public DateTimeOffset? DateOfBirth { get; set; }
 

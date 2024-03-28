@@ -1,6 +1,6 @@
 ﻿namespace RecruitMe.Domain.Enums;
 
-public enum Gender
+public enum EGender
 {
     Male = 0,
     Female = 1,
