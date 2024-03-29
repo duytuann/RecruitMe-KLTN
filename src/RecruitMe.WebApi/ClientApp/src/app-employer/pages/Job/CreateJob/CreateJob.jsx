@@ -10,8 +10,9 @@ import {
   Row,
 } from "antd";
 import moment from "moment";
-import {useState} from "react";
+import {useState, useRef} from "react";
 import {useModal} from "@/common/utils/modal/useModal";
+import RichText from "../../../../common/components/rich-text-editor/RichTextEditor";
 
 const {Option} = Select;
 
@@ -19,6 +20,7 @@ const CreateJob = () => {
   const {openConfirm} = useModal();
   const [startDate, setStartDate] = useState(null);
 
+  const richTextRef = useRef(null);
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
@@ -45,6 +47,24 @@ const CreateJob = () => {
       </Breadcrumb>
       <Form onFinish={onFinish} layout="vertical">
         <Row gutter={[16, 16]}>
+          <Col span={24}>
+            <Form.Item
+              name="title"
+              label="Job Title"
+              rules={[{required: true}]}
+            >
+              <Input placeholder="Job Title" />
+            </Form.Item>
+          </Col>
+          <Col span={24}>
+            <Form.Item
+              name="jobDescription"
+              label="Job Description"
+              rules={[{required: true}]}
+            >
+              <RichText ref={richTextRef} />
+            </Form.Item>
+          </Col>
           <Col span={12}>
             <Form.Item name="jobType" label="Type" rules={[{required: true}]}>
               <Select placeholder="Select job type">
