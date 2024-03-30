@@ -5,13 +5,17 @@ namespace RecruitMe.Domain.Entities;
 
 public class Job : BaseAuditableEntity
 {
+    public Guid CompanyId { get; set; }
+
+    public Guid JobSeekerId { get; set; }
+
     public string? Description { get; set; }
 
     public DateTimeOffset StartDate { get; set; }
 
     // public Category Category { get; set; }
     
-    public EJobType JobType { get; set; }
+    public int? JobType { get; set; }
 
     public DateTimeOffset EndDate { get; set;}
 
@@ -19,17 +23,17 @@ public class Job : BaseAuditableEntity
 
     public string? PhoneNumber { get; set; }
 
-    public ESalaryType SalaryType { get; set; }
+    public int? SalaryType { get; set; }
 
     public string? MinSalary { get; set; }
 
     public string? MaxSalary { get; set; }
 
-    public EJobGender Gender { get; set; }
+    public int? Gender { get; set; }
 
     public string? Tag { get; set; }
 
     // qualification
 
-    public EExperience Experience { get; set; }
+    public int? Experience { get; set; }
 }

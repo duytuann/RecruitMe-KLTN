@@ -1,6 +1,6 @@
 ﻿namespace RecruitMe.Domain.Enums;
 
-public enum StateCode
+public enum EStateCode
 {
     Active = 0,
     Inactive = 1,

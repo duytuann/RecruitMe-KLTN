@@ -1,7 +1,9 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using RecruitMe.Application.Jobs.Commands.CreateJobCommand;
 using RecruitMe.Application.Jobs.Commands.DraftJobCommand;
 using RecruitMe.Application.Jobs.Commands.SubmitJobCommand;
+using RecruitMe.Application.Jobs.Queries.GetListJobByUserId;
 using RecruitMe.Domain.Entities;
 using RecruitMe.WebApi.Infrastructure;
 
@@ -25,6 +27,11 @@ public class Jobs : EndpointGroupBase
             .MapPost("/submit", SubmitJob)
             .Produces<Job>(StatusCodes.Status200OK)
             .WithTags("Jobs");
+
+        app.MapGroup("/api/jobs")
+            .MapPost("/getlistjob/{userId:guid}/{stateCode:int}", GetListJob)
+            .Produces<List<Job>>(StatusCodes.Status200OK)
+            .WithTags("Jobs");
     }
 
     public async Task<IResult> CreateJob(ISender sender, CreateJobCommand command)
@@ -43,5 +50,12 @@ public class Jobs : EndpointGroupBase
     {
         var jobSubmittedId = await sender.Send(command);
         return Results.Ok(jobSubmittedId);
+    }
+
+    public async Task<IResult> GetListJob([FromRoute] Guid userId, [FromRoute] int stateCode, ISender sender)
+    {
+        var query = new GetListJobQuery() { UserId = userId, StateCode = stateCode };
+        var jobs = await sender.Send(query);
+        return Results.Ok(jobs);
     }
 }

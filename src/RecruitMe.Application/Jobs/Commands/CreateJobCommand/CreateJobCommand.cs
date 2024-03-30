@@ -1,16 +1,38 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using RecruitMe.Application.Common.Interfaces;
 using RecruitMe.Domain.Entities;
+using RecruitMe.Domain.Enums;
 
 namespace RecruitMe.Application.Jobs.Commands.CreateJobCommand;
 
 public record CreateJobCommand : IRequest<Guid>
 {
+    public Guid UserId { get; init; }
+
+    public DateTimeOffset StartDate { get; init; }
+
+    public DateTimeOffset EndDate { get; init; }
+
     public string? Title { get; init; }
+
+    public int? Experience { get; init; }
+    
     public string? Description { get; init; }
-    public DateTime StartDate { get; init; }
-    public DateTime EndDate { get; init; }
-    // Thêm các trường khác mà bạn cần cho Job
+
+    public int? JobType { get; init; }
+
+    public string? PhoneNumber { get; init; }
+
+    public int? JobGender { get; init; }
+
+    public int? SalaryType { get; init; }
+
+    public string? MinSalary { get; init; }
+
+    public string? MaxSalary { get; init; }
+
+    public string? Tag { get; init; }
 }
 
 public class CreateJobCommandHandler : IRequestHandler<CreateJobCommand, Guid>
@@ -24,17 +46,32 @@ public class CreateJobCommandHandler : IRequestHandler<CreateJobCommand, Guid>
 
     public async Task<Guid> Handle(CreateJobCommand request, CancellationToken cancellationToken)
     {
+        var companyId = await _context.Companies.Where(c => c.UserId == request.UserId)
+            .Select(c => c.Id)
+            .FirstOrDefaultAsync(cancellationToken);
+
         var job = new Job
         {
             Id = Guid.NewGuid(),
+            CompanyId = companyId,
+            //JobSeekerId = ...,
             Title = request.Title,
             Description = request.Description,
             StartDate = request.StartDate,
             EndDate = request.EndDate,
-            StateCode = Domain.Enums.StateCode.Inactive
+            JobType = request.JobType,
+            PhoneNumber = request.PhoneNumber,
+            Gender = request.JobGender,
+            SalaryType = request.SalaryType,
+            MinSalary = request.MinSalary,
+            MaxSalary = request.MaxSalary,
+            Tag = request.Tag,
+            Experience = request.Experience,
+            StateCode = (int)EStateCode.Active
         };
 
         _context.Jobs.Add(job);
+
         await _context.SaveChangesAsync(cancellationToken);
 
         return job.Id;

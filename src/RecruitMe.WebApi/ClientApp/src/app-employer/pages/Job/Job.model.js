@@ -1,4 +1,4 @@
-export const ETabType = {
-  Active: 0,
-  Inactive: 1,
+export const Tab = {
+  Active: 1,
+  Inactive: 2,
 };

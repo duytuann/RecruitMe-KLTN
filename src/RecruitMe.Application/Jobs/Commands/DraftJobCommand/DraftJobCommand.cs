@@ -21,7 +21,7 @@ public class DraftJobCommandHandler : IRequestHandler<DraftJobCommand, Job>
     public async Task<Job> Handle(DraftJobCommand request, CancellationToken cancellationToken)
     {
         var job = request.Job;
-        job.StateCode = Domain.Enums.StateCode.Draft;
+        job.StateCode = (int)Domain.Enums.EStateCode.Draft;
 
         _context.Jobs.Update(job);
 

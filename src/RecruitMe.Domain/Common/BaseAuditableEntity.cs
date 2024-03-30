@@ -8,7 +8,7 @@ public abstract class BaseAuditableEntity : BaseEntity
 
     public bool? IsDelete { get; set; }
 
-    public StateCode StateCode { get; set; }
+    public int StateCode { get; set; }
 
     public DateTimeOffset Created { get; set; }
 

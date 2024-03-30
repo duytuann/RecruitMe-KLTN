@@ -21,7 +21,7 @@ public class SubmitJobCommandHandler : IRequestHandler<SubmitJobCommand, Guid>
     public async Task<Guid> Handle(SubmitJobCommand request, CancellationToken cancellationToken)
     {
         var job = request.Job;
-        job.StateCode = Domain.Enums.StateCode.Active;
+        job.StateCode = (int)Domain.Enums.EStateCode.Active;
 
         _context.Jobs.Update(job);
 
