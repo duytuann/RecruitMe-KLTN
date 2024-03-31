@@ -1,4 +1,4 @@
-$font-family: 'Open Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !default;
+$font-family: "Open Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif !default;
 
 //font size variables
 $size1: 0.0625rem !default;
@@ -51,7 +51,7 @@ $grid-breakpoints: (
   md: 744px,
   lg: 1133px,
   xl: 1280px,
-  xxl: 1680px
+  xxl: 1680px,
 ) !default;
 
 // color variables
@@ -67,7 +67,7 @@ $gray: #e6e7e8 !default;
 
 // font color-variables
 $text-primary: #323130 !default;
-$link-color: #df1820 !default;
+$link-color: #222222 !default;
 $text-default: #222222;
 $text-secondary: #4b5566;
 

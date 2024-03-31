@@ -1,4 +1,4 @@
-import {Table, Tag, Row, Col, Tooltip, Button, Tabs} from "antd";
+import {Table, Tag, Row, Col, Tooltip, Button, Tabs, Drawer} from "antd";
 import {PlusCircleOutlined} from "@ant-design/icons";
 import styles from "./Job.module.scss";
 import IconFilter from "@/common/assets/svg/IconFilter";
@@ -12,6 +12,7 @@ import {Tab} from "./Job.model";
 
 const Job = () => {
   const [tab, setTab] = useState(Tab.Active);
+  const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
 
   const columns = [
     {
@@ -50,12 +51,17 @@ const Job = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: () => <Tag color="green">Active</Tag>,
+      render: () =>
+        tab === 1 ? (
+          <Tag color="green">Active</Tag>
+        ) : (
+          <Tag color="red">Inactive</Tag>
+        ),
     },
     {
       title: "Action",
-      width: "20%",
-      render: () => (
+      width: "10%",
+      render: (_, record) => (
         <div>
           <Tooltip
             title={<span style={{color: "#222"}}>Edit</span>}
@@ -64,7 +70,7 @@ const Job = () => {
             <Button
               type="text"
               onClick={() => {
-                navigate("/jobs/edit-job");
+                navigate(`/jobs/edit-job/${record.id}`);
               }}
               icon={<EditOutlined />}
             ></Button>
@@ -82,32 +88,33 @@ const Job = () => {
 
   const items = [
     {
-      key: "ACTIVE",
+      key: 1,
       label: "Active",
     },
     {
-      key: "INACTIVE",
+      key: 2,
       label: "Inactive",
     },
   ];
 
-  const handleTabChange = (value) => {
+  const handleTabChange = async (value) => {
     setTab(value);
+    console.log(typeof value, value);
     // API get new Data
     // setTableData
 
-    if (value === Tab) {
-      // do something
+    if (value === Tab.Active) {
+      await fetchJobList(0);
     } else if (value === Tab.Inactive) {
-      // do something
+      await fetchJobList(1);
     }
   };
 
-  const fetchJobList = async () => {
+  const fetchJobList = async (stateCode) => {
     try {
       showLoading();
 
-      const result = await service.job.getlistjob(userId, 0);
+      const result = await service.job.getlistjob(userId, stateCode);
 
       if (result) {
         setJobList(result);
@@ -120,7 +127,7 @@ const Job = () => {
   };
 
   useEffect(() => {
-    fetchJobList();
+    fetchJobList(0);
   }, []);
 
   return (
@@ -129,7 +136,7 @@ const Job = () => {
         <Tabs
           className="hcis-top-tabs"
           items={items}
-          onChange={(value) => handleTabChange(+value)}
+          onChange={(value) => handleTabChange(value)}
         />
       </div>
       {jobList && (
@@ -152,7 +159,12 @@ const Job = () => {
                 </span>
               </Button>
             </Col>
-            <Col>
+            <Col
+              onClick={() => {
+                console.log("open");
+                setOpenFilterDrawer(true);
+              }}
+            >
               <Tooltip
                 title={<span style={{color: "#222"}}>Filter</span>}
                 color={"#fff"}
@@ -169,6 +181,38 @@ const Job = () => {
           />
         </div>
       )}
+      <Drawer
+        title="Filter Job"
+        placement="right"
+        closable={false}
+        onClose={() => {
+          setOpenFilterDrawer(false);
+        }}
+        open={openFilterDrawer}
+        maskClosable={false}
+        destroyOnClose
+        footer={
+          <div className="drawFooter">
+            <Button
+              style={{fontSize: "14px", color: "#222222", marginRight: "8px"}}
+              onClick={() => {
+                setOpenFilterDrawer(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="primary"
+              style={{fontSize: "14px", marginRight: "8px"}}
+              onClick={() => {
+                setOpenFilterDrawer(false);
+              }}
+            >
+              Save
+            </Button>
+          </div>
+        }
+      ></Drawer>
     </>
   );
 };

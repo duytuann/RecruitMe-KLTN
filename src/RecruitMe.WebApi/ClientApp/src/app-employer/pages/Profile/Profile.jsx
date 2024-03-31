@@ -1,4 +1,4 @@
-import {Form, Input, Button, Row, Col, Select} from "antd";
+import {Form, Input, Button, Row, Col, Select, notification} from "antd";
 import FoldCard from "@/common/components/fold-card/FoldCard";
 import {EditOutlined} from "@ant-design/icons";
 import TextItem from "@/common/components/text-item/TextItem";
@@ -38,6 +38,9 @@ const Profile = () => {
       if (result) {
         setProfile(result);
       }
+      notification.success({
+        message: "Update employer profile successfully!",
+      });
       setIsEditMode(false);
       getCompanyProfile();
       closeLoading();

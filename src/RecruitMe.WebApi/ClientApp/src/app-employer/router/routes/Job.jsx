@@ -3,6 +3,7 @@ const Job = lazy(() => import("app-employer/pages/Job/Job"));
 const CreateJob = lazy(() =>
   import("app-employer/pages/Job/CreateJob/CreateJob")
 );
+const EditJob = lazy(() => import("app-employer/pages/Job/EditJob/EditJob"));
 
 const routes = [
   {
@@ -16,6 +17,11 @@ const routes = [
     name: "createjob",
     exact: true,
     element: CreateJob,
+  },
+  {
+    path: "jobs/edit-job/:id",
+    name: "editjob",
+    element: EditJob,
   },
 ];
 

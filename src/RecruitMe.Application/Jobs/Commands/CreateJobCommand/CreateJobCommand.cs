@@ -24,7 +24,7 @@ public record CreateJobCommand : IRequest<Guid>
 
     public string? PhoneNumber { get; init; }
 
-    public int? JobGender { get; init; }
+    public int? Gender { get; init; }
 
     public int? SalaryType { get; init; }
 
@@ -61,7 +61,7 @@ public class CreateJobCommandHandler : IRequestHandler<CreateJobCommand, Guid>
             EndDate = request.EndDate,
             JobType = request.JobType,
             PhoneNumber = request.PhoneNumber,
-            Gender = request.JobGender,
+            Gender = request.Gender,
             SalaryType = request.SalaryType,
             MinSalary = request.MinSalary,
             MaxSalary = request.MaxSalary,
