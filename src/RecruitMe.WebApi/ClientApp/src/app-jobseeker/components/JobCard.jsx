@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 const JobCard = ({job}) => {
   return (
-    <Link to={`/job-detail/${job?.id}`}>
+    <Link to={`/job/41c7c107-a82b-419d-aa6d-54779fb09d71`}>
       <div
         className="w-full md:w-[16rem] 2xl:w-[18rem] h-[16rem] md:h-[18rem] bg-white flex flex-col justify-between shadow-lg 
                 rounded-md px-3 py-5 "
@@ -20,7 +20,7 @@ const JobCard = ({job}) => {
             <p className="text-lg font-semibold truncate">{job?.jobTitle}</p>
             <span className="flex gap-2 items-center">
               <GoLocation className="text-slate-900 text-sm" />
-              {job?.location}
+              {job?.location ?? "Ha Noi / Ho Chi Minh"}
             </span>
           </div>
         </div>

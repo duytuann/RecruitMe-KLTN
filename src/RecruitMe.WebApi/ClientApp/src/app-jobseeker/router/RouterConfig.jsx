@@ -1,6 +1,7 @@
 import {lazy} from "react";
 import AppLayout from "../AppLayout";
 import Home from "@/app-jobseeker/router/routes/Home";
+import Job from "@/app-jobseeker/router/routes/Job";
 
 const Login = lazy(() => import("app-jobseeker/pages/Login/Login"));
 const Register = lazy(() => import("app-jobseeker/pages/Register/Register"));
@@ -20,6 +21,6 @@ export const routers = [
     path: "/",
     element: AppLayout,
     name: "layout",
-    children: [...Home],
+    children: [...Home, ...Job],
   },
 ];

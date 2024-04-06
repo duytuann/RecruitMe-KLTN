@@ -126,7 +126,7 @@ const Navbar = () => {
             <div
               onClick={() => {
                 window.open(
-                  "http://localhost:5002/",
+                  "http://localhost:5001/",
                   "_blank",
                   "noopener,noreferrer"
                 );
