@@ -8,7 +8,7 @@ const AppLayout = () => {
   const {isLoading} = useLoading();
 
   return (
-    <div className="mx-16">
+    <div>
       <Navbar />
       <div>
         <Outlet />

@@ -9,6 +9,7 @@ public class LoginResult
 {
     public string AccessToken { get; set; }
     public Guid UserId { get; set; }
+    public string Title { get; set; }
 }
 
 public record LoginCommand : IRequest<LoginResult>
@@ -56,6 +57,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResult>
         {
             AccessToken = token,
             UserId = user.Id,
+            Title = user.Title
         };
     }
 }

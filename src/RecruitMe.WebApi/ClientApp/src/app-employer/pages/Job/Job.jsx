@@ -53,9 +53,9 @@ const Job = () => {
       key: "status",
       render: () =>
         tab === 1 ? (
-          <Tag color="green">Active</Tag>
+          <Tag color="green">Open</Tag>
         ) : (
-          <Tag color="red">Inactive</Tag>
+          <Tag color="red">Close</Tag>
         ),
     },
     {
@@ -89,11 +89,11 @@ const Job = () => {
   const items = [
     {
       key: 1,
-      label: "Active",
+      label: "Open",
     },
     {
       key: 2,
-      label: "Inactive",
+      label: "Close",
     },
   ];
 

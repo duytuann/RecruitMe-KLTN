@@ -1,26 +1,15 @@
-import {lazy} from "react";
 import AppLayout from "../AppLayout";
 import Home from "@/app-jobseeker/router/routes/Home";
 import Job from "@/app-jobseeker/router/routes/Job";
-
-const Login = lazy(() => import("app-jobseeker/pages/Login/Login"));
-const Register = lazy(() => import("app-jobseeker/pages/Register/Register"));
+import Login from "@/app-jobseeker/router/routes/Login";
+import Register from "@/app-jobseeker/router/routes/Register";
+import Profile from "@/app-jobseeker/router/routes/Profile";
 
 export const routers = [
-  {
-    path: "/login",
-    name: "login",
-    element: Login,
-  },
-  {
-    path: "/register",
-    name: "register",
-    element: Register,
-  },
   {
     path: "/",
     element: AppLayout,
     name: "layout",
-    children: [...Home, ...Job],
+    children: [...Login, ...Register, ...Home, ...Job, ...Profile],
   },
 ];

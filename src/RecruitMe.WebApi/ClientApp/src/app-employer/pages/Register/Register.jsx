@@ -26,11 +26,9 @@ const Register = () => {
         companyType: values.type,
       });
 
-      console.log("Success:", values);
-
       if (result) {
         notification.success({
-          message: "Đăng ký tài khoản thành công!",
+          message: "Register account successfully!",
         });
 
         navigate("/login");

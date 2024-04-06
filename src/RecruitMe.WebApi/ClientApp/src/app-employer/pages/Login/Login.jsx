@@ -20,7 +20,6 @@ const Login = () => {
       });
 
       if (result) {
-        console.log(result);
         localStorage.setItem(
           "auth",
           JSON.stringify({
@@ -37,7 +36,7 @@ const Login = () => {
       closeLoading();
     } catch (error) {
       notification.error({
-        message: "Đăng nhập thất bại, sai email hoặc mật khẩu!",
+        message: "Login failed, your email or password is wrong!",
       });
     } finally {
       closeLoading();

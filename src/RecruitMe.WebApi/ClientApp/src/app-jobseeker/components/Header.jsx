@@ -47,12 +47,12 @@ const Header = ({
           type ? "h-[500px]" : "h-[350px]"
         } flex items-center relative`}
       >
-        <div className="w-full z-10">
+        <div className="w-1/2 z-10">
           <div className="mb-8">
             <p className="text-slate-700 font-bold text-4xl">{title}</p>
           </div>
 
-          <div className="flex w-2/4 items-center justify-around bg-white px-2 md:px-5 py-2.5 md:py-6 shadow-2xl rounded-full">
+          <div className="flex w-full items-center justify-around bg-white px-2 md:px-5 py-2.5 md:py-6 shadow-2xl rounded-full">
             <SearchInput
               placeholder="Job Title or Keywords"
               icon={<AiOutlineSearch className="text-gray-600 text-xl" />}
@@ -78,22 +78,20 @@ const Header = ({
             </div>
           </div>
 
-          {type && (
-            <div className="w-2/4 lg:1/2 flex flex-wrap gap-3 md:gap-6 py-10 md:py-14">
-              {popularSearch.map((search, index) => (
-                <span
-                  key={index}
-                  className="bg-[#1d4fd826] cursor-pointer text-[#1d4ed8] py-1 px-2 rounded-full text-sm md:text-base"
-                >
-                  {search}
-                </span>
-              ))}
-            </div>
-          )}
+          <div className="w-full lg:1/2 flex flex-wrap gap-3 md:gap-6 py-10 md:py-14">
+            {popularSearch.map((search, index) => (
+              <span
+                key={index}
+                className="bg-[#1d4fd826] cursor-pointer text-[#1d4ed8] py-1 px-2 rounded-full text-sm md:text-base"
+              >
+                {search}
+              </span>
+            ))}
+          </div>
         </div>
 
-        <div className="w-1/3 h-full absolute top-24 md:-top-6 lg:-top-14 right-16 2xl:right-[18rem]">
-          <img src={HeroImage} className="object-contain" />
+        <div className="hidden relative w-1/2 h-full lg:flex items-center justify-center bg-[#f7fdfd]">
+          <img src={HeroImage} className="object-contain w-full" />
         </div>
       </div>
     </div>

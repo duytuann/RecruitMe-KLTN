@@ -38,7 +38,7 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className="mx-16">
       <Header
         title="Find Your Dream Job with Ease"
         type="home"

@@ -1,104 +1,24 @@
-import {Fragment, useState} from "react";
-import {Menu, Transition} from "@headlessui/react";
-import {BiChevronDown} from "react-icons/bi";
-import {CgProfile} from "react-icons/cg";
+import {useState} from "react";
+import {Transition} from "@headlessui/react";
+import {BellIcon, ChevronDownIcon, UserIcon} from "@heroicons/react/20/solid";
 import {HiMenuAlt3} from "react-icons/hi";
-import {AiOutlineClose, AiOutlineLogout} from "react-icons/ai";
+import {AiOutlineClose} from "react-icons/ai";
 import {Link} from "react-router-dom";
 import CustomButton from "./CustomButton";
-import {users} from "../utils/data";
-
-function MenuList({user, onClick}) {
-  const handleLogout = () => {};
-
-  return (
-    <div>
-      <Menu as="div" className="inline-block text-left">
-        <div className="flex">
-          <Menu.Button className="inline-flex gap-2 w-full rounded-md bg-white md:px-4 py-2 text-sm font-medium text-slate-700 hover:bg-opacity-20 ">
-            <div className="leading[80px] flex flex-col items-start">
-              <p className="text-sm font-semibold ">
-                {user?.firstName ?? user?.name}
-              </p>
-              <span className="text-sm text-blue-600 ">
-                {user?.jobTitle ?? user?.email}
-              </span>
-            </div>
-
-            <img
-              src={user?.profileUrl}
-              alt="user profile"
-              className="w-10 h-10 rounded-full object-cover "
-            />
-            <BiChevronDown
-              className="h-8 w-8 text-slate-600"
-              aria-hidden="true"
-            />
-          </Menu.Button>
-        </div>
-
-        <Transition
-          as={Fragment}
-          enter="transition ease-out duration-100"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-        >
-          <Menu.Items className="absolute z-50 right-2 mt-2 w-56 origin-top-right divide-y dividfe-gray-100 rounded-md bg-white shadow-lg focus:outline-none ">
-            <div className="p-1 ">
-              <Menu.Item>
-                {({active}) => (
-                  <Link
-                    to={`${
-                      user?.accountType ? "user-profile" : "company-profile"
-                    }`}
-                    className={`${
-                      active ? "bg-blue-500 text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md p-2 text-sm`}
-                    onClick={onClick}
-                  >
-                    <CgProfile
-                      className={`${
-                        active ? "text-white" : "text-gray-600"
-                      } mr-2 h-5 w-5  `}
-                      aria-hidden="true"
-                    />
-                    {user?.accountType ? "User Profile" : "Company Profile"}
-                  </Link>
-                )}
-              </Menu.Item>
-
-              <Menu.Item>
-                {({active}) => (
-                  <button
-                    onClick={() => handleLogout()}
-                    className={`${
-                      active ? "bg-blue-500 text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                  >
-                    <AiOutlineLogout
-                      className={`${
-                        active ? "text-white" : "text-gray-600"
-                      } mr-2 h-5 w-5  `}
-                      aria-hidden="true"
-                    />
-                    Log Out
-                  </button>
-                )}
-              </Menu.Item>
-            </div>
-          </Menu.Items>
-        </Transition>
-      </Menu>
-    </div>
-  );
-}
+import {useNavigate} from "react-router-dom";
 
 const Navbar = () => {
-  const user = users;
+  const navigate = useNavigate();
+  const userName = JSON.parse(localStorage.getItem("auth"))?.userName;
+  const accessToken = localStorage.getItem("accessToken");
   const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleLogOut = () => {
+    localStorage.removeItem("auth");
+    localStorage.removeItem("accessToken");
+    window.location.href = "/";
+  };
 
   return (
     <>
@@ -135,7 +55,7 @@ const Navbar = () => {
             >
               For Employers
             </div>
-            {!user?.token ? (
+            {!accessToken ? (
               <Link to="/login">
                 <CustomButton
                   title="Sign In"
@@ -144,7 +64,53 @@ const Navbar = () => {
               </Link>
             ) : (
               <div>
-                <MenuList user={user} />
+                <div className="flex items-center space-x-4 mt-1">
+                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+                  <div className="relative">
+                    <button
+                      onMouseEnter={() => setIsDropdownOpen(true)}
+                      onMouseLeave={() => setIsDropdownOpen(false)}
+                      className="flex items-center text-gray-500 hover:text-gray-700 cursor-pointer bg-transparent border-none"
+                    >
+                      <UserIcon className="h-6 w-6" aria-hidden="true" />
+                      <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                    {/* Dropdown */}
+                    <Transition
+                      show={isDropdownOpen}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <div
+                        onMouseEnter={() => setIsDropdownOpen(true)}
+                        onMouseLeave={() => setIsDropdownOpen(false)}
+                        className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none"
+                      >
+                        <div className="py-1">
+                          <a
+                            onClick={() => {
+                              navigate("/profile");
+                            }}
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            Profile
+                          </a>
+                          <a
+                            onClick={handleLogOut}
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            Logout
+                          </a>
+                        </div>
+                      </div>
+                    </Transition>
+                  </div>
+                  {userName ?? <div>{userName}</div>}
+                </div>
               </div>
             )}
           </div>
@@ -156,50 +122,6 @@ const Navbar = () => {
             {isOpen ? <AiOutlineClose size={26} /> : <HiMenuAlt3 size={26} />}
           </button>
         </nav>
-
-        {/* MOBILE MENU */}
-        {/* <div
-          className={`${
-            isOpen ? "absolute flex bg-[#f7fdfd] " : "hidden"
-          } container mx-auto lg:hidden flex-col pl-8 gap-3 py-5`}
-        >
-          <Link to="/" onClick={handleCloseNavbar}>
-            Find Job
-          </Link>
-          <Link to="/companies" onClick={handleCloseNavbar}>
-            Companies
-          </Link>
-          <Link
-            onClick={handleCloseNavbar}
-            to={
-              user?.accountType === "seeker" ? "applly-gistory" : "upload-job"
-            }
-          >
-            {user?.accountType === "seeker" ? "Applications" : "Upload Job"}
-          </Link>
-          <Link to="/about-us" onClick={handleCloseNavbar}>
-            About
-          </Link>
-          <div className="w-full py-10">
-            <div>For Employers</div>
-            {!user?.token ? (
-              <div
-                onClick={() => {
-                  navigate("/login");
-                }}
-              >
-                <CustomButton
-                  title="Sign In"
-                  containerStyles={`text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600`}
-                />
-              </div>
-            ) : (
-              <div>
-                <MenuList user={user} onClick={handleCloseNavbar} />
-              </div>
-            )}
-          </div>
-        </div> */}
       </div>
     </>
   );
