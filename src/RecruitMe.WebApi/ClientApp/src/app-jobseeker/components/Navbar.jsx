@@ -22,23 +22,29 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="relative bg-[#f7fdfd] z-50">
+      <div className="relative bg-custom-gradient z-50">
         <nav className="container mx-auto flex items-center justify-between p-5">
           <div>
-            <Link to="/" className="text-blue-600 font-bold text-xl">
-              <span className="text-[#1677cccb]">Recruit Me</span>
+            <Link to="/" className="text-white font-bold text-xl">
+              <span className="text-[#fff]">Recruit Me</span>
             </Link>
           </div>
 
-          <ul className="hidden lg:flex gap-10 text-base text-black">
+          <ul className="hidden lg:flex gap-10 text-base text-white font-semibold">
             <li>
-              <Link to="/">All Job</Link>
+              <Link className="text-white" to="/">
+                All Job
+              </Link>
             </li>
             <li>
-              <Link to="/companies">Companies</Link>
+              <Link className="text-white" to="/companies">
+                Companies
+              </Link>
             </li>
             <li>
-              <Link to="/about-us">About</Link>
+              <Link className="text-white" to="/about-us">
+                About
+              </Link>
             </li>
           </ul>
 
@@ -51,7 +57,7 @@ const Navbar = () => {
                   "noopener,noreferrer"
                 );
               }}
-              className="font-semibold text-base text-center mt-[6px] cursor-pointer"
+              className="font-semibold text-white text-base text-center mt-[6px] cursor-pointer"
             >
               For Employers
             </div>
@@ -59,21 +65,27 @@ const Navbar = () => {
               <Link to="/login">
                 <CustomButton
                   title="Sign In"
-                  containerStyles="text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600"
+                  containerStyles="text-white py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600"
                 />
               </Link>
             ) : (
               <div>
-                <div className="flex items-center space-x-4 mt-1">
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+                <div className="flex items-center space-x-4 mt-1 text-white font-semibold text-lg">
+                  <BellIcon className="h-6 w-6 text-white" aria-hidden="true" />
                   <div className="relative">
                     <button
                       onMouseEnter={() => setIsDropdownOpen(true)}
                       onMouseLeave={() => setIsDropdownOpen(false)}
                       className="flex items-center text-gray-500 hover:text-gray-700 cursor-pointer bg-transparent border-none"
                     >
-                      <UserIcon className="h-6 w-6" aria-hidden="true" />
-                      <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+                      <UserIcon
+                        className="h-6 w-6 text-white"
+                        aria-hidden="true"
+                      />
+                      <ChevronDownIcon
+                        className="h-5 w-5 text-white"
+                        aria-hidden="true"
+                      />
                     </button>
                     {/* Dropdown */}
                     <Transition
@@ -109,7 +121,7 @@ const Navbar = () => {
                       </div>
                     </Transition>
                   </div>
-                  {userName ?? <div>{userName}</div>}
+                  {userName ?? <div className="text-white">{userName}</div>}
                 </div>
               </div>
             )}

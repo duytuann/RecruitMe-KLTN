@@ -38,7 +38,8 @@ public class RegisterJobSeekerCommandHandler : IRequestHandler<RegisterJobSeeker
         var jobSeeker = new JobSeeker
         {
             Id = Guid.NewGuid(),
-            Title = request.Title
+            Title = request.Title,
+            UserId = user.Id
         };
 
         _context.JobSeekers.Add(jobSeeker);

@@ -24,8 +24,4 @@
     <ProjectReference Include="..\RecruitMe.Domain\RecruitMe.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="JobSeekers\Queries\" />
-  </ItemGroup>
-
 </Project>
