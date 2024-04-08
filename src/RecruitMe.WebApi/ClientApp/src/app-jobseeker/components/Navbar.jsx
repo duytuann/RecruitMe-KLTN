@@ -62,11 +62,11 @@ const Navbar = () => {
               For Employers
             </div>
             {!accessToken ? (
-              <Link to="/login">
-                <CustomButton
-                  title="Sign In"
-                  containerStyles="text-white py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600"
-                />
+              <Link
+                to="/login"
+                className="text-white flex items-center font-semibold text-base mt-[6px]"
+              >
+                Sign In
               </Link>
             ) : (
               <div>

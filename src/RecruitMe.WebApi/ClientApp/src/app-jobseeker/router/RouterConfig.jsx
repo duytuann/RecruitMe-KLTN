@@ -4,12 +4,13 @@ import Job from "@/app-jobseeker/router/routes/Job";
 import Login from "@/app-jobseeker/router/routes/Login";
 import Register from "@/app-jobseeker/router/routes/Register";
 import Profile from "@/app-jobseeker/router/routes/Profile";
+import Company from "@/app-jobseeker/router/routes/Company";
 
 export const routers = [
   {
     path: "/",
     element: AppLayout,
     name: "layout",
-    children: [...Login, ...Register, ...Home, ...Job, ...Profile],
+    children: [...Login, ...Register, ...Home, ...Job, ...Profile, ...Company],
   },
 ];

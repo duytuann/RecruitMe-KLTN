@@ -1,38 +1,21 @@
 import {BiPlus, BiEdit, BiTrash} from "react-icons/bi";
-import {useLoading} from "../../../../common/context/useLoading";
-import {useEffect, useRef, useState} from "react";
-import {Modal} from "antd";
-import RichText from "../../../../common/components/rich-text-editor/RichTextEditor";
-import service from "../../../../common/service";
+import ViewRichText from "./ViewRichText";
+import {useEffect, useState} from "react";
 import WorkExperienceModal from "./WorkExperienceModal";
+import moment from "moment";
+import {Modal} from "antd";
+import {useLoading} from "../../../../common/context/useLoading";
+import service from "../../../../common/service";
 
 const WorkExperience = (props) => {
   const {profile, getDetailJobSeekerProfileById} = props;
 
   const [modalMode, setModalMode] = useState("create");
-  const {showLoading, closeLoading} = useLoading();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const richTextRef = useRef(null);
+  const {showLoading, closeLoading} = useLoading();
 
   const [workExperiences, setWorkExperiences] = useState([]);
-
-  const updateJobSeekerProfile = async () => {
-    try {
-      showLoading();
-
-      await service.jobseeker.updateJobSeekerProfile({
-        aboutMe: richTextRef.current?.getValue(),
-        updateType: 3,
-        userId: JSON.parse(localStorage.getItem("auth"))?.userId,
-      });
-      await getDetailJobSeekerProfileById();
-      closeLoading();
-    } catch (error) {
-      closeLoading();
-    } finally {
-      closeLoading();
-    }
-  };
+  const [selectedData, setSelectedData] = useState({});
 
   const handleEdit = () => {
     setModalMode("edit");
@@ -42,11 +25,38 @@ const WorkExperience = (props) => {
   const handleCreate = () => {
     setModalMode("create");
     setIsModalVisible(true);
+    setSelectedData({});
+  };
+
+  const deleteWorkExperience = async (id) => {
+    if (!id) return;
+    showLoading();
+    const updatedExperiences = workExperiences.filter((item) => item.id !== id);
+
+    setWorkExperiences(updatedExperiences);
+
+    await service.jobseeker.updateJobSeekerProfile({
+      workExperiences: JSON.stringify(updatedExperiences),
+      updateType: 3,
+      userId: JSON.parse(localStorage.getItem("auth"))?.userId,
+    });
+    closeLoading();
+  };
+
+  const handleDelete = (id) => {
+    console.log(id);
+    Modal.confirm({
+      title: "Are you sure you want to delete this work experience?",
+      onOk: () => {
+        deleteWorkExperience(id);
+      },
+    });
   };
 
   useEffect(() => {
     if (profile?.workExperiences) {
       setWorkExperiences(JSON.parse(profile?.workExperiences) || []);
+      console.log(JSON.parse(profile?.workExperiences));
     }
   }, [profile]);
 
@@ -62,30 +72,50 @@ const WorkExperience = (props) => {
               style={{cursor: "pointer"}}
             />
           </div>
-          <div className="mt-4">
-            <div className="flex justify-between">
-              <div className="text-[18px] font-bold">Job Title</div>
-              <div>
-                <BiEdit onClick={handleEdit} size={24} className="mx-2" />
-                <BiTrash size={24} />
+          {workExperiences?.map((item) => {
+            return (
+              <div key={item?.id} className="mt-4">
+                <div className="flex justify-between">
+                  <div className="text-[18px] font-bold">
+                    {item?.jobTitle ?? "Software Engineer"}
+                  </div>
+                  <div>
+                    <BiEdit
+                      onClick={() => {
+                        handleEdit();
+                        setSelectedData(item);
+                      }}
+                      size={24}
+                      className="mx-2"
+                    />
+                    <BiTrash size={24} onClick={() => handleDelete(item.id)} />
+                  </div>
+                </div>
+                <div className="text-base font-semibold">
+                  {item?.company ?? "AvePoint"}
+                </div>
+                <div className="text-base font-semibold">
+                  {moment(item?.fromDate).format("MMMM D, YYYY")} -{" "}
+                  {item?.toDate
+                    ? moment(item?.toDate).format("MMMM D, YYYY")
+                    : "Now"}
+                </div>
+                <div className="text-[18px] font-bold">Experience:</div>
+                <div className="text-base font-semibold py-2">
+                  <ViewRichText value={item?.experience} />
+                </div>
               </div>
-            </div>
-            <div className="text-base font-semibold">Company</div>
-            <div className="text-base font-semibold">
-              09/2022 - NOW - CurrentlyWorkingHere
-            </div>
-            <div className="text-base font-semibold py-2">ref1</div>
-            <div className="text-[18px] font-bold">Project:</div>
-            <div className="text-base font-semibold py-2">ref2</div>
-          </div>
+            );
+          })}
         </div>
       </div>
       <WorkExperienceModal
         isVisible={isModalVisible}
         mode={modalMode}
-        // initialData={selectedData}
-        // onSubmit={handleSubmit}
+        initialData={selectedData}
         onCancel={() => setIsModalVisible(false)}
+        workExperiences={workExperiences}
+        getDetailJobSeekerProfileById={getDetailJobSeekerProfileById}
       />
     </>
   );
