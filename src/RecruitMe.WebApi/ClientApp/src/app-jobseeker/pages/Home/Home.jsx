@@ -1,144 +1,163 @@
 import {useState} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
-import {BiBriefcaseAlt2} from "react-icons/bi";
-import {BsStars} from "react-icons/bs";
-import {MdOutlineKeyboardArrowDown} from "react-icons/md";
-
+import CompanyCard from "./components/CompanyCard";
 import Header from "../../components/Header";
-import {experience, jobTypes, jobs} from "../../utils/data";
-import {CustomButton, JobCard, ListBox} from "../../components";
+import JobCard from "./components/JobCard";
+
+const topEmployersData = [
+  {
+    id: 1,
+    logo: "/path-to-mb-bank-logo.png",
+    name: "MB Bank",
+    skills: ["Java", "JavaScript", "Golang", "ReactJS", "Oracle", "AngularJS"],
+    location: "Ha Noi",
+    jobsCount: 7,
+  },
+  {
+    id: 2,
+    logo: "/path-to-lg-logo.png",
+    name: "LG Electronics Development Vietnam (LGEDV)",
+    skills: ["C++", "Tester", "OOP", "Embedded", "Android", "C++"],
+    location: "Ha Noi - Da Nang - Others",
+    jobsCount: 5,
+  },
+  {
+    id: 3,
+    logo: "/path-to-persol-logo.png",
+    name: "Persol Career Tech Studio Vietnam",
+    skills: [".NET", "TypeScript", "Spring", "AWS", "Azure", "Agile"],
+    location: "Ho Chi Minh",
+    jobsCount: 5,
+  },
+  {
+    id: 4,
+    logo: "/path-to-mb-bank-logo.png",
+    name: "MB Bank",
+    skills: ["Java", "JavaScript", "Golang", "ReactJS", "Oracle", "AngularJS"],
+    location: "Ha Noi",
+    jobsCount: 7,
+  },
+  {
+    id: 5,
+    logo: "/path-to-lg-logo.png",
+    name: "LG Electronics Development Vietnam (LGEDV)",
+    skills: ["C++", "Tester", "OOP", "Embedded", "Android", "C++"],
+    location: "Ha Noi - Da Nang - Others",
+    jobsCount: 5,
+  },
+  // Add more employers as needed
+];
+
+const jobsData = [
+  {
+    id: 1,
+    title: "5 Mid - Senior Java Developers (SQL, Spring)",
+    company: "Goline Corporation",
+    isNew: true,
+    isHot: false,
+    isSuperHot: false,
+    salary: "Up to $2600",
+    features: ["You'll love it", "At office"],
+    tags: ["Java", "SQL", "Spring"],
+    location: "Ha Noi",
+    postedDate: "Posted 1 hour ago",
+  },
+  {
+    id: 2,
+    title: "20 Fullstack Dev (Java, Spring, Angular)",
+    company: "LEAP",
+    isNew: true,
+    isHot: false,
+    isSuperHot: false,
+    salary: "Up to $3000",
+    features: ["Fresher Accepted", "At office"],
+    tags: ["Java", "Spring", "Angular"],
+    location: "Ho Chi Minh",
+    postedDate: "Posted 6 hours ago",
+  },
+  {
+    id: 3,
+    title: "Backend Developer (Java/Spring/MySQL) - All Levels",
+    company: "MB Bank",
+    isNew: false,
+    isHot: false,
+    isSuperHot: true,
+    salary: "Negotiable",
+    features: ["You'll love it", "Fresher Accepted", "At office"],
+    tags: ["Java", "MySQL", "Spring"],
+    location: "Ha Noi",
+    postedDate: "Posted 1 day ago",
+  },
+  {
+    id: 4,
+    title: "Senior/Lead Java Developer (Spring, PostgreSQL)",
+    company: "Rakus Vietnam Company",
+    isNew: false,
+    isHot: true,
+    isSuperHot: false,
+    salary: "1,300 - 2,200 USD",
+    features: ["At office"],
+    tags: ["Java", "PostgreSQL", "Spring"],
+    location: "Ho Chi Minh",
+    postedDate: "Posted 1 day ago",
+  },
+  {
+    id: 5,
+    title: "Java Fullstack Developer (Spring) Up to $2600",
+    company: "Integro Technologies",
+    isNew: false,
+    isHot: false,
+    isSuperHot: true,
+    salary: "Up to $2600",
+    features: ["At office"],
+    tags: ["Java", "JavaScript", "Spring"],
+    location: "Ha Noi",
+    postedDate: "Posted 5 days ago",
+  },
+  // Add more job objects as needed
+];
 
 const Home = () => {
-  const [sort, setSort] = useState("Newest");
-  const [page, setPage] = useState(1);
-  const [numPage, setNumPage] = useState(1);
-  const [recordCount, setRecordCount] = useState(0);
-  const [data, setData] = useState([]);
-
   const [searchQuery, setSearchQuery] = useState("");
   const [jobLocation, setJobLocation] = useState("");
-  const [filterJobTypes, setFilterJobTypes] = useState([]);
-  const [filterExp, setFilterExp] = useState([]);
-
-  const [isFetching, setIsFetching] = useState(false);
-
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const filterJobs = (val) => {
-    if (filterJobTypes?.includes(val)) {
-      setFilterJobTypes(filterJobTypes.filter((el) => el != val));
-    } else {
-      setFilterJobTypes([...filterJobTypes, val]);
-    }
-  };
-
-  const filterExperience = async (e) => {
-    setFilterExp(e);
-  };
 
   return (
-    <div className="mx-16">
-      <Header
-        title="Find Your Dream Job with Ease"
-        type="home"
-        handleClick={() => {}}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        location={jobLocation}
-        setLocation={setJobLocation}
-      />
-
-      <div className="container mx-auto flex gap-6 2xl:gap-10 md:px-5 py-0 md:py-6 bg-[#f7fdfd]">
-        <div className="hidden md:flex flex-col w-1/6 h-fit bg-white shadow-sm">
-          <p className="text-lg font-semibold text-slate-600">Filter Search</p>
-
-          <div className="py-2">
-            <div className="flex justify-between mb-3">
-              <p className="flex items-center gap-2 font-semibold">
-                <BiBriefcaseAlt2 />
-                Job Type
-              </p>
-
-              <button>
-                <MdOutlineKeyboardArrowDown />
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              {jobTypes.map((jtype, index) => (
-                <div key={index} className="flex gap-2 text-sm md:text-base ">
-                  <input
-                    type="checkbox"
-                    value={jtype}
-                    className="w-4 h-4"
-                    onChange={(e) => filterJobs(e.target.value)}
-                  />
-                  <span>{jtype}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="py-2 mt-4">
-            <div className="flex justify-between mb-3">
-              <p className="flex items-center gap-2 font-semibold">
-                <BsStars />
-                Experience
-              </p>
-
-              <button>
-                <MdOutlineKeyboardArrowDown />
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              {experience.map((exp) => (
-                <div key={exp.title} className="flex gap-3">
-                  <input
-                    type="checkbox"
-                    value={exp?.value}
-                    className="w-4 h-4"
-                    onChange={(e) => filterExperience(e.target.value)}
-                  />
-                  <span>{exp.title}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="w-full md:w-5/6 px-5 md:px-0">
-          <div className="flex items-center justify-between mb-4">
-            <p className="text-sm md:text-base">
-              Showing: <span className="font-semibold">1,902</span> Jobs
-              Available
-            </p>
-
-            <div className="flex flex-col md:flex-row gap-0 md:gap-2 md:items-center">
-              <p className="text-sm md:text-base">Sort By:</p>
-
-              <ListBox sort={sort} setSort={setSort} />
-            </div>
-          </div>
-
-          <div className="w-full flex flex-wrap gap-4">
-            {jobs.map((job, index) => (
-              <JobCard job={job} key={index} />
+    <>
+      <div className="mx-16">
+        <Header
+          title="Find Your Dream Job with Ease"
+          type="home"
+          handleClick={() => {}}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          location={jobLocation}
+          setLocation={setJobLocation}
+        />
+      </div>
+      <div className="p-16">
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <h2 className="text-center text-3xl font-bold mb-10">Employers</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {topEmployersData.map((employer) => (
+              <CompanyCard key={employer.id} data={employer} />
             ))}
           </div>
+        </div>
 
-          {numPage > page && !isFetching && (
-            <div className="w-full flex items-center justify-center pt-16">
-              <CustomButton
-                title="Load More"
-                containerStyles={`text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600`}
-              />
-            </div>
-          )}
+        <div className="mt-14">
+          <h2 className="text-center text-3xl font-bold mb-10">
+            189 IT Jobs for you
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {jobsData.map((job) => (
+              <JobCard key={job.id} job={job} />
+            ))}
+          </div>
+          <button className="text-red-500 flex m-auto hover:text-red-700 font-semibold py-2 px-4 border border-red-500 hover:border-red-700 rounded mt-4">
+            View more 79 jobs
+          </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

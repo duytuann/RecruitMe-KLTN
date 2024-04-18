@@ -1,5 +1,8 @@
 import {lazy} from "react";
 const Company = lazy(() => import("app-jobseeker/pages/Company/Company"));
+const CompanyDetail = lazy(() =>
+  import("app-jobseeker/pages/CompanyDetail/CompanyDetail")
+);
 
 const routes = [
   {
@@ -7,6 +10,12 @@ const routes = [
     name: "companies",
     exact: true,
     element: Company,
+  },
+  {
+    path: "/companies/:id",
+    name: "companies",
+    exact: true,
+    element: CompanyDetail,
   },
 ];
 

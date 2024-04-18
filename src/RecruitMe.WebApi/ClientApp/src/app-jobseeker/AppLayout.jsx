@@ -2,6 +2,7 @@ import {useLoading} from "@/common/context/useLoading";
 import LazyLoading from "../common/components/lazy-loading/LazyLoading";
 import {Outlet} from "react-router-dom";
 
+import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 
 const AppLayout = () => {
@@ -13,6 +14,7 @@ const AppLayout = () => {
       <div>
         <Outlet />
       </div>
+      <Footer />
       {isLoading && <LazyLoading />}
     </div>
   );

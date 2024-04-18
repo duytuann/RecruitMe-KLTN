@@ -26,7 +26,13 @@ public class Companies : EndpointGroupBase
             .MapPost("/updatecompanyprofile", UpdateCompanyProfile)
             .Produces<bool>(StatusCodes.Status200OK)
             .WithTags("Companies");
+
+        app.MapGroup("/api/companies")
+            .MapGet("/getallcompanies", GetAllCompanies)
+            .Produces<List<Company>>(StatusCodes.Status200OK)
+            .WithTags("Companies");
     }
+
 
     public async Task<IResult> RegisterCompany([FromServices] ISender sender, RegisterCompanyCommand command)
     {
@@ -45,5 +51,12 @@ public class Companies : EndpointGroupBase
     {
         Company entityResult = await sender.Send(command);
         return Results.Ok(entityResult);
+    }
+
+    public async Task<IResult> GetAllCompanies([FromServices] ISender sender)
+    {
+        var query = new GetAllCompaniesQuery();
+        var result = await sender.Send(query);
+        return Results.Ok(result);
     }
 }
