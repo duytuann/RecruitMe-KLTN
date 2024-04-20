@@ -28,6 +28,6 @@ public class Company : BaseAuditableEntity
     public string? ProfileUrl { get; set; }
 
     public string? About { get; set; }
- 
+    
     // category
 }

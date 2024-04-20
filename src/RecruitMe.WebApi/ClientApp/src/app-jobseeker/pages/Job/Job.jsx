@@ -1,168 +1,228 @@
-import {useEffect, useState, useRef} from "react";
-import moment from "moment";
-import {AiOutlineSafetyCertificate} from "react-icons/ai";
-import {useParams} from "react-router-dom";
-import {CustomButton, JobCard} from "../../components";
+import {useParams} from "react-router";
+import {
+  FaFacebook,
+  FaTwitter,
+  FaLinkedin,
+  FaInstagram,
+  FaUserCircle,
+  FaStar,
+  FaRegStar,
+} from "react-icons/fa";
+import {useNavigate} from "react-router";
+
+import {Button} from "antd";
+import Logo from "./logo.jpg";
+import {useEffect, useRef, useState} from "react";
 import {useLoading} from "../../../common/context/useLoading";
 import service from "../../../common/service";
-import {jobs} from "../../utils/data";
 import RichText from "../../../common/components/rich-text-editor/RichTextEditor";
+import moment from "moment";
+
+const comments = [
+  {
+    id: 1,
+    author: "Admin",
+    date: "June 23, 2023",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum sed mauris eu imperdiet. Donec congue orci nec mi luctus, ut faucibus mauris scelerisque.",
+    rating: 5,
+  },
+  {
+    id: 2,
+    author: "Admin",
+    date: "June 23, 2023",
+    content:
+      "No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure.",
+    rating: 4,
+  },
+  // ...more comments
+];
 
 const Job = () => {
-  const {showLoading, closeLoading} = useLoading();
-  const {id} = useParams();
-  const [job, setJob] = useState();
-  const [selected, setSelected] = useState("0");
+  const navigate = useNavigate();
   const richTextRef = useRef(null);
+  const {id} = useParams();
+  const {showLoading, closeLoading} = useLoading();
+  const [companyDetail, setCompanyDetail] = useState();
 
-  const getDetailJobAsync = async () => {
+  const getCompanyDetail = async () => {
     try {
       showLoading();
-      const result = await service.job.getdetailjob(id);
-      if (result) {
-        console.log(result);
-        setJob(result);
-        richTextRef.current?.setValue(result?.description?.toString() ?? "");
-      }
+      const result = await service.company.getCompanyByCompanyId(id);
+      setCompanyDetail(result);
       closeLoading();
     } catch (error) {
+      console.log(error);
+      closeLoading();
+    } finally {
       closeLoading();
     }
   };
 
   useEffect(() => {
-    getDetailJobAsync();
-    window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+    getCompanyDetail();
   }, [id]);
 
+  useEffect(() => {
+    richTextRef?.current?.setValue(companyDetail?.about?.toString() ?? "");
+  }, [companyDetail]);
+
+  const temp = ["Java", "SQL", "Spring"];
+
   return (
-    <div className="container mx-auto">
-      <div className="w-full flex flex-col md:flex-row gap-10">
-        {/* LEFT SIDE */}
-        <div className="w-full h-fit md:w-2/3 2xl:2/4 bg-white px-5 py-10 md:px-10 shadow-md">
-          <div className="w-full flex items-center justify-between">
-            <div className="w-3/4 flex gap-2">
-              {/* <img
-                src={job?.company?.profileUrl}
-                alt={job?.company?.name}
-                className="w-20 h-20 md:w-24 md:h-20 rounded"
-              /> */}
+    <>
+      {companyDetail && (
+        <div className="flex justify-between m-8">
+          <div>
+            <div className="bg-white p-6 rounded-lg shadow space-y-4">
+              {/* Header with Logo, Name, Address, and Actions */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <img
+                    src={Logo}
+                    alt="Company Logo"
+                    className="h-12 w-12 rounded-full"
+                  />
+                  <div>
+                    <h1 className="text-2xl font-bold">
+                      {companyDetail?.title}
+                    </h1>
+                    <p className="text-gray-500">{companyDetail?.address}</p>
+                  </div>
+                </div>
+                <div className="flex space-x-2">
+                  {/* <Button className="bg-blue-600 h-[40px] text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300">
+                  Follow us
+                </Button> */}
+                  <Button className="border h-[40px] border-gray-300 text-gray-700 px-4 py-2 rounded hover:border-gray-400 transition duration-300">
+                    Write a review
+                  </Button>
+                </div>
+              </div>
 
-              <div className="flex flex-col">
-                <p className="text-xl font-semibold text-gray-600">
-                  {job?.title}
-                </p>
+              {/* About Company Section */}
+              <div>
+                <h2 className="text-xl font-bold">About Company</h2>
+                <div className="my-4">
+                  <RichText isViewMode ref={richTextRef} />
+                </div>
+              </div>
 
-                <span className="text-base">{job?.location}</span>
+              {companyDetail?.openJobs?.map((job, index) => (
+                <div
+                  key={index}
+                  className="bg-white p-4 rounded-lg shadow mb-4 flex justify-between items-center"
+                >
+                  <div className="flex space-x-4">
+                    <img
+                      src={Logo}
+                      alt="Company Logo"
+                      className="h-12 w-12 rounded-full"
+                    />
+                    <div>
+                      <h3
+                        onClick={() => {
+                          navigate(`/job/${job.id}`);
+                        }}
+                        className="text-lg font-semibold"
+                      >
+                        {job?.title}
+                      </h3>
+                      <div className="flex mt-2">
+                        {temp?.map((tag, index) => (
+                          <span
+                            key={index}
+                            className="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full mr-2"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-gray-600 mt-2">
+                        {job?.minSalary} - {job?.maxSalary}
+                      </p>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-400">
+                      {moment(job?.startDate).format("MMMM D, YYYY")} -
+                      {moment(job?.endDate).format("MMMM D, YYYY")}
+                    </div>
+                    {/* <FaHeart
+                      className={`ml-2 mt-2 ${
+                        position.isFavorite ? "text-red-500" : "text-gray-300"
+                      }`}
+                    /> */}
+                  </div>
+                </div>
+              ))}
 
-                <span className="text-base text-blue-600">
-                  {job?.company?.name}
-                </span>
+              {comments.map((comment, index) => (
+                <div
+                  key={index}
+                  className="flex space-x-4 p-4 border-b border-gray-200"
+                >
+                  <FaUserCircle className="text-gray-300 text-5xl" />
+                  <div className="flex-1">
+                    <div className="flex justify-between">
+                      <div>
+                        <p className="font-bold">{comment.author}</p>
+                        <p className="text-sm text-gray-500">{comment.date}</p>
+                      </div>
+                      <div className="flex items-center">
+                        {[...Array(5)].map((_, i) =>
+                          i < comment.rating ? (
+                            <FaStar key={i} className="text-yellow-400" />
+                          ) : (
+                            <FaRegStar key={i} className="text-yellow-400" />
+                          )
+                        )}
+                      </div>
+                    </div>
+                    <p className="mt-2 text-gray-700">{comment.content}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="w-[450px] rounded-lg ">
+            <div className="p-6 bg-[#F5F5F5] rounded-lg shadow space-y-4">
+              <h2 className="text-2xl font-bold">Information</h2>
+              <div>
+                <h3 className="text-gray-700">Website:</h3>
+                <p className="text-gray-600">{companyDetail?.website}</p>
+              </div>
 
-                <span className="text-gray-500 text-sm">
-                  {moment(job?.startDate).fromNow()}
-                </span>
+              <div>
+                <h3 className="text-gray-700">Company Size:</h3>
+                <p className="text-gray-600">{companyDetail?.companySize}</p>
+              </div>
+              <div>
+                <h3 className="text-gray-700">Location:</h3>
+                <p className="text-gray-600">{companyDetail?.address}</p>
+              </div>
+              <div>
+                <h3 className="text-gray-700">Phone Number:</h3>
+                <p className="text-gray-600">{companyDetail?.phoneNumber}</p>
+              </div>
+              <div>
+                <h3 className="text-gray-700">Email:</h3>
+                <p className="text-gray-600">{companyDetail?.email}</p>
+              </div>
+              <div>
+                <h3 className="text-gray-700 mb-4">Socials:</h3>
+                <div className="flex space-x-4">
+                  <FaFacebook className="text-blue-600 text-xl" />
+                  <FaTwitter className="text-blue-400 text-xl" />
+                  <FaLinkedin className="text-blue-500 text-xl" />
+                  <FaInstagram className="text-pink-500 text-xl" />
+                </div>
               </div>
             </div>
-
-            <div className="">
-              <AiOutlineSafetyCertificate className="text-3xl text-blue-500" />
-            </div>
-          </div>
-
-          <div className="w-full flex flex-wrap md:flex-row gap-2 items-center justify-between my-10">
-            <div className="bg-[#bdf4c8] w-60 h-16 rounded-lg flex flex-col items-center justify-center">
-              <span className="text-sm">Salary</span>
-              <p className="text-lg font-semibold text-gray-700">
-                $ {job?.minSalary} - $ {job?.maxSalary}
-              </p>
-            </div>
-
-            <div className="bg-[#bae5f4] w-40 h-16 rounded-lg flex flex-col items-center justify-center">
-              <span className="text-sm">Job Type</span>
-              <p className="text-lg font-semibold text-gray-700">FullTime</p>
-            </div>
-
-            {/* <div className="bg-[#fed0ab] w-40 h-16 px-6 rounded-lg flex flex-col items-center justify-center">
-              <span className="text-sm">No. of Applicants</span>
-              <p className="text-lg font-semibold text-gray-700">
-                {job?.applicants?.length}K
-              </p>
-            </div> */}
-
-            {/* <div className="bg-[#cecdff] w-40 h-16 px-6 rounded-lg flex flex-col items-center justify-center">
-              <span className="text-sm">No. of Vacancies</span>
-              <p className="text-lg font-semibold text-gray-700">
-                {job?.vacancies}
-              </p>
-            </div> */}
-          </div>
-
-          {/* <div className="w-full flex gap-4 py-5">
-            <CustomButton
-              onClick={() => setSelected("0")}
-              title="Job Description"
-              containerStyles={`w-full flex items-center justify-center py-3 px-5 outline-none rounded-full text-sm ${
-                selected === "0"
-                  ? "bg-black text-white"
-                  : "bg-white text-black border border-gray-300"
-              }`}
-            />
-
-            <CustomButton
-              onClick={() => setSelected("1")}
-              title="Company"
-              containerStyles={`w-full flex items-center justify-center  py-3 px-5 outline-none rounded-full text-sm ${
-                selected === "1"
-                  ? "bg-black text-white"
-                  : "bg-white text-black border border-gray-300"
-              }`}
-            />
-          </div> */}
-
-          <div className="my-6">
-            {selected === "0" ? (
-              <>
-                <p className="text-xl font-semibold">Job Decsription</p>
-
-                <RichText isViewMode ref={richTextRef} />
-              </>
-            ) : (
-              <>
-                <div className="mb-6 flex flex-col">
-                  <p className="text-xl text-blue-600 font-semibold">
-                    {job?.company?.name}
-                  </p>
-                  <span className="text-base">{job?.company?.location}</span>
-                  <span className="text-sm">{job?.company?.email}</span>
-                </div>
-
-                <p className="text-xl font-semibold">About Company</p>
-                <span>{job?.company?.about}</span>
-              </>
-            )}
-          </div>
-
-          <div className="w-full">
-            <CustomButton
-              title="Apply Now"
-              containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
-            />
           </div>
         </div>
-
-        {/* RIGHT SIDE */}
-        <div className="w-full md:w-1/3 2xl:w-2/4 p-5 mt-20 md:mt-0">
-          <p className="text-gray-500 font-semibold">Similar Job Post</p>
-
-          <div className="w-full flex flex-wrap gap-4">
-            {jobs?.slice(0, 6).map((job, index) => (
-              <JobCard job={job} key={index} />
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

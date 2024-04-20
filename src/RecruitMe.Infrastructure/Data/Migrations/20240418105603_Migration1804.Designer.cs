@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecruitMe.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using RecruitMe.Infrastructure.Data;
 namespace RecruitMe.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240418105603_Migration1804")]
+    partial class Migration1804
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +49,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<string>("CoverPhoto")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("CreatedBy")
@@ -55,7 +58,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<bool?>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("LastModifiedBy")
@@ -70,7 +73,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<string>("ProfileUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StateCode")
+                    b.Property<int>("StateCode")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -102,7 +105,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<string>("CompanyLookupName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("CreatedBy")
@@ -117,19 +120,13 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<string>("JobSeekerLookupName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("LastModifiedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Review")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("StateCode")
+                    b.Property<int>("StateCode")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -152,7 +149,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<string>("CompanyLookupName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("CreatedBy")
@@ -161,7 +158,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<bool?>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("LastModifiedBy")
@@ -173,7 +170,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<string>("SkillLookupName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StateCode")
+                    b.Property<int>("StateCode")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -193,7 +190,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<Guid>("CompanyId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("CreatedBy")
@@ -223,7 +220,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<int?>("JobType")
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("LastModifiedBy")
@@ -244,7 +241,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<DateTimeOffset>("StartDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int?>("StateCode")
+                    b.Property<int>("StateCode")
                         .HasColumnType("int");
 
                     b.Property<string>("Tag")
@@ -273,7 +270,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<string>("Certificates")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("CreatedBy")
@@ -294,7 +291,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<bool?>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("LastModifiedBy")
@@ -312,7 +309,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<string>("RoleTitle")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StateCode")
+                    b.Property<int>("StateCode")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -338,7 +335,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("CreatedBy")
@@ -353,7 +350,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<string>("JobLookupName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("LastModifiedBy")
@@ -365,7 +362,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<string>("SkillLookupName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StateCode")
+                    b.Property<int>("StateCode")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -382,7 +379,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("CreatedBy")
@@ -391,13 +388,13 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<bool?>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("LastModifiedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("StateCode")
+                    b.Property<int>("StateCode")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -414,7 +411,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("CreatedBy")
@@ -427,7 +424,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<bool?>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("LastModifiedBy")
@@ -437,7 +434,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StateCode")
+                    b.Property<int>("StateCode")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -457,7 +454,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("Created")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("CreatedBy")
@@ -466,7 +463,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<bool?>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LastModified")
+                    b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("LastModifiedBy")
@@ -478,7 +475,7 @@ namespace RecruitMe.Infrastructure.Data.Migrations
                     b.Property<string>("SkillLookupName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StateCode")
+                    b.Property<int>("StateCode")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")

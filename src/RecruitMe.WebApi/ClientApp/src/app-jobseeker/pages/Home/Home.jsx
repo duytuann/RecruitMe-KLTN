@@ -2,50 +2,9 @@ import CompanyCard from "./components/CompanyCard";
 import Header from "../../components/Header";
 import JobCard from "./components/JobCard";
 import {Button} from "antd";
-
-const topEmployersData = [
-  {
-    id: 1,
-    logo: "/path-to-mb-bank-logo.png",
-    name: "MB Bank",
-    skills: ["Java", "JavaScript", "Golang", "ReactJS", "Oracle", "AngularJS"],
-    location: "Ha Noi",
-    jobsCount: 7,
-  },
-  {
-    id: 2,
-    logo: "/path-to-lg-logo.png",
-    name: "LG Electronics Development Vietnam (LGEDV)",
-    skills: ["C++", "Tester", "OOP", "Embedded", "Android", "C++"],
-    location: "Ha Noi - Da Nang - Others",
-    jobsCount: 5,
-  },
-  {
-    id: 3,
-    logo: "/path-to-persol-logo.png",
-    name: "Persol Career Tech Studio Vietnam",
-    skills: [".NET", "TypeScript", "Spring", "AWS", "Azure", "Agile"],
-    location: "Ho Chi Minh",
-    jobsCount: 5,
-  },
-  {
-    id: 4,
-    logo: "/path-to-mb-bank-logo.png",
-    name: "MB Bank",
-    skills: ["Java", "JavaScript", "Golang", "ReactJS", "Oracle", "AngularJS"],
-    location: "Ha Noi",
-    jobsCount: 7,
-  },
-  {
-    id: 5,
-    logo: "/path-to-lg-logo.png",
-    name: "LG Electronics Development Vietnam (LGEDV)",
-    skills: ["C++", "Tester", "OOP", "Embedded", "Android", "C++"],
-    location: "Ha Noi - Da Nang - Others",
-    jobsCount: 5,
-  },
-  // Add more employers as needed
-];
+import {useEffect, useState} from "react";
+import {useLoading} from "../../../common/context/useLoading";
+import service from "../../../common/service";
 
 const jobsData = [
   {
@@ -117,6 +76,32 @@ const jobsData = [
 ];
 
 const Home = () => {
+  const {showLoading, closeLoading} = useLoading();
+
+  const [employers, setEmployers] = useState([]);
+  const [jobs, setJobs] = useState([]);
+
+  const initData = async () => {
+    try {
+      showLoading();
+
+      const employers = await service.company.getAllCompanies();
+      console.log(employers);
+      setEmployers(employers);
+
+      closeLoading();
+    } catch {
+      console.log("Failed to fetch data");
+      closeLoading();
+    } finally {
+      closeLoading();
+    }
+  };
+
+  useEffect(() => {
+    initData();
+  }, []);
+
   return (
     <>
       <Header />
@@ -124,7 +109,7 @@ const Home = () => {
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <h2 className="text-center text-3xl font-bold mb-10">Employers</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {topEmployersData.map((employer) => (
+            {employers?.map((employer) => (
               <CompanyCard key={employer.id} data={employer} />
             ))}
           </div>

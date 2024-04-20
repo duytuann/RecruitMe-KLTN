@@ -9,8 +9,16 @@ const getCompanyByUserId = async (id) => {
     .data;
 };
 
+const getCompanyByCompanyId = async (companyId) => {
+  return (
+    await axiosInstance.get(
+      `/companies/getcompanydetailbycompanyid/${companyId}`
+    )
+  ).data;
+};
+
 const getAllCompanies = async () => {
-  return (await axiosInstance.get("/companies")).data;
+  return (await axiosInstance.get("/companies/getallcompanies")).data;
 };
 
 const updateCompanyProfile = async (data) => {
@@ -21,6 +29,7 @@ const updateCompanyProfile = async (data) => {
 const companyService = {
   register,
   getCompanyByUserId,
+  getCompanyByCompanyId,
   getAllCompanies,
   updateCompanyProfile,
 };

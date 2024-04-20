@@ -11,4 +11,8 @@ public class CompanyReview : BaseAuditableEntity
     public Guid JobSeekerId { get; set; }
 
     public string? JobSeekerLookupName { get; set; }
+
+    public string? Review {  get; set; }
+
+    public int? Rating { get; set; }
 }

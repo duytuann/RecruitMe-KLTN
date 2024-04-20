@@ -5,7 +5,6 @@ const routes = [
   {
     path: "/job/:id",
     name: "jobs",
-    exact: true,
     element: Job,
   },
 ];
