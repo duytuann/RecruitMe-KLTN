@@ -8,7 +8,7 @@ const CompanyCard = ({data}) => {
     <div
       className="flex flex-col items-center bg-white shadow-lg rounded-lg p-6"
       onClick={() => {
-        navigate(`/companies`);
+        navigate(`/companies/1`);
       }}
     >
       <div className="mb-4">

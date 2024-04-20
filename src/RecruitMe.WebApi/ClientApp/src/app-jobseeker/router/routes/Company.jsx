@@ -8,13 +8,11 @@ const routes = [
   {
     path: "/companies",
     name: "companies",
-    exact: true,
     element: Company,
   },
   {
     path: "/companies/:id",
-    name: "companies",
-    exact: true,
+    name: "companiesDetail",
     element: CompanyDetail,
   },
 ];

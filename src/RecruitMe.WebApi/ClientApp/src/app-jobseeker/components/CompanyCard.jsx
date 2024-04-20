@@ -4,7 +4,7 @@ const CompanyCard = ({cmp}) => {
   return (
     <div className="w-full h-16 flex gap-4 items-center justify-between bg-white shadow-md rounded">
       <div className="w-3/4 md:w-2/4 flex gap-4 items-center">
-        <Link to={`/companies-profile/${cmp?._id}`}>
+        <Link to={`/companies/0f8fad5b-d9cb-469f-a165-70867728950e`}>
           <img
             src={cmp?.profileUrl}
             alt={cmp?.name}
@@ -13,7 +13,7 @@ const CompanyCard = ({cmp}) => {
         </Link>
         <div className="h-full flex flex-col">
           <Link
-            to={`/companies-profile/${cmp?._id}`}
+            to={`/companies/0f8fad5b-d9cb-469f-a165-70867728950e`}
             className="text-base md:text-lg font-semibold text-gray-600 truncate"
           >
             {cmp?.name}

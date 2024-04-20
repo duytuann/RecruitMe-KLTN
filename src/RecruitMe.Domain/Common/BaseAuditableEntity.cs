@@ -8,13 +8,13 @@ public abstract class BaseAuditableEntity : BaseEntity
 
     public bool? IsDelete { get; set; }
 
-    public int StateCode { get; set; }
+    public int? StateCode { get; set; }
 
-    public DateTimeOffset Created { get; set; }
+    public DateTimeOffset? Created { get; set; }
 
     public Guid? CreatedBy { get; set; }
 
-    public DateTimeOffset LastModified { get; set; }
+    public DateTimeOffset? LastModified { get; set; }
 
     public Guid? LastModifiedBy { get; set; }
 }

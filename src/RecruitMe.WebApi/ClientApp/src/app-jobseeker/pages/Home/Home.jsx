@@ -1,4 +1,3 @@
-import {useState} from "react";
 import CompanyCard from "./components/CompanyCard";
 import Header from "../../components/Header";
 import JobCard from "./components/JobCard";
@@ -117,22 +116,9 @@ const jobsData = [
 ];
 
 const Home = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [jobLocation, setJobLocation] = useState("");
-
   return (
     <>
-      <div className="mx-16">
-        <Header
-          title="Find Your Dream Job with Ease"
-          type="home"
-          handleClick={() => {}}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          location={jobLocation}
-          setLocation={setJobLocation}
-        />
-      </div>
+      <Header />
       <div className="p-16">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <h2 className="text-center text-3xl font-bold mb-10">Employers</h2>
@@ -153,7 +139,7 @@ const Home = () => {
             ))}
           </div>
           <button className="text-red-500 flex m-auto hover:text-red-700 font-semibold py-2 px-4 border border-red-500 hover:border-red-700 rounded mt-4">
-            View more 79 jobs
+            View all jobs
           </button>
         </div>
       </div>

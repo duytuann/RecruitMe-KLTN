@@ -19,7 +19,7 @@ const routes = [
     element: CreateJob,
   },
   {
-    path: "jobs/edit-job/:id",
+    path: "/jobs/edit-job/:id",
     name: "editjob",
     element: EditJob,
   },
