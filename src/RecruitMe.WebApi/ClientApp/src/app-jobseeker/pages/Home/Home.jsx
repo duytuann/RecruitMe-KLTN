@@ -1,6 +1,7 @@
 import CompanyCard from "./components/CompanyCard";
 import Header from "../../components/Header";
 import JobCard from "./components/JobCard";
+import {Button} from "antd";
 
 const topEmployersData = [
   {
@@ -138,9 +139,9 @@ const Home = () => {
               <JobCard key={job.id} job={job} />
             ))}
           </div>
-          <button className="text-red-500 flex m-auto hover:text-red-700 font-semibold py-2 px-4 border border-red-500 hover:border-red-700 rounded mt-4">
+          <Button className="flex h-10 m-auto  font-semibold py-2 px-4 border border-red-500 hover:border-red-700 rounded mt-4">
             View all jobs
-          </button>
+          </Button>
         </div>
       </div>
     </>
