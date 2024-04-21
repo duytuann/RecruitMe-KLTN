@@ -12,14 +12,14 @@ public class CompanyReviews : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup("/api/companyreviews")
-            .MapPost("/", CreateReview)
+            .MapPost("/createcompanyreview", CreateReview)
             .Produces<CompanyReview>(StatusCodes.Status201Created)
             .WithTags("CompanyReviews");
 
         app.MapGroup("/api/companyreviews")
-                .MapGet("/{companyId:guid}", GetReviewsByCompanyId)
+                .MapGet("/getreviewsbycompanyid/{companyId:guid}", GetReviewsByCompanyId)
                 .Produces<List<CompanyReview>>(StatusCodes.Status200OK)
-                .WithTags("Reviews");
+                .WithTags("CompanyReviews");
     }
 
     

@@ -6,75 +6,6 @@ import {useEffect, useState} from "react";
 import {useLoading} from "../../../common/context/useLoading";
 import service from "../../../common/service";
 
-const jobsData = [
-  {
-    id: 1,
-    title: "5 Mid - Senior Java Developers (SQL, Spring)",
-    company: "Goline Corporation",
-    isNew: true,
-    isHot: false,
-    isSuperHot: false,
-    salary: "Up to $2600",
-    features: ["You'll love it", "At office"],
-    tags: ["Java", "SQL", "Spring"],
-    location: "Ha Noi",
-    postedDate: "Posted 1 hour ago",
-  },
-  {
-    id: 2,
-    title: "20 Fullstack Dev (Java, Spring, Angular)",
-    company: "LEAP",
-    isNew: true,
-    isHot: false,
-    isSuperHot: false,
-    salary: "Up to $3000",
-    features: ["Fresher Accepted", "At office"],
-    tags: ["Java", "Spring", "Angular"],
-    location: "Ho Chi Minh",
-    postedDate: "Posted 6 hours ago",
-  },
-  {
-    id: 3,
-    title: "Backend Developer (Java/Spring/MySQL) - All Levels",
-    company: "MB Bank",
-    isNew: false,
-    isHot: false,
-    isSuperHot: true,
-    salary: "Negotiable",
-    features: ["You'll love it", "Fresher Accepted", "At office"],
-    tags: ["Java", "MySQL", "Spring"],
-    location: "Ha Noi",
-    postedDate: "Posted 1 day ago",
-  },
-  {
-    id: 4,
-    title: "Senior/Lead Java Developer (Spring, PostgreSQL)",
-    company: "Rakus Vietnam Company",
-    isNew: false,
-    isHot: true,
-    isSuperHot: false,
-    salary: "1,300 - 2,200 USD",
-    features: ["At office"],
-    tags: ["Java", "PostgreSQL", "Spring"],
-    location: "Ho Chi Minh",
-    postedDate: "Posted 1 day ago",
-  },
-  {
-    id: 5,
-    title: "Java Fullstack Developer (Spring) Up to $2600",
-    company: "Integro Technologies",
-    isNew: false,
-    isHot: false,
-    isSuperHot: true,
-    salary: "Up to $2600",
-    features: ["At office"],
-    tags: ["Java", "JavaScript", "Spring"],
-    location: "Ha Noi",
-    postedDate: "Posted 5 days ago",
-  },
-  // Add more job objects as needed
-];
-
 const Home = () => {
   const {showLoading, closeLoading} = useLoading();
 
@@ -86,8 +17,10 @@ const Home = () => {
       showLoading();
 
       const employers = await service.company.getAllCompanies();
-      console.log(employers);
       setEmployers(employers);
+
+      const jobs = await service.job.getAllJob();
+      setJobs(jobs);
 
       closeLoading();
     } catch {
@@ -117,10 +50,10 @@ const Home = () => {
 
         <div className="mt-14">
           <h2 className="text-center text-3xl font-bold mb-10">
-            189 IT Jobs for you
+            IT Jobs for you
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {jobsData.map((job) => (
+            {jobs?.map((job) => (
               <JobCard key={job.id} job={job} />
             ))}
           </div>

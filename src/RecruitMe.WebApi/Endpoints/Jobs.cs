@@ -43,6 +43,11 @@ public class Jobs : EndpointGroupBase
             .WithTags("Jobs");
 
         app.MapGroup("/api/jobs")
+            .MapGet("/getalljob", GetAllJob)
+            .Produces<Job>(StatusCodes.Status200OK)
+            .WithTags("Jobs");
+
+        app.MapGroup("/api/jobs")
             .MapPost("/updatejob", UpdateJob)
             .Produces<Job>(StatusCodes.Status200OK)
             .WithTags("Jobs");
@@ -56,6 +61,13 @@ public class Jobs : EndpointGroupBase
     public async Task<IResult> GetDetailJobById([FromRoute] Guid jobId, ISender sender)
     {
         var query = new GetJobDetailQuery() { JobId = jobId };
+        var jobs = await sender.Send(query);
+        return Results.Ok(jobs);
+    }
+
+    public async Task<IResult> GetAllJob(ISender sender)
+    {
+        var query = new GetAllJobQuery();
         var jobs = await sender.Send(query);
         return Results.Ok(jobs);
     }

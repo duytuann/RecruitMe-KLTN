@@ -18,6 +18,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Skill> Skills { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<UserSkill> UserSkills { get; set; }
+    public DbSet<JobApplicant> JobApplicants { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

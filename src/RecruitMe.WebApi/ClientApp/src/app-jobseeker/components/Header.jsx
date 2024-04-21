@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <div className="bg-custom-gradient">
       <div
-        className={`container mx-auto px-5 h-[500px] flex items-center relative`}
+        className={`container mx-auto px-5 h-[350px] flex items-center relative`}
       >
         <div className="w-1/2 z-10 pl-20">
           <div className="mb-8">

@@ -9,17 +9,18 @@ import service from "../../../common/service";
 import RichText from "../../../common/components/rich-text-editor/RichTextEditor";
 import moment from "moment";
 
-const CompanyDetail = () => {
+const JobDetail = () => {
   const navigate = useNavigate();
   const richTextRef = useRef(null);
   const {id} = useParams();
   const {showLoading, closeLoading} = useLoading();
   const [companyDetail, setCompanyDetail] = useState();
+  const [jobDetail, setJobDetail] = useState();
 
-  const getCompanyDetail = async () => {
+  const getCompanyDetail = async (companyId) => {
     try {
       showLoading();
-      const result = await service.company.getCompanyByCompanyId(id);
+      const result = await service.company.getCompanyByCompanyId(companyId);
       setCompanyDetail(result);
       closeLoading();
     } catch (error) {
@@ -30,12 +31,27 @@ const CompanyDetail = () => {
     }
   };
 
+  const getJobDetail = async () => {
+    try {
+      showLoading();
+      const result = await service.job.getdetailjob(id);
+      setJobDetail(result);
+      await getCompanyDetail(result?.companyId);
+      closeLoading();
+    } catch (error) {
+      console.log(error);
+      closeLoading();
+    } finally {
+      closeLoading();
+    }
+  };
+
   useEffect(() => {
-    getCompanyDetail();
+    getJobDetail();
   }, [id]);
 
   useEffect(() => {
-    richTextRef?.current?.setValue(companyDetail?.about?.toString() ?? "");
+    richTextRef?.current?.setValue(jobDetail?.description?.toString() ?? "");
   }, [companyDetail]);
 
   const temp = ["Java", "SQL", "Spring"];
@@ -48,22 +64,23 @@ const CompanyDetail = () => {
     setIsModalVisible(true);
   };
 
-  const createReview = async () => {
+  const applicantJob = async () => {
     try {
       const values = form.getFieldsValue();
       showLoading();
       console.log(values);
-      await service.review.createcompanyreview({
-        review: values.review,
-        rating: values.rating,
-        companyId: id,
+      await service.applicant.createjobapplicant({
+        jobId: id,
         jobSeekerId: JSON.parse(localStorage.getItem("auth"))?.id,
+        coverLetter: values.coverLetter,
+        cvLink: null,
+        name: values.name,
+        email: values.email,
       });
       message.success("Review created successfully!");
       form.resetFields();
       setIsModalVisible(false);
       closeLoading();
-      getCompanyDetail();
     } catch (error) {
       message.error("Failed to create review.");
       closeLoading();
@@ -72,7 +89,7 @@ const CompanyDetail = () => {
 
   const handleOk = () => {
     form.validateFields().then(() => {
-      createReview();
+      applicantJob();
     });
   };
 
@@ -96,10 +113,11 @@ const CompanyDetail = () => {
                   className="h-12 w-12 rounded-full"
                 />
                 <div>
-                  <h1 className="text-2xl font-bold">{companyDetail?.title}</h1>
+                  <h1 className="text-2xl font-bold">{jobDetail?.title}</h1>
                   <p className="text-gray-500">{companyDetail?.address}</p>
                 </div>
               </div>
+
               <div className="flex space-x-2">
                 {/* <Button className="bg-blue-600 h-[40px] text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300">
                   Follow us
@@ -108,12 +126,15 @@ const CompanyDetail = () => {
                   onClick={showModal}
                   className="border h-[40px] border-gray-300 text-gray-700 px-4 py-2 rounded hover:border-gray-400 transition duration-300"
                 >
-                  Write a review
+                  Apply Now
                 </Button>
               </div>
             </div>
 
             {/* About Company Section */}
+            <div className="text-green-600 font-bold text-[20px]">
+              Salary: {jobDetail?.minSalary} - {jobDetail?.maxSalary}
+            </div>
             <div>
               <h2 className="text-xl font-bold">About Company</h2>
               <div className="my-4">
@@ -171,7 +192,7 @@ const CompanyDetail = () => {
                 </div>
               </div>
             ))}
-            <div className="font-bold text-[22px]">
+            {/* <div className="font-bold text-[22px]">
               {companyDetail?.companyReviews?.length} employee reviews
             </div>
             {companyDetail?.companyReviews?.map((comment, index) => (
@@ -198,15 +219,11 @@ const CompanyDetail = () => {
                   </p>
                 </div>
               </div>
-            ))}
+            ))} */}
           </div>
-          <div className="min-w-[400px] rounded-lg ">
+          <div className="min-w-[400px] rounded-lg">
             <div className="p-6 bg-[#F5F5F5] rounded-lg shadow space-y-4">
-              <h2 className="text-2xl font-bold">Information</h2>
-              <div>
-                <h3 className="text-gray-700">Name:</h3>
-                <p className="text-gray-600">{companyDetail?.title}</p>
-              </div>
+              <h2 className="text-2xl font-bold">Company Information</h2>
               <div>
                 <h3 className="text-gray-700">Website:</h3>
                 <p className="text-gray-600">{companyDetail?.website}</p>
@@ -242,31 +259,44 @@ const CompanyDetail = () => {
         </div>
       )}
       <Modal
-        title="Write Review"
+        maskClosable={false}
+        title="Apply for Job"
         open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
-        maskClosable={false}
       >
         <Form form={form} layout="vertical">
           <Form.Item
-            name="rating"
-            label="Rating"
-            rules={[{required: true, message: "Please rate"}]}
+            name="name"
+            label="Full Name"
+            rules={[{required: true, message: "Please input your full name!"}]}
           >
-            <Rate />
+            <Input />
           </Form.Item>
           <Form.Item
-            name="review"
-            label="Review"
-            rules={[{required: true, message: "Please enter your review"}]}
+            name="email"
+            label="Email Address"
+            rules={[
+              {required: true, message: "Please input your email address!"},
+            ]}
           >
+            <Input type="email" />
+          </Form.Item>
+          <Form.Item name="coverLetter" label="Cover Letter">
             <Input.TextArea style={{height: 150}} />
           </Form.Item>
+          <Form.Item
+            name="resume"
+            label="Attach Resume"
+            // Here you might use an upload component or similar
+          >
+            <Input type="file" />
+          </Form.Item>
+          {/* Add any other form fields required for the application here */}
         </Form>
       </Modal>
     </div>
   );
 };
 
-export default CompanyDetail;
+export default JobDetail;

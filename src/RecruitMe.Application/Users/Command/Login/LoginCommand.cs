@@ -10,6 +10,8 @@ public class LoginResult
     public string AccessToken { get; set; }
     public Guid UserId { get; set; }
     public string Title { get; set; }
+
+    public Guid? Id { get; set; }
 }
 
 public record LoginCommand : IRequest<LoginResult>
@@ -53,11 +55,22 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResult>
 
         string token = _jwtProvider.Generate(user);
 
+        var id = new Guid();
+        if ((int)user.UserType == 1)
+        {
+            id = _context.Companies.Where(item => item.UserId == user.Id).Select(item => item.Id).FirstOrDefault();
+        }
+        if ((int)user.UserType == 2)
+        {
+            id = _context.JobSeekers.Where(item => item.UserId == user.Id).Select(item => item.Id).FirstOrDefault();
+        }
+
         return new LoginResult()
         {
             AccessToken = token,
             UserId = user.Id,
-            Title = user.Title
+            Title = user.Title,
+            Id = id
         };
     }
 }

@@ -21,12 +21,17 @@ const autoInactiveExpriedJob = async (data) => {
   return (await axiosInstance.post("/jobs/autoinactiveexpriedjob", data)).data;
 };
 
+const getAllJob = async () => {
+  return (await axiosInstance.get(`/jobs/getalljob`)).data;
+};
+
 const jobService = {
   create,
   getlistjob,
   getdetailjob,
   updateJob,
   autoInactiveExpriedJob,
+  getAllJob,
 };
 
 export default jobService;

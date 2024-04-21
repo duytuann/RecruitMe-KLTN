@@ -47,9 +47,17 @@ public class GetDetailCompanyByCompanyIdHandler : IRequestHandler<GetDetailCompa
             })
             .FirstOrDefaultAsync();
 
+        // open jobs
         var openJobs = await _context.Jobs.Where(item => item.CompanyId == request.CompanyId && item.EndDate >= DateTimeOffset.Now).ToListAsync();
 
         result.OpenJobs = openJobs;
+
+        // reviews
+        var reviews = await _context.CompanyReviews
+            .Where(item => item.CompanyId == request.CompanyId)
+            .ToListAsync();
+
+        result.CompanyReviews = reviews;
 
         return result;
     }

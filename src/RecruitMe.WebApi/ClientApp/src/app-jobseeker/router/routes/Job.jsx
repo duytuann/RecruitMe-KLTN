@@ -1,11 +1,13 @@
 import {lazy} from "react";
-const Job = lazy(() => import("app-jobseeker/pages/Job/Job"));
+const JobDetail = lazy(() =>
+  import("@/app-jobseeker/pages/JobDetail/JobDetail")
+);
 
 const routes = [
   {
     path: "/job/:id",
     name: "jobs",
-    element: Job,
+    element: JobDetail,
   },
 ];
 

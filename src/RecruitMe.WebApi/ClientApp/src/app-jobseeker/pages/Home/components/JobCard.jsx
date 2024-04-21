@@ -1,16 +1,9 @@
+import {useNavigate} from "react-router";
+
 const JobCard = ({job}) => {
-  const {
-    title,
-    company,
-    isNew,
-    isHot,
-    isSuperHot,
-    salary,
-    features,
-    tags,
-    location,
-    postedDate,
-  } = job;
+  const navigate = useNavigate();
+
+  const {isNew, isHot, location} = job;
 
   const badgeClass = {
     new: "bg-blue-100 text-blue-800",
@@ -18,17 +11,27 @@ const JobCard = ({job}) => {
     superHot: "bg-red-600 text-white",
   };
 
+  const features = ["You'll love it", "Fresher Accepted", "At office"];
+  const tags = ["Java", "Spring", "Angular"];
+
   return (
     <div className="bg-white p-4 shadow rounded-lg mb-6">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold">{title}</h3>
-        {isNew && (
+        <h3
+          onClick={() => {
+            navigate(`/job/${job.id}`);
+          }}
+          className="text-lg font-semibold"
+        >
+          {job?.title}
+        </h3>
+        {/* {isNew && (
           <span
             className={`text-xs font-bold px-2 py-1 rounded ${badgeClass.new}`}
           >
             NEW FOR YOU
           </span>
-        )}
+        )} */}
         {isHot && !isNew && (
           <span
             className={`text-xs font-bold px-2 py-1 rounded ${badgeClass.hot}`}
@@ -36,23 +39,27 @@ const JobCard = ({job}) => {
             HOT
           </span>
         )}
-        {isSuperHot && (
+        {/* {isSuperHot && (
           <span
             className={`text-xs font-bold px-2 py-1 rounded ${badgeClass.superHot}`}
           >
             SUPER HOT
           </span>
-        )}
+        )} */}
       </div>
       <div className="mb-4">
-        <span className="text-sm font-medium">{company}</span>
+        <span className="text-sm font-medium">
+          {job?.company ?? "NAB Innovation Centre Vietnam"}
+        </span>
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-green-600 font-bold">{salary}</span>
-        <span className="text-xs text-gray-500">{postedDate}</span>
+        <span className="text-green-600 font-bold">
+          {job?.minSalary} - {job?.maxSalary}
+        </span>
+        <span className="text-xs text-gray-500">Posted 2 days ago</span>
       </div>
       <div className="flex flex-wrap mt-4 mb-2">
-        {features.map((feature, index) => (
+        {features?.map((feature, index) => (
           <span key={index} className="text-xs text-gray-600 mr-2 mb-2">
             {feature}
           </span>

@@ -28,6 +28,7 @@ const Login = () => {
             userType: EUserType.Employer,
             userId: result.userId,
             userName: result.title,
+            id: result.id,
           })
         );
 
