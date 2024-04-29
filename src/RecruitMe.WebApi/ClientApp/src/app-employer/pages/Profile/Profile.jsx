@@ -1,4 +1,14 @@
-import {Form, Input, Button, Row, Col, Select, notification} from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Row,
+  Col,
+  Select,
+  notification,
+  Upload,
+  message,
+} from "antd";
 import FoldCard from "@/common/components/fold-card/FoldCard";
 import {EditOutlined} from "@ant-design/icons";
 import TextItem from "@/common/components/text-item/TextItem";
@@ -8,11 +18,15 @@ import {useLoading} from "../../../common/context/useLoading";
 import styles from "./Profile.module.scss";
 import service from "../../../common/service";
 import RichText from "@/common/components/rich-text-editor/RichTextEditor";
-import ImageUploadDragger from "../../../common/components/upload-image/ImageUploadDragger";
+import {LoadingOutlined, PlusOutlined} from "@ant-design/icons";
 
 const {Option} = Select;
 
 const Profile = () => {
+  const cloudinaryUploadUrl = `https://api.cloudinary.com/v1_1/djvx1q679/upload`;
+
+  const [loading, setLoading] = useState(false);
+
   const userId = JSON.parse(localStorage.getItem("auth"))?.userId;
   const {showLoading, closeLoading} = useLoading();
   const {openConfirm} = useModal();
@@ -123,10 +137,73 @@ const Profile = () => {
     }
   }, [profile, isEditMode]);
 
+  const uploadButton = (
+    <button
+      style={{
+        border: 0,
+        background: "none",
+      }}
+      type="button"
+    >
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </button>
+  );
+
+  const handleUploadChange = async (info) => {
+    if (info.file.status === "uploading") {
+      showLoading();
+      return;
+    }
+
+    if (info.file.status === "done") {
+      message.success(`${info.file.name} file uploaded successfully`);
+
+      console.log(info.file.response);
+      await service.company.updateCompanyProfile({
+        Id: profile.id,
+        logoImage: info.file.response.secure_url,
+      });
+      closeLoading();
+      getCompanyProfile();
+    } else if (info.file.status === "error") {
+      message.error(`${info.file.name} file upload failed.`);
+      closeLoading();
+    }
+  };
+
   return (
     <>
       <FoldCard title="Logo Image">
-        <ImageUploadDragger />
+        <Upload
+          name="file"
+          listType="picture-card"
+          className="avatar-uploader"
+          showUploadList={false}
+          action={cloudinaryUploadUrl}
+          data={{
+            upload_preset: "utgu2xgj", // Preset bạn đã tạo ở Cloudinary
+          }}
+          onChange={handleUploadChange}
+        >
+          {profile?.logoImage ? (
+            <img
+              src={profile?.logoImage}
+              alt="avatar"
+              style={{
+                width: "100%",
+              }}
+            />
+          ) : (
+            uploadButton
+          )}
+        </Upload>
       </FoldCard>
 
       <FoldCard title="Profile" operate={isEditMode ? "" : editProfile()}>
