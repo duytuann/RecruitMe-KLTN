@@ -26,12 +26,17 @@ const updateCompanyProfile = async (data) => {
     .data;
 };
 
+const updateCompanyLogo = async (data) => {
+  return (await axiosInstance.post("/companies/updatecompanylogo", data)).data;
+};
+
 const companyService = {
   register,
   getCompanyByUserId,
   getCompanyByCompanyId,
   getAllCompanies,
   updateCompanyProfile,
+  updateCompanyLogo,
 };
 
 export default companyService;

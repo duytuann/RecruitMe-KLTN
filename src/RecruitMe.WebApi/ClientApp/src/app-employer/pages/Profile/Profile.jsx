@@ -18,19 +18,18 @@ import {useLoading} from "../../../common/context/useLoading";
 import styles from "./Profile.module.scss";
 import service from "../../../common/service";
 import RichText from "@/common/components/rich-text-editor/RichTextEditor";
-import {LoadingOutlined, PlusOutlined} from "@ant-design/icons";
+import {PlusOutlined} from "@ant-design/icons";
 
 const {Option} = Select;
 
 const Profile = () => {
   const cloudinaryUploadUrl = `https://api.cloudinary.com/v1_1/djvx1q679/upload`;
 
-  const [loading, setLoading] = useState(false);
-
   const userId = JSON.parse(localStorage.getItem("auth"))?.userId;
   const {showLoading, closeLoading} = useLoading();
   const {openConfirm} = useModal();
 
+  const [skills, setSkills] = useState([]);
   const [profile, setProfile] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -113,7 +112,25 @@ const Profile = () => {
 
   // upload image ...
 
+  const getAllSkill = async () => {
+    try {
+      showLoading();
+      const result = await service.skill.getAllSkills();
+
+      if (result) {
+        setSkills(result);
+      }
+
+      closeLoading();
+    } catch (error) {
+      closeLoading();
+    } finally {
+      closeLoading();
+    }
+  };
+
   useEffect(() => {
+    getAllSkill();
     getCompanyProfile();
     richTextRef?.current?.setValue(profile?.about);
   }, []);
@@ -124,7 +141,6 @@ const Profile = () => {
       address: profile?.address,
       phoneNumber: profile?.phoneNumber,
       website: profile?.website,
-      categories: profile?.categories,
       foundedDate: profile?.foundedDate,
       companySize: profile?.companySize,
       title: profile?.title,
@@ -145,7 +161,7 @@ const Profile = () => {
       }}
       type="button"
     >
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <PlusOutlined />
       <div
         style={{
           marginTop: 8,
@@ -166,7 +182,7 @@ const Profile = () => {
       message.success(`${info.file.name} file uploaded successfully`);
 
       console.log(info.file.response);
-      await service.company.updateCompanyProfile({
+      await service.company.updateCompanyLogo({
         Id: profile.id,
         logoImage: info.file.response.secure_url,
       });
@@ -213,7 +229,6 @@ const Profile = () => {
               employerName: profile?.title,
               phoneNumber: profile?.phoneNumber,
               website: profile?.website,
-              categories: profile?.categories,
               foundedDate: profile?.foundedDate,
               companySize: profile?.companySize,
               about: profile?.about,
@@ -255,16 +270,18 @@ const Profile = () => {
             </Row>
             <Row gutter={16}>
               <Col span={12}>
-                <Form.Item label="Categories" name="Categories">
+                <Form.Item label="Skills" name="skills">
                   <Select
-                    mode="tags"
+                    mode="multiple"
                     style={{width: "100%"}}
-                    placeholder="Tags"
-                  >
-                    <Option key="1">1</Option>
-                    <Option key="2">2</Option>
-                    <Option key="3">3</Option>
-                  </Select>
+                    placeholder="Select skills"
+                    showSearch
+                    optionFilterProp="children"
+                    options={skills.map((skill) => ({
+                      label: skill?.title,
+                      value: skill?.id,
+                    }))}
+                  />
                 </Form.Item>
               </Col>
               <Col span={12}>
@@ -311,7 +328,7 @@ const Profile = () => {
               </Col>
 
               <Col md={12} sm={24} xs={24}>
-                <TextItem label="Categories">{"pending..."}</TextItem>
+                <TextItem label="Skills">SQL, C++</TextItem>
               </Col>
               <Col md={12} sm={24} xs={24}>
                 <TextItem label="Company Size">

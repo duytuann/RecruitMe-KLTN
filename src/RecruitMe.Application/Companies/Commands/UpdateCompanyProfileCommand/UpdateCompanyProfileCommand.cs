@@ -15,8 +15,6 @@ public record UpdateCompanyProfileCommand : IRequest<Company>
     public string? Address { get; init; }
     public string? CompanySize { get; init; }
     public string? About { get; init; }
-
-    public string? LogoImage { get; init; }
 }
 
 public class UpdateCompanyProfileCommandHandler : IRequestHandler<UpdateCompanyProfileCommand, Company>
@@ -44,7 +42,6 @@ public class UpdateCompanyProfileCommandHandler : IRequestHandler<UpdateCompanyP
         company.Address = request.Address;
         company.CompanySize = request.CompanySize;
         company.About = request.About;
-        company.LogoImage = request.LogoImage;
 
         await _context.SaveChangesAsync(cancellationToken);
 

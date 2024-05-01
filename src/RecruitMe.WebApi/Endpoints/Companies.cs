@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using RecruitMe.Application.Companies.Commands.RegisterCompany;
+using RecruitMe.Application.Companies.Commands.UpdateCompanyLogoCommand;
 using RecruitMe.Application.Companies.Commands.UpdateCompanyProfileCommand;
 using RecruitMe.Application.Companies.Queries.GetDetailCompanyByCompanyId;
 using RecruitMe.Application.Companies.Queries.GetDetailCompanyById;
@@ -26,6 +27,11 @@ public class Companies : EndpointGroupBase
 
         app.MapGroup("/api/companies")
             .MapPost("/updatecompanyprofile", UpdateCompanyProfile)
+            .Produces<bool>(StatusCodes.Status200OK)
+            .WithTags("Companies");
+
+        app.MapGroup("/api/companies")
+            .MapPost("/updatecompanylogo", UpdateCompanyLogo)
             .Produces<bool>(StatusCodes.Status200OK)
             .WithTags("Companies");
 
@@ -62,6 +68,12 @@ public class Companies : EndpointGroupBase
     }
 
     public async Task<IResult> UpdateCompanyProfile([FromServices] ISender sender, UpdateCompanyProfileCommand command)
+    {
+        Company entityResult = await sender.Send(command);
+        return Results.Ok(entityResult);
+    }
+
+    public async Task<IResult> UpdateCompanyLogo([FromServices] ISender sender, UpdateCompanyLogoCommand command)
     {
         Company entityResult = await sender.Send(command);
         return Results.Ok(entityResult);

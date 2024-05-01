@@ -4,6 +4,7 @@ import jobService from "./apis/Job";
 import jobSeekerService from "./apis/JobSeeker";
 import companyReviewService from "./apis/CompanyReview";
 import jobApplicantService from "./apis/JobApplicant";
+import skillService from "./apis/Skill";
 
 const service = {
   user: userService,
@@ -12,6 +13,7 @@ const service = {
   jobseeker: jobSeekerService,
   review: companyReviewService,
   applicant: jobApplicantService,
+  skill: skillService,
 };
 
 export default service;
