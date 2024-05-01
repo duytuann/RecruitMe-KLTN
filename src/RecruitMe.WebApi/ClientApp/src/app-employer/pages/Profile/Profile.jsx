@@ -41,11 +41,17 @@ const Profile = () => {
 
   const onFinish = async (values) => {
     try {
+      console.log(values);
       showLoading();
       const result = await service.company.updateCompanyProfile({
         Id: profile.id,
         ...values,
         about: richTextRef.current?.getValue(),
+      });
+
+      await service.skill.updateCompanySkills({
+        Id: profile.id,
+        skills: values.skills.map((skill) => ({id: skill})),
       });
 
       if (result) {
@@ -56,6 +62,7 @@ const Profile = () => {
       });
       setIsEditMode(false);
       getCompanyProfile();
+      form.resetFields();
       closeLoading();
     } catch (error) {
       closeLoading();
@@ -144,6 +151,7 @@ const Profile = () => {
       foundedDate: profile?.foundedDate,
       companySize: profile?.companySize,
       title: profile?.title,
+      skills: profile?.skills?.map((skill) => skill?.id),
     });
 
     if (profile?.about) {
@@ -194,6 +202,9 @@ const Profile = () => {
     }
   };
 
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
   return (
     <>
       <FoldCard title="Logo Image">
@@ -204,7 +215,7 @@ const Profile = () => {
           showUploadList={false}
           action={cloudinaryUploadUrl}
           data={{
-            upload_preset: "utgu2xgj", // Preset bạn đã tạo ở Cloudinary
+            upload_preset: "utgu2xgj",
           }}
           onChange={handleUploadChange}
         >
@@ -233,6 +244,7 @@ const Profile = () => {
               companySize: profile?.companySize,
               about: profile?.about,
               address: profile?.address,
+              skills: profile?.skills?.map((skill) => skill?.id),
             }}
             layout="vertical"
             form={form}
@@ -277,7 +289,8 @@ const Profile = () => {
                     placeholder="Select skills"
                     showSearch
                     optionFilterProp="children"
-                    options={skills.map((skill) => ({
+                    filterOption={filterOption}
+                    options={skills?.map((skill) => ({
                       label: skill?.title,
                       value: skill?.id,
                     }))}
@@ -328,7 +341,9 @@ const Profile = () => {
               </Col>
 
               <Col md={12} sm={24} xs={24}>
-                <TextItem label="Skills">SQL, C++</TextItem>
+                <TextItem label="Skills">
+                  {profile?.skills?.map((item) => item?.title).join("; ")}
+                </TextItem>
               </Col>
               <Col md={12} sm={24} xs={24}>
                 <TextItem label="Company Size">

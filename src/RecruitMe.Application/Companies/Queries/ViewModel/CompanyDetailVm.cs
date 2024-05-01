@@ -1,10 +1,5 @@
 ﻿using RecruitMe.Domain.Entities;
 using RecruitMe.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RecruitMe.Application.Companies.Queries.ViewModel
 {
@@ -45,5 +40,7 @@ namespace RecruitMe.Application.Companies.Queries.ViewModel
         public List<Job>? OpenJobs { get; set; }
 
         public List<CompanyReview>? CompanyReviews { get; set; }
+
+        public List<Skill>? Skills {  get; set; }
     }
 }
