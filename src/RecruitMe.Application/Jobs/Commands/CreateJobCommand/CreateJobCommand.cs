@@ -33,6 +33,8 @@ public record CreateJobCommand : IRequest<Guid>
     public string? MaxSalary { get; init; }
 
     public string? Tag { get; init; }
+
+    public List<Skill> skills { get; init; }
 }
 
 public class CreateJobCommandHandler : IRequestHandler<CreateJobCommand, Guid>
@@ -71,6 +73,18 @@ public class CreateJobCommandHandler : IRequestHandler<CreateJobCommand, Guid>
         };
 
         _context.Jobs.Add(job);
+
+        foreach (var skill in request.skills)
+        {
+            var jobSkill = new JobSkill()
+            {
+                Id = new Guid(),
+                JobId = job.Id,
+                SkillId = skill.Id,
+            };
+
+            _context.JobSkills.Add(jobSkill);
+        }
 
         await _context.SaveChangesAsync(cancellationToken);
 

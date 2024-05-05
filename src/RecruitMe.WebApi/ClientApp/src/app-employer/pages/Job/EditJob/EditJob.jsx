@@ -21,6 +21,7 @@ import {useParams} from "react-router";
 const {Option} = Select;
 
 const EditJob = () => {
+  const [skills, setSkills] = useState([]);
   const {id} = useParams();
   const navigate = useNavigate();
   const {showLoading, closeLoading} = useLoading();
@@ -38,6 +39,11 @@ const EditJob = () => {
         id: id,
         ...values,
         description: richTextRef.current?.getValue(),
+      });
+
+      await service.skill.updateJobSkills({
+        id: id,
+        skills: values.skills.map((skill) => ({id: skill})),
       });
 
       if (result) {
@@ -101,9 +107,34 @@ const EditJob = () => {
       experience: job?.experience,
       jobDescription: job?.description,
       salaryType: job?.salaryType,
+      skills: job?.skills?.map((skill) => skill?.id),
     });
     richTextRef.current?.setValue(job?.description?.toString() ?? "");
   }, [job, form]);
+
+  const getAllSkill = async () => {
+    try {
+      showLoading();
+      const result = await service.skill.getAllSkills();
+
+      if (result) {
+        setSkills(result);
+      }
+
+      closeLoading();
+    } catch (error) {
+      closeLoading();
+    } finally {
+      closeLoading();
+    }
+  };
+
+  useEffect(() => {
+    getAllSkill();
+  }, []);
+
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
   return (
     <>
@@ -207,8 +238,19 @@ const EditJob = () => {
             </Col>
 
             <Col span={12}>
-              <Form.Item name="tag" label="Tag">
-                <Input placeholder="Tag" />
+              <Form.Item label="Skills" name="skills">
+                <Select
+                  mode="multiple"
+                  style={{width: "100%"}}
+                  placeholder="Select skills"
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={filterOption}
+                  options={skills?.map((skill) => ({
+                    label: skill?.title,
+                    value: skill?.id,
+                  }))}
+                />
               </Form.Item>
             </Col>
             <Col span={12}>

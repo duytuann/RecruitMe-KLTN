@@ -45,6 +45,7 @@ public class CreateJobApplicantCommandHandler : IRequestHandler<CreateJobApplica
             CompanyId = companyId,
             Name = request.Name,
             Email = request.Email,
+            JobApplicantStatus = 1
         };
 
 

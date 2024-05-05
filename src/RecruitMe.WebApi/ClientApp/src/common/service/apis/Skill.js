@@ -8,9 +8,14 @@ const updateCompanySkills = async (data) => {
   return (await axiosInstance.post("/skills/updatecompanyskills", data)).data;
 };
 
+const updateJobSkills = async (data) => {
+  return (await axiosInstance.post("/skills/updatejobskills", data)).data;
+};
+
 const skillService = {
   getAllSkills,
   updateCompanySkills,
+  updateJobSkills,
 };
 
 export default skillService;

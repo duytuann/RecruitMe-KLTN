@@ -25,6 +25,11 @@ const getAllJob = async () => {
   return (await axiosInstance.get(`/jobs/getalljob`)).data;
 };
 
+const searchJob = async (searchTerm) => {
+  return (await axiosInstance.get(`/jobs/search?searchTerm=${searchTerm}`))
+    .data;
+};
+
 const jobService = {
   create,
   getlistjob,
@@ -32,6 +37,7 @@ const jobService = {
   updateJob,
   autoInactiveExpriedJob,
   getAllJob,
+  searchJob,
 };
 
 export default jobService;

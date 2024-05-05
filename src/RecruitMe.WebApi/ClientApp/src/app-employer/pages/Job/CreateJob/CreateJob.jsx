@@ -9,7 +9,7 @@ import {
   Row,
 } from "antd";
 import moment from "moment";
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 import {useModal} from "@/common/utils/modal/useModal";
 import RichText from "../../../../common/components/rich-text-editor/RichTextEditor";
 import {useLoading} from "../../../../common/context/useLoading";
@@ -19,6 +19,7 @@ import {useNavigate} from "react-router";
 const {Option} = Select;
 
 const CreateJob = () => {
+  const [skills, setSkills] = useState([]);
   const navigate = useNavigate();
   const userId = JSON.parse(localStorage.getItem("auth"))?.userId;
   const {showLoading, closeLoading} = useLoading();
@@ -29,11 +30,13 @@ const CreateJob = () => {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
+    console.log("values", values);
     try {
       showLoading();
       var result = await service.job.create({
         userId: userId,
         ...values,
+        skills: values.skills.map((skill) => ({id: skill})),
       });
 
       if (result) navigate("/jobs");
@@ -57,6 +60,31 @@ const CreateJob = () => {
       cancelText: "Discard",
     });
   };
+
+  const getAllSkill = async () => {
+    try {
+      showLoading();
+      const result = await service.skill.getAllSkills();
+
+      if (result) {
+        setSkills(result);
+      }
+
+      closeLoading();
+    } catch (error) {
+      closeLoading();
+    } finally {
+      closeLoading();
+    }
+  };
+
+  useEffect(() => {
+    getAllSkill();
+  }, []);
+
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
   return (
     <>
       <Breadcrumb>
@@ -158,8 +186,19 @@ const CreateJob = () => {
           </Col>
 
           <Col span={12}>
-            <Form.Item name="tag" label="Tag">
-              <Input placeholder="Tag" />
+            <Form.Item label="Skills" name="skills">
+              <Select
+                mode="multiple"
+                style={{width: "100%"}}
+                placeholder="Select skills"
+                showSearch
+                optionFilterProp="children"
+                filterOption={filterOption}
+                options={skills?.map((skill) => ({
+                  label: skill?.title,
+                  value: skill?.id,
+                }))}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>

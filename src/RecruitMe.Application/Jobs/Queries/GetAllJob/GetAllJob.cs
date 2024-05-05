@@ -27,6 +27,12 @@ public class GetAllJobQueryHandler : IRequestHandler<GetAllJobQuery, List<Job>>
             .Where(item => item.EndDate >= DateTimeOffset.Now)
             .ToListAsync(cancellationToken);
 
+        foreach (var job in result)
+        {
+            var skills = _context.JobSkills.Where(item => item.JobId == job.Id).ToListAsync(cancellationToken);
+            
+        }
+
         return result;
     }
 }

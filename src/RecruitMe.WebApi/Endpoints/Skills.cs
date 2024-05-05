@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using RecruitMe.Application.Companies.Commands.UpdateCompanyProfileCommand;
+using RecruitMe.Application.Companies.Commands.UpdateJobSkillsCommand;
 using RecruitMe.Application.Skills.Queries.GetAllSkills;
 using RecruitMe.Domain.Entities;
 using RecruitMe.WebApi.Infrastructure;
@@ -20,6 +21,11 @@ public class Skills : EndpointGroupBase
             .MapPost("/updatecompanyskills", UpdateCompanySkills)
             .Produces<List<Skill>>(StatusCodes.Status200OK)
             .WithTags("Skills");
+
+        app.MapGroup("/api/skills")
+            .MapPost("/updatejobskills", UpdateJobSkills)
+            .Produces<List<Skill>>(StatusCodes.Status200OK)
+            .WithTags("Skills");
     }
 
     public async Task<IResult> GetAllSkills([FromServices] ISender sender)
@@ -30,6 +36,12 @@ public class Skills : EndpointGroupBase
     }
 
     public async Task<IResult> UpdateCompanySkills([FromServices] ISender sender, UpdateCompanySkillsCommand command)
+    {
+        bool _ = await sender.Send(command);
+        return Results.Ok();
+    }
+
+    public async Task<IResult> UpdateJobSkills([FromServices] ISender sender, UpdateJobSkillsCommand command)
     {
         bool _ = await sender.Send(command);
         return Results.Ok();

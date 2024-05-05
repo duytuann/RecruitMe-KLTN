@@ -17,4 +17,6 @@ public class JobApplicant : BaseAuditableEntity
     public string? Email { get; set; }
 
     public string? Name { get; set; }
+
+    public int? JobApplicantStatus { get; set; } // 1: pending 2: approval 3: reject
 }

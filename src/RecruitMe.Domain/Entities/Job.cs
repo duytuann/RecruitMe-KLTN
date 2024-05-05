@@ -1,5 +1,6 @@
 ﻿using RecruitMe.Domain.Common;
 using RecruitMe.Domain.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecruitMe.Domain.Entities;
 
@@ -36,4 +37,7 @@ public class Job : BaseAuditableEntity
     // qualification
 
     public int? Experience { get; set; }
+
+    [NotMapped]
+    public List<Skill> Skills { get; set; }
 }

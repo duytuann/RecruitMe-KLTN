@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace RecruitMe.Application.Jobs.Queries.GetDetailJobById;
 
@@ -34,6 +35,19 @@ public class GetJobDetailQueryHandler : IRequestHandler<GetJobDetailQuery, Job>
         var result = await _context.Jobs
             .Where(item => item.Id == request.JobId)
             .FirstOrDefaultAsync();
+
+        var skills = await _context.JobSkills
+            .Join(_context.Skills, ck => ck.SkillId, s => s.Id, (ck, s) => new { ck, s })
+            .Where(item => item.ck.JobId == result.Id)
+            .Select(item => new Skill()
+            {
+                Title = item.s.Title,
+                Id = item.s.Id
+            })
+            .ToListAsync();
+
+        result.Skills = skills;
+
 
         return result;
     }

@@ -7,6 +7,7 @@ using RecruitMe.Application.Jobs.Commands.SubmitJobCommand;
 using RecruitMe.Application.Jobs.Commands.UpdateJobCommand;
 using RecruitMe.Application.Jobs.Queries.GetDetailJobById;
 using RecruitMe.Application.Jobs.Queries.GetListJobByUserId;
+using RecruitMe.Application.Jobs.Queries.SearchJobsAndCompaniesQuery;
 using RecruitMe.Domain.Entities;
 using RecruitMe.Domain.Enums;
 using RecruitMe.WebApi.Infrastructure;
@@ -56,6 +57,18 @@ public class Jobs : EndpointGroupBase
             .MapPost("/autoinactiveexpriedjob", AutoInactiveExpriedJob)
             .Produces<bool>(StatusCodes.Status200OK)
             .WithTags("Jobs");
+
+        app.MapGroup("/api/jobs")
+            .MapGet("/search/{searchTerm:string}", SearchJobsAndCompanies)
+            .Produces<List<SearchResultDto>>(StatusCodes.Status200OK)
+            .WithTags("Jobs");
+    }
+
+    private async Task<IResult> SearchJobsAndCompanies([FromQuery] string searchTerm, [FromServices] ISender sender)
+    {
+        var query = new SearchJobsAndCompaniesQuery { SearchTerm = searchTerm };
+        var result = await sender.Send(query);
+        return Results.Ok(result);
     }
 
     public async Task<IResult> GetDetailJobById([FromRoute] Guid jobId, ISender sender)

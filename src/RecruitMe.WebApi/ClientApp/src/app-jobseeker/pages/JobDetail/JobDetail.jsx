@@ -1,7 +1,7 @@
 import {useParams} from "react-router";
-import {FaUserCircle} from "react-icons/fa";
 import {useNavigate} from "react-router";
-import {Modal, Button, Form, Input, Rate, message} from "antd";
+import {Modal, Button, Form, Input, message, Upload} from "antd";
+import {UploadOutlined} from "@ant-design/icons";
 import Logo from "./logo.jpg";
 import {useEffect, useRef, useState} from "react";
 import {useLoading} from "../../../common/context/useLoading";
@@ -10,6 +10,9 @@ import RichText from "../../../common/components/rich-text-editor/RichTextEditor
 import moment from "moment";
 
 const JobDetail = () => {
+  const [cvUrl, setCvUrl] = useState("");
+  const cloudinaryUploadUrl = `https://api.cloudinary.com/v1_1/djvx1q679/upload`;
+
   const navigate = useNavigate();
   const richTextRef = useRef(null);
   const {id} = useParams();
@@ -73,9 +76,9 @@ const JobDetail = () => {
         jobId: id,
         jobSeekerId: JSON.parse(localStorage.getItem("auth"))?.id,
         coverLetter: values.coverLetter,
-        cvLink: null,
         name: values.name,
         email: values.email,
+        CVLink: cvUrl,
       });
       message.success("Review created successfully!");
       form.resetFields();
@@ -97,7 +100,21 @@ const JobDetail = () => {
     form.resetFields();
     setIsModalVisible(false);
   };
-  // End
+
+  const handleUploadChange = async (info) => {
+    if (info.file.status === "uploading") {
+      showLoading();
+      return;
+    }
+    if (info.file.status === "done") {
+      message.success(`${info.file.name} file uploaded successfully`);
+      console.log(info.file.response.secure_url);
+      setCvUrl(info.file.response.secure_url);
+      closeLoading();
+    } else if (info.file.status === "error") {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  };
 
   return (
     <div className="w-full flex justify-center">
@@ -245,15 +262,6 @@ const JobDetail = () => {
                 <h3 className="text-gray-700">Email:</h3>
                 <p className="text-gray-600">{companyDetail?.email}</p>
               </div>
-              {/* <div>
-                <h3 className="text-gray-700 mb-4">Socials:</h3>
-                <div className="flex space-x-4">
-                  <FaFacebook className="text-blue-600 text-xl" />
-                  <FaTwitter className="text-blue-400 text-xl" />
-                  <FaLinkedin className="text-blue-500 text-xl" />
-                  <FaInstagram className="text-pink-500 text-xl" />
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
@@ -285,14 +293,21 @@ const JobDetail = () => {
           <Form.Item name="coverLetter" label="Cover Letter">
             <Input.TextArea style={{height: 150}} />
           </Form.Item>
-          <Form.Item
-            name="resume"
-            label="Attach Resume"
-            // Here you might use an upload component or similar
+          <Upload
+            data={{
+              upload_preset: "utgu2xgj",
+            }}
+            name="file"
+            action={cloudinaryUploadUrl}
+            listType="text"
+            onChange={handleUploadChange}
+            accept=".pdf"
+            // showUploadList={false}
           >
-            <Input type="file" />
-          </Form.Item>
-          {/* Add any other form fields required for the application here */}
+            <Button className="mt-8" icon={<UploadOutlined />}>
+              Click to upload (PDF only)
+            </Button>
+          </Upload>
         </Form>
       </Modal>
     </div>

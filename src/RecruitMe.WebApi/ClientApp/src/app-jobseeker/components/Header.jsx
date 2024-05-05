@@ -1,8 +1,53 @@
-// import {popularSearch} from "../utils/data";
 import {FaSearch} from "react-icons/fa";
-import {AutoComplete} from "antd";
+import {AutoComplete, message} from "antd";
+import service from "../../common/service";
+import {useLoading} from "../../common/context/useLoading";
+import {useNavigate} from "react-router";
+import {useState} from "react";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const [options, setOptions] = useState([]);
+  const {showLoading, closeLoading} = useLoading();
+  const fetchSearchResults = async (searchText) => {
+    try {
+      showLoading();
+      const result = await service.job.searchJob(searchText);
+      closeLoading();
+      return result;
+    } catch (error) {
+      closeLoading();
+      message.error("Failed to fetch search results");
+      return [];
+    }
+  };
+
+  const handleSearch = async (value) => {
+    if (value) {
+      const results = await fetchSearchResults(value);
+      setOptions(
+        results.map((item) => ({
+          value: item.name,
+          label: (
+            <div onClick={() => handleSelect(item)}>
+              {item.title} {item.type === 2 ? "(Company)" : ""}
+            </div>
+          ),
+          item,
+        }))
+      );
+    } else {
+      setOptions([]);
+    }
+  };
+  const handleSelect = (item) => {
+    // Redirect based on the type
+    if (item.type === 1) {
+      navigate(`/job/${item.id}`);
+    } else if (item.type === 2) {
+      navigate(`/companies/${item.id}`);
+    }
+  };
   return (
     <div className="bg-custom-gradient">
       <div
@@ -21,6 +66,9 @@ const Header = () => {
               className="flex-1 h-10 text-gray-700 leading-tight focus:outline-none border-none"
               type="text"
               placeholder="Job title, skills or company"
+              onSearch={handleSearch}
+              options={options}
+              onSelect={handleSelect}
             />
 
             <button className="bg-red-600 border-none h-10 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300">
