@@ -37,7 +37,7 @@ const Register = () => {
       closeLoading();
     } catch (error) {
       notification.error({
-        message: "Đăng nhập thất bại, có lỗi xảy ra!",
+        message: "Đăng ký thất bại, có lỗi xảy ra!",
       });
     } finally {
       closeLoading();
@@ -46,7 +46,7 @@ const Register = () => {
 
   const onFinishFailed = (errorInfo) => {
     notification.error({
-      message: `Đăng nhập thất bại, có lỗi xảy ra! ${errorInfo}`,
+      message: `Đăng ký thất bại, có lỗi xảy ra! ${errorInfo}`,
     });
   };
 

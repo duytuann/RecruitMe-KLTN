@@ -14,9 +14,9 @@ const AppHeader = () => {
   };
 
   return (
-    <Header className="bg-white shadow h-16 flex items-center justify-between px-6">
+    <Header className="bg-[#8eb6e4] shadow h-16 flex items-center justify-between px-6">
       <div className="flex items-center space-x-4">
-        <span className="text-blue-500 font-bold text-2xl">Recruit Me</span>
+        <span className="text-white font-bold text-2xl">Recruit Me</span>
       </div>
       <div className="flex items-center space-x-4">
         <BellIcon className="h-6 w-6" aria-hidden="true" />

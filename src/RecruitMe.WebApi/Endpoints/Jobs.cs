@@ -59,7 +59,7 @@ public class Jobs : EndpointGroupBase
             .WithTags("Jobs");
 
         app.MapGroup("/api/jobs")
-            .MapGet("/search/{searchTerm:string}", SearchJobsAndCompanies)
+            .MapGet("/search/{searchTerm:alpha}", SearchJobsAndCompanies)
             .Produces<List<SearchResultDto>>(StatusCodes.Status200OK)
             .WithTags("Jobs");
     }

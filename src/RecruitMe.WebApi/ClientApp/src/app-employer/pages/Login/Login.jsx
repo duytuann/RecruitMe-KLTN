@@ -31,7 +31,7 @@ const Login = () => {
         );
 
         localStorage.setItem("accessToken", result.accessToken);
-        navigate("/");
+        navigate("/profile");
       }
 
       closeLoading();
