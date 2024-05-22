@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev-employer": "vite --port 5001 --mode employer",
-    "dev-jobseeker": "vite --port 5002 --mode jobseeker",
+    "dev-employer": "vite --port 5001 --force --mode employer",
+    "dev-jobseeker": "vite --port 5002 --force --mode jobseeker",
     "build-employer": "vite build --mode employer",
     "build-jobseeker": "vite build --mode jobseeker",
     "dev": "concurrently \"npm run dev-jobseeker\" \"npm run dev-employer\"",

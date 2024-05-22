@@ -8,13 +8,25 @@ import {
   BiLocationPlus,
   BiWorld,
 } from "react-icons/bi";
-import {Form, Modal, Input, Row, Col, Select, DatePicker} from "antd";
+import {
+  Form,
+  Modal,
+  Input,
+  Row,
+  Col,
+  Select,
+  DatePicker,
+  Upload,
+  message,
+} from "antd";
 import {useState} from "react";
 import {useLoading} from "../../../../common/context/useLoading";
 import service from "../../../../common/service";
 import moment from "moment";
+import {PlusOutlined} from "@ant-design/icons";
 
 const Information = (props) => {
+  const cloudinaryUploadUrl = `https://api.cloudinary.com/v1_1/djvx1q679/upload`;
   const {profile, getDetailJobSeekerProfileById} = props;
 
   const {showLoading, closeLoading} = useLoading();
@@ -69,12 +81,75 @@ const Information = (props) => {
     form.resetFields();
     setIsModalVisible(false);
   };
+  const uploadButton = (
+    <button
+      style={{
+        border: 0,
+        background: "none",
+      }}
+      type="button"
+    >
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </button>
+  );
+
+  const handleUploadChange = async (info) => {
+    if (info.file.status === "uploading") {
+      showLoading();
+      return;
+    }
+
+    if (info.file.status === "done") {
+      message.success(`${info.file.name} file uploaded successfully`);
+
+      console.log(info.file.response);
+      await service.jobseeker.updateJobSeekerLogo({
+        Id: profile.id,
+        logoImage: info.file.response.secure_url,
+      });
+      closeLoading();
+      await getDetailJobSeekerProfileById();
+    } else if (info.file.status === "error") {
+      message.error(`${info.file.name} file upload failed.`);
+      closeLoading();
+    }
+  };
 
   return (
     <div className="flex items-center justify-center">
       <div className="w-3/4 bg-white my-6 rounded-xl flex shadow-custom">
         <div className="p-6">
-          <img src={Avatar} className="w-32 h-32 rounded-full" alt="avatar" />
+          <Upload
+            name="file"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            action={cloudinaryUploadUrl}
+            data={{
+              upload_preset: "utgu2xgj",
+            }}
+            onChange={handleUploadChange}
+          >
+            {profile?.logoImage ? (
+              <img
+                src={profile?.logoImage}
+                alt="avatar"
+                style={{
+                  width: "100%",
+                }}
+              />
+            ) : (
+              uploadButton
+            )}
+          </Upload>
+          {/* <img src={Avatar} className="w-32 h-32 rounded-full" alt="avatar" /> */}
         </div>
 
         <div className="p-6 w-full">

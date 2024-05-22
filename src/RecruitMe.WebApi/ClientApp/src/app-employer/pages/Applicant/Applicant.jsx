@@ -220,7 +220,7 @@ const Applicant = () => {
         <div className="contentWrapper">
           <Row className={styles.funcHead}>
             <Col className={styles.createBtn}></Col>
-            <Col
+            {/* <Col
               onClick={() => {
                 console.log("open");
                 setOpenFilterDrawer(true);
@@ -233,7 +233,7 @@ const Applicant = () => {
               >
                 <IconFilter />
               </Tooltip>
-            </Col>
+            </Col> */}
           </Row>
           <Table
             columns={columns}

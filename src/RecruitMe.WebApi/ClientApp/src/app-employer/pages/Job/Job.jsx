@@ -159,7 +159,7 @@ const Job = () => {
                 </span>
               </Button>
             </Col>
-            <Col
+            {/* <Col
               onClick={() => {
                 console.log("open");
                 setOpenFilterDrawer(true);
@@ -172,7 +172,7 @@ const Job = () => {
               >
                 <IconFilter />
               </Tooltip>
-            </Col>
+            </Col> */}
           </Row>
           <Table
             columns={columns}

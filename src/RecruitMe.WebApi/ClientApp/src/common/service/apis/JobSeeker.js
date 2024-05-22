@@ -14,10 +14,16 @@ const updateJobSeekerProfile = async (data) => {
     .data;
 };
 
+const updateJobSeekerLogo = async (data) => {
+  return (await axiosInstance.post("/jobseekers/updatejobseekerlogo", data))
+    .data;
+};
+
 const jobSeekerService = {
   register,
   getJobSeekerDetailById,
   updateJobSeekerProfile,
+  updateJobSeekerLogo,
 };
 
 export default jobSeekerService;

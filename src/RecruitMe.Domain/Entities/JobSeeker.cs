@@ -25,6 +25,8 @@ public class JobSeeker : BaseAuditableEntity
 
     public string? AboutMe { get; set; }
 
+    public string? LogoImage { get; set; }
+
     public string? Educations { get; set; } // json
 
     public string? WorkExperiences { get; set; } // json

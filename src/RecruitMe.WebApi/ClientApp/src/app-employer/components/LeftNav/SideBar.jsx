@@ -3,7 +3,6 @@ import Sider from "antd/es/layout/Sider";
 import {
   UserOutlined,
   FileAddOutlined,
-  ProfileOutlined,
   CalendarOutlined,
 } from "@ant-design/icons";
 import {useNavigate} from "react-router";
@@ -15,7 +14,7 @@ const items = [
   {label: "Profile", icon: <UserOutlined />, key: "profile"},
   {label: "My Jobs", icon: <CalendarOutlined />, key: "jobs"},
   {label: "Job Applicants", icon: <FileAddOutlined />, key: "applicants"},
-  {label: "Candidates", icon: <ProfileOutlined />, key: "candidates"},
+  // {label: "Candidates", icon: <ProfileOutlined />, key: "candidates"},
 ];
 
 const SideBar = () => {
