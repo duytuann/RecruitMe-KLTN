@@ -4,7 +4,6 @@ import {BellIcon, ChevronDownIcon, UserIcon} from "@heroicons/react/20/solid";
 import {HiMenuAlt3} from "react-icons/hi";
 import {AiOutlineClose} from "react-icons/ai";
 import {Link} from "react-router-dom";
-import CustomButton from "./CustomButton";
 import {useNavigate} from "react-router-dom";
 
 const Navbar = () => {
@@ -112,7 +111,9 @@ const Navbar = () => {
                             Profile
                           </a>
                           <a
-                            // onClick={handleLogOut}
+                            onClick={() => {
+                              navigate("/applies");
+                            }}
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                           >
                             Applies

@@ -26,8 +26,11 @@ const getAllJob = async () => {
 };
 
 const searchJob = async (searchTerm) => {
-  return (await axiosInstance.get(`/jobs/search?searchTerm=${searchTerm}`))
-    .data;
+  return (
+    await axiosInstance.get(
+      `/jobs/search/{searchTerm}?searchTerm=${searchTerm}`
+    )
+  ).data;
 };
 
 const jobService = {

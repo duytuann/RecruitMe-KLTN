@@ -156,7 +156,7 @@ const EditJob = () => {
             </Col>
             <Col span={24}>
               <Form.Item name="jobDescription" label="Job Description">
-                <RichText ref={richTextRef} />
+                <RichText ref={richTextRef} className=" h-44" />
               </Form.Item>
             </Col>
             <Col span={12}>

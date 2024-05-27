@@ -1,0 +1,39 @@
+.funcHead {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 17px;
+  height: 40px;
+}
+
+.createBtn {
+  display: none;
+  cursor: pointer;
+  padding: 0;
+  @include media-breakpoint-up(md) {
+    display: block;
+  }
+}
+
+.contentWrapper {
+  margin: 16px 32px;
+}
+
+.create-btn {
+  display: flex;
+  font-size: 14px;
+  font-weight: 600;
+  color: #383e58;
+  cursor: pointer;
+  height: 40px;
+  align-items: center;
+  padding: 0 5px;
+}
+
+.create-btn:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+.create-btn:active {
+  background-color: rgba(0, 0, 0, 0.06);
+}

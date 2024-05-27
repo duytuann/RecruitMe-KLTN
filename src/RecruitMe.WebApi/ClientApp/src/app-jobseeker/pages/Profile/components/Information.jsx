@@ -1,4 +1,3 @@
-import Avatar from "./avatar.jpg";
 import {
   BiEdit,
   BiMailSend,
